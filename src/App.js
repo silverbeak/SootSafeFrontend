@@ -6,6 +6,7 @@ import Footer from './js/fixed/Footer';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './js/reducers';
+import DrawingBoard from './js/pages/drawing-board.js';
 
 const store = createStore(reducer);
 
@@ -17,6 +18,7 @@ class App extends Component {
           <Header/>
 
           <p className="App-intro"></p>
+          <DrawingBoard />
 
           <Footer />
         </div>
