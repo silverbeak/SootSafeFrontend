@@ -9,7 +9,6 @@ const users = (state = initialState, action) => {
             const loggedOutState = Object.assign({}, state, { user: null })
             return loggedOutState
         default: 
-            console.log('Unknown action type', action.type)
     }
     return state
 }

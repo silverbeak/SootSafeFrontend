@@ -1,16 +1,43 @@
 import React from 'react'
 import go from 'gojs/release/go-debug'
 import SnappingTool from '../gojs/snapping-tool'
+import * as _ from 'lodash'
+import InfoBox from '../components/info-box.js'
 
-const style = {
+const boardStyle = {
     border: "solid 1px black",
     height: "500px",
-    marginTop: "3px"
+    display: "flex",
+    flex: "3 0 0"
 }
 
 const paletteStyle = {
     border: "solid 1px black",
-    height: "160px"
+    height: "160px",
+    margin: ".4em"
+}
+
+const boardContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start"
+}
+
+const boardAndInfoStyle = {
+    display: "flex",
+    flexDirection: "row",
+    paddingLeft: ".4em",
+    paddingTop: ".4em"
+}
+
+const infoBoardStyle = {
+    display: "flex",
+    border: "1px solid",
+    flex: "1 0 0",
+    marginLeft: ".4em",
+    paddingLeft: ".4em",
+    marginRight: ".4em",
+    paddingRight: ".4em"
 }
 
 class DrawingBoard extends React.Component {
@@ -204,6 +231,7 @@ class DrawingBoard extends React.Component {
                 nodeDataArray: [
                     {
                         key: 1,
+                        comment: 'Shape 1',
                         geo: "F1 M0 0 L20 0 20 20 0 20z",
                         ports: [
                             { id: "U6", spot: "0.5 0 0 0.5" },
@@ -370,26 +398,20 @@ class DrawingBoard extends React.Component {
         return myPalette
     }
     
-    onSelectionChanged(shape) {
-        console.log('Shape selected', shape.data)
+    onSelectionChanged(part) {
+        this.props.partSelected(part.data)
+    }
+
+    newPartDropped(event) {
+        console.log('Diagram has new part', event.diagram.model.toJson())
     }
     
     componentDidMount() {
         var $ = go.GraphObject.make;  // for more concise visual tree definitions
-        this.myDiagram = this.initDrawingBoard($, this.onSelectionChanged)
+        this.myDiagram = this.initDrawingBoard($, this.onSelectionChanged.bind(this))
         this.myPalette = this.initPalette($, this.myDiagram)
         const that = this
-        this.myDiagram.addDiagramListener("Modified", function(e) {
-            // console.log('Diagram has changed', e.diagram.model.toJson())
-            // var button = document.getElementById("SaveButton");
-            // if (button) button.disabled = !myDiagram.isModified;
-            // var idx = document.title.indexOf("*");
-            // if (myDiagram.isModified) {
-            //     if (idx < 0) document.title += "*";
-            // } else {
-            //     if (idx >= 0) document.title = document.title.substr(0, idx);
-            // }
-        })
+        this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped)
     }
     
     save() {
@@ -404,11 +426,16 @@ class DrawingBoard extends React.Component {
     
     render() {
         return (
-            <span>
+            <div id="board-container" style={boardContainerStyle}>
                 <div id="myPaletteDiv" style={paletteStyle}></div>
-                <div id="myDiagramDiv" style={style}></div>
+                <div id="board-and-infobox" style={boardAndInfoStyle}>
+                    <div id="myDiagramDiv" style={boardStyle}></div>
+                    <div id="info-board" style={infoBoardStyle}>
+                        <InfoBox partData={this.props.selectedPart} />
+                    </div>
+                </div>
                 <button onClick={this.save.bind(this)}>Save</button>
-            </span>
+            </div>
         )
     }
 }
