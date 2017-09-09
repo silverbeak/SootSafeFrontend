@@ -1,5 +1,8 @@
 const initialState = {
-    projectId: 1
+    projectId: 1,
+    drawings: [
+        { id: 1, name: 'default', data: {} }
+    ]
 }
 
 const projects = (state = initialState, action) => {

@@ -4,11 +4,13 @@ import users from './user-reducer'
 import toolbox from './toolbox-reducer'
 import parts from './drawing-board-reducer'
 import projects from './project-reducer'
+import palettes from './palette-reducer'
 
 export default combineReducers({
     firebase,
     users,
     toolbox,
     parts,
-    projects
+    projects,
+    palettes
 })

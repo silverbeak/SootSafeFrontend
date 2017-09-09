@@ -4,7 +4,8 @@ import * as actions from '../actions/drawing-board-actions'
 
 const mapStateToProps = state => {
     return {
-        selectedPart: state.parts.selectedPart
+        selectedPart: state.parts.selectedPart,
+        palette: state.palettes[0].data
     }
 }
 
