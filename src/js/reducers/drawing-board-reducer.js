@@ -10,8 +10,9 @@ const parts = (state = initialState, action) => {
             const currentlySelectedPartCopy = Object.assign({}, state.selectedPart)
             currentlySelectedPartCopy[action.key] = action.value
             return Object.assign({}, state, { selectedPart: currentlySelectedPartCopy })
+        default:
+            return state
     }
-    return state
 }
 
 export default parts

@@ -1,7 +1,6 @@
 import React from 'react'
 import go from 'gojs/release/go-debug'
 import SnappingTool from '../gojs/snapping-tool'
-import * as _ from 'lodash'
 import InfoBox from '../components/info-box.js'
 
 const boardStyle = {
@@ -410,7 +409,6 @@ class DrawingBoard extends React.Component {
         var $ = go.GraphObject.make;  // for more concise visual tree definitions
         this.myDiagram = this.initDrawingBoard($, this.onSelectionChanged.bind(this))
         this.myPalette = this.initPalette($, this.myDiagram)
-        const that = this
         this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped)
     }
     
