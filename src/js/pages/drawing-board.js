@@ -41,7 +41,7 @@ const infoBoardStyle = {
 
 class DrawingBoard extends React.Component {
     
-    initDrawingBoard(treeDefinition, onSelectionChanged) {
+    initDrawingBoard(treeDefinition, nodeTemplate) {
         const $ = treeDefinition
         const myDiagram = $(go.Diagram, "myDiagramDiv", {
             initialScale: 1.5,
@@ -67,56 +67,8 @@ class DrawingBoard extends React.Component {
         // Define the generic "pipe" Node.
         // The Shape gets it Geometry from a geometry path string in the bound data.
         // This node also gets all of its ports from an array of port data in the bound data.
-        myDiagram.nodeTemplate = $(go.Node, 
-            "Spot", {
-                locationObjectName: "SHAPE",
-                locationSpot: go.Spot.Center,
-                selectionAdorned: false,  // use a Binding on the Shape.stroke to show selection
-                selectionChanged: onSelectionChanged,
-                // each port is an "X" shape whose alignment spot and port ID are given by the item data
-                itemTemplate: $(go.Panel,
-                    new go.Binding("portId", "id"),
-                    new go.Binding("alignment", "spot", go.Spot.parse),
-                    $(go.Shape, "XLine",
-                    { width: 6, height: 6, background: "transparent", fill: null, stroke: "gray" },
-                    new go.Binding("figure", "id", portFigure),  // portFigure converter is defined below
-                    new go.Binding("angle", "angle"))
-                ),
-                // hide a port when it is connected
-                linkConnected: function(node, link, port) {
-                    if (link.category === "") port.visible = false;
-                },
-                linkDisconnected: function(node, link, port) {
-                    if (link.category === "") port.visible = true;
-                }
-            },
-            // this creates the variable number of ports for this Spot Panel, based on the data
-            new go.Binding("itemArray", "ports"),
-            // remember the location of this Node
-            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-            // remember the angle of this Node
-            new go.Binding("angle", "angle").makeTwoWay(),
-            // move a selected part into the Foreground layer, so it isn't obscured by any non-selected parts
-            new go.Binding("layerName", "isSelected", function(s) { return s ? "Foreground" : ""; }).ofObject(),
-            $(go.Shape, {
-                name: "SHAPE",
-                // the following are default values;
-                // actual values may come from the node data object via data binding
-                geometryString: "F1 M0 0 L40 0 20 20 0 20 z",
-                fill: "rgba(128, 128, 0, 0.5)"
-            },
-            // this determines the actual shape of the Shape
-            new go.Binding("geometryString", "geo"),
-            // selection causes the stroke to be blue instead of black
-            new go.Binding("stroke", "isSelected", function(s) { return s ? "dodgerblue" : "black"; }).ofObject())
-        );
-        // Show different kinds of port fittings by using different shapes in this Binding converter
-        function portFigure(pid) {
-            if (pid === null || pid === "") return "XLine";
-            if (pid[0] === 'F') return "CircleLine";
-            if (pid[0] === 'M') return "PlusLine";
-            return "XLine";  // including when the first character is 'U'
-        }
+        myDiagram.nodeTemplate = nodeTemplate,
+
         // myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
         //     $("ContextMenuButton",
         //     $(go.TextBlock, "Rotate +45"),
@@ -187,7 +139,7 @@ class DrawingBoard extends React.Component {
         return myDiagram
     } // end init
     
-    initPalette(treeDefinition, myDiagram) {
+    initPalette(treeDefinition, nodeTemplate, nodeDataArray) {
         // Make sure the pipes are ordered by their key in the palette inventory
         function keyCompare(a, b) {
             var at = a.data.key;
@@ -201,7 +153,7 @@ class DrawingBoard extends React.Component {
         const myPalette = $(go.Palette, "myPaletteDiv", {
             initialScale: 1.2,
             contentAlignment: go.Spot.Center,
-            nodeTemplate: myDiagram.nodeTemplate,  // shared with the main Diagram
+            nodeTemplate: nodeTemplate,  // shared with the main Diagram
             "contextMenuTool.isEnabled": false,
             layout: $(go.GridLayout, {
                 cellSize: new go.Size(1, 1), spacing: new go.Size(5, 5),
@@ -214,7 +166,7 @@ class DrawingBoard extends React.Component {
                 linkFromPortIdProperty: "fid",
                 linkToPortIdProperty: "tid",
                 
-                nodeDataArray: this.props.palette
+                nodeDataArray: nodeDataArray
             })  // end model
         });  // end Palette
         return myPalette
@@ -227,11 +179,68 @@ class DrawingBoard extends React.Component {
     newPartDropped(event) {
         console.log('Diagram has new part', event.diagram.model.toJson())
     }
+
+    createNodeTemplate(treeDefinition, onSelectionChanged) {
+        const $ = treeDefinition
+
+        // Show different kinds of port fittings by using different shapes in this Binding converter
+        function portFigure(pid) {
+            if (pid === null || pid === "") return "XLine";
+            if (pid[0] === 'F') return "CircleLine";
+            if (pid[0] === 'M') return "PlusLine";
+            return "XLine";  // including when the first character is 'U'
+        }
+
+        return $(go.Node, 
+            "Spot", {
+                locationObjectName: "SHAPE",
+                locationSpot: go.Spot.Center,
+                selectionAdorned: false,  // use a Binding on the Shape.stroke to show selection
+                selectionChanged: onSelectionChanged,
+                // each port is an "X" shape whose alignment spot and port ID are given by the item data
+                itemTemplate: $(go.Panel,
+                    new go.Binding("portId", "id"),
+                    new go.Binding("alignment", "spot", go.Spot.parse),
+                    $(go.Shape, "XLine",
+                    { width: 6, height: 6, background: "transparent", fill: null, stroke: "gray" },
+                    new go.Binding("figure", "id", portFigure),  // portFigure converter is defined below
+                    new go.Binding("angle", "angle"))
+                ),
+                // hide a port when it is connected
+                linkConnected: function(node, link, port) {
+                    if (link.category === "") port.visible = false;
+                },
+                linkDisconnected: function(node, link, port) {
+                    if (link.category === "") port.visible = true;
+                }
+            },
+            // this creates the variable number of ports for this Spot Panel, based on the data
+            new go.Binding("itemArray", "ports"),
+            // remember the location of this Node
+            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+            // remember the angle of this Node
+            new go.Binding("angle", "angle").makeTwoWay(),
+            // move a selected part into the Foreground layer, so it isn't obscured by any non-selected parts
+            new go.Binding("layerName", "isSelected", function(s) { return s ? "Foreground" : ""; }).ofObject(),
+            $(go.Shape, {
+                name: "SHAPE",
+                // the following are default values;
+                // actual values may come from the node data object via data binding
+                geometryString: "F1 M0 0 L40 0 20 20 0 20 z",
+                fill: "rgba(128, 128, 0, 0.5)"
+            },
+            // this determines the actual shape of the Shape
+            new go.Binding("geometryString", "geo"),
+            // selection causes the stroke to be blue instead of black
+            new go.Binding("stroke", "isSelected", function(s) { return s ? "dodgerblue" : "black"; }).ofObject())
+        );
+    }
     
     componentDidMount() {
         var $ = go.GraphObject.make;  // for more concise visual tree definitions
-        this.myDiagram = this.initDrawingBoard($, this.onSelectionChanged.bind(this))
-        this.myPalette = this.initPalette($, this.myDiagram)
+        const nodeTemplate = this.createNodeTemplate($, this.onSelectionChanged.bind(this))
+        this.myDiagram = this.initDrawingBoard($, nodeTemplate)
+        this.myPalette = this.initPalette($, this.myDiagram.nodeTemplate, this.props.palette)
         this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped)
     }
     
