@@ -64,9 +64,6 @@ class DrawingBoard extends React.Component {
         //     )
         // );
         
-        // Define the generic "pipe" Node.
-        // The Shape gets it Geometry from a geometry path string in the bound data.
-        // This node also gets all of its ports from an array of port data in the bound data.
         myDiagram.nodeTemplate = nodeTemplate,
 
         // myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
@@ -177,7 +174,7 @@ class DrawingBoard extends React.Component {
     }
 
     newPartDropped(event) {
-        console.log('Diagram has new part', event.diagram.model.toJson())
+        this.props.sketchUpdated(event.diagram.model.toJson(), 0) // TODO: Fix sketchId
     }
 
     createNodeTemplate(treeDefinition, onSelectionChanged) {
@@ -191,6 +188,9 @@ class DrawingBoard extends React.Component {
             return "XLine";  // including when the first character is 'U'
         }
 
+        // Define the generic "pipe" Node.
+        // The Shape gets it Geometry from a geometry path string in the bound data.
+        // This node also gets all of its ports from an array of port data in the bound data.
         return $(go.Node, 
             "Spot", {
                 locationObjectName: "SHAPE",
@@ -241,7 +241,8 @@ class DrawingBoard extends React.Component {
         const nodeTemplate = this.createNodeTemplate($, this.onSelectionChanged.bind(this))
         this.myDiagram = this.initDrawingBoard($, nodeTemplate)
         this.myPalette = this.initPalette($, this.myDiagram.nodeTemplate, this.props.palette)
-        this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped)
+        this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped.bind(this))
+        this.load()
     }
     
     save() {
@@ -251,7 +252,7 @@ class DrawingBoard extends React.Component {
     }
     
     load() {
-        // this.myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+        this.myDiagram.model = go.Model.fromJson(this.props.projectData.sketches[0].model)
     }
     
     render() {
