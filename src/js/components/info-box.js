@@ -1,6 +1,6 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import * as actions from '../actions/drawing-board-actions'
+import * as actions from '../actions/project-actions'
 
 import { connect } from 'react-redux'
 
@@ -8,13 +8,12 @@ class InfoBox extends React.Component {
 
     render() {
         const selectedPart = this.props.selectedPart
-        if (!selectedPart) return <span></span>
+        if (!selectedPart.ssInfo) return <span></span>
+        const ssInfo = selectedPart.ssInfo ? selectedPart.ssInfo : {}
         return (
             <span>
                 <h4>Info about selected component</h4>
                 Key: {selectedPart.key}
-                <br />
-                Comment: {selectedPart.comment}
                 <br />
                 Comment: 
                 <TextField 
@@ -22,8 +21,28 @@ class InfoBox extends React.Component {
                     label="Comment"
                     className="classes.textField"
                     margin="normal"
-                    onChange={ event => { this.props.partInfoUpdated('comment', event.target.value) }}
-                    value={selectedPart.comment}
+                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'comment', event.target.value) }}
+                    value={ssInfo.comment}
+                    />
+                <br />
+                Name: 
+                <TextField 
+                    id="name"
+                    label="Name"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'name', event.target.value) }}
+                    value={ssInfo.name}
+                    />
+                <br />
+                NodeType: 
+                <TextField 
+                    id="nodetype"
+                    label="NodeType"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'nodeType', event.target.value) }}
+                    value={ssInfo.nodeType}
                     />
             </span>
         )
@@ -39,8 +58,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        partInfoUpdated: (key, value) => {
-            dispatch(actions.partInfoUpdated(key, value))
+        partInfoUpdated: (partKey, infoKey, value) => {
+            dispatch(actions.partInfoUpdated(partKey, infoKey, value))
         }
     }
 }

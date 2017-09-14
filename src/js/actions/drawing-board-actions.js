@@ -4,10 +4,3 @@ export const partSelected = part => {
         part
     }
 }
-
-export const partInfoUpdated = (key, value) => {
-    return {
-        type: 'PART_INFO_UPDATED',
-        key, value
-    }
-}

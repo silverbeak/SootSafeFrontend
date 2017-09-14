@@ -5,3 +5,10 @@ export const sketchUpdated = function(data, sketchId) {
         data
     }
 }
+
+export const partInfoUpdated = (partKey, infoKey, value) => {
+    return {
+        type: 'PART_INFO_UPDATED',
+        partKey, infoKey, value
+    }
+}

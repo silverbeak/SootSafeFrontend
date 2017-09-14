@@ -15,7 +15,6 @@ const initialState = [
     [
         {
             key: 1,
-            comment: 'Shape 1',
             geo: "F1 M0 0 L20 0 20 20 0 20z",
             ports: [
                 { id: "U6", spot: "0.5 0 0 0.5" },
