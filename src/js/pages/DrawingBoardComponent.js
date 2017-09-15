@@ -7,7 +7,7 @@ const mapStateToProps = state => {
     return {
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
-        projectData: state.projects
+        model: state.projects.sketches[0].model
     }
 }
 
@@ -16,8 +16,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         partSelected: part => {
             dispatch(actions.partSelected(part))
         },
-        sketchUpdated: (data, sketchId) => {
-            dispatch(projectActions.sketchUpdated(data, sketchId))
+        partDropped: (data, partKeys, sketchId) => {
+            dispatch(projectActions.partDropped(data, partKeys, sketchId))
+        },
+        modelUpdated: (incrementalUpdateJson, sketchId) => {
+            dispatch(projectActions.modelUpdated(incrementalUpdateJson, sketchId))
         }
     }
 }

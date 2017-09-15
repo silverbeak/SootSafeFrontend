@@ -6,10 +6,16 @@ import { connect } from 'react-redux'
 
 class InfoBox extends React.Component {
 
+    handleStateUpdate(event) {
+        this.setState({ [event.target.id]: event.target.value })
+        this.props.partInfoUpdated(this.props.selectedPart.key, event.target.id, event.target.value)
+    }
+
     render() {
         const selectedPart = this.props.selectedPart
-        if (!selectedPart.ssInfo) return <span></span>
-        const ssInfo = selectedPart.ssInfo ? selectedPart.ssInfo : {}
+        if (!selectedPart.ssInfo) {
+            return <span></span>
+        }
         return (
             <span>
                 <h4>Info about selected component</h4>
@@ -18,34 +24,42 @@ class InfoBox extends React.Component {
                 Comment: 
                 <TextField 
                     id="comment"
-                    label="Comment"
                     className="classes.textField"
                     margin="normal"
-                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'comment', event.target.value) }}
-                    value={ssInfo.comment}
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.comment}
                     />
                 <br />
                 Name: 
                 <TextField 
                     id="name"
-                    label="Name"
                     className="classes.textField"
                     margin="normal"
-                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'name', event.target.value) }}
-                    value={ssInfo.name}
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.name}
                     />
                 <br />
                 NodeType: 
                 <TextField 
-                    id="nodetype"
-                    label="NodeType"
+                    id="nodeType"
                     className="classes.textField"
                     margin="normal"
-                    onChange={ event => { this.props.partInfoUpdated(selectedPart.key, 'nodeType', event.target.value) }}
-                    value={ssInfo.nodeType}
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.nodeType}
                     />
             </span>
         )
+    }
+
+    _setStatesForComponents(props, fieldNames) {
+        fieldNames.forEach( name => {
+            const value = props.selectedPart.ssInfo ? props.selectedPart.ssInfo[name] : ''
+            this.setState( { [name]: value ? value : '' } )
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this._setStatesForComponents(nextProps, ['comment', 'name', 'nodeType'])
     }
 }
 

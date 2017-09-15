@@ -2,6 +2,7 @@ import React from 'react'
 import go from 'gojs/release/go-debug'
 import SnappingTool from '../gojs/snapping-tool'
 import InfoBox from '../components/info-box.js'
+import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
 const boardStyle = {
     border: "solid 1px black",
@@ -65,7 +66,7 @@ class DrawingBoard extends React.Component {
         // );
         
         myDiagram.nodeTemplate = nodeTemplate,
-
+        
         // myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
         //     $("ContextMenuButton",
         //     $(go.TextBlock, "Rotate +45"),
@@ -114,10 +115,10 @@ class DrawingBoard extends React.Component {
         //     myDiagram.removeParts(coll, false);
         //     myDiagram.commitTransaction("detach");
         // }
-
+        
         // no visual representation of any link data
         myDiagram.linkTemplate = $(go.Link, { visible: false });
-
+        
         // // support optional links from comment nodes to pipe nodes
         // myDiagram.linkTemplateMap.add("Comment",
         // $(go.Link,
@@ -130,7 +131,8 @@ class DrawingBoard extends React.Component {
             copiesArrays: true,
             copiesArrayObjects: true,
             linkFromPortIdProperty: "fid",
-            linkToPortIdProperty: "tid"
+            linkToPortIdProperty: "tid",
+            linkKeyProperty: "key"
         });
         
         return myDiagram
@@ -162,7 +164,7 @@ class DrawingBoard extends React.Component {
                 copiesArrayObjects: true,
                 linkFromPortIdProperty: "fid",
                 linkToPortIdProperty: "tid",
-                
+                linkKeyProperty: "key",
                 nodeDataArray: nodeDataArray
             })  // end model
         });  // end Palette
@@ -170,16 +172,17 @@ class DrawingBoard extends React.Component {
     }
     
     onSelectionChanged(part) {
-        this.props.partSelected(part.data)
+        if (part.key) {
+            const partFromModel = _.find(this.props.model.nodeDataArray, n => n.key === part.key)
+            this.props.partSelected(partFromModel ? partFromModel : {})
+        } else {
+            console.log('Illegal select', part)
+        }
     }
-
-    newPartDropped(event) {
-        this.props.sketchUpdated(event.diagram.model.toJson(), 0) // TODO: Fix sketchId
-    }
-
+    
     createNodeTemplate(treeDefinition, onSelectionChanged) {
         const $ = treeDefinition
-
+        
         // Show different kinds of port fittings by using different shapes in this Binding converter
         function portFigure(pid) {
             if (pid === null || pid === "") return "XLine";
@@ -187,7 +190,7 @@ class DrawingBoard extends React.Component {
             if (pid[0] === 'M') return "PlusLine";
             return "XLine";  // including when the first character is 'U'
         }
-
+        
         // Define the generic "pipe" Node.
         // The Shape gets it Geometry from a geometry path string in the bound data.
         // This node also gets all of its ports from an array of port data in the bound data.
@@ -240,8 +243,29 @@ class DrawingBoard extends React.Component {
         var $ = go.GraphObject.make;  // for more concise visual tree definitions
         const nodeTemplate = this.createNodeTemplate($, this.onSelectionChanged.bind(this))
         this.myDiagram = this.initDrawingBoard($, nodeTemplate)
-        this.myPalette = this.initPalette($, this.myDiagram.nodeTemplate, this.props.palette)
-        this.myDiagram.addDiagramListener("ExternalObjectsDropped", this.newPartDropped.bind(this))
+        const paletteNodeTemplate = this.createNodeTemplate($, () => {})
+        
+        this.myPalette = this.initPalette($, paletteNodeTemplate, this.props.palette)
+        
+        this.myDiagram.addModelChangedListener( e => {
+            if (e.isTransactionFinished) {
+                const json = e.model.toIncrementalJson(e)
+                this.props.modelUpdated(json, 0)
+            }
+        })
+
+        this.myDiagram.addDiagramListener('SelectionDeleted', () => { this.props.partSelected({})})
+        this.myDiagram.addDiagramListener('BackgroundSingleClicked', () => { this.props.partSelected({})})
+
+        this.myDiagram.model.applyIncrementalJson({
+            class: "go.GraphLinksModel",
+            incremental: 1,
+            nodeKeyProperty: "key",
+            linkKeyProperty: "key",
+            modifiedNodeData: Object.assign({}, this.props.model.nodeDataArray),
+            modifiedLinkData: this.props.model.linkDataArray
+        })
+
         this.load()
     }
     
@@ -252,20 +276,20 @@ class DrawingBoard extends React.Component {
     }
     
     load() {
-        this.myDiagram.model = go.Model.fromJson(this.props.projectData.sketches[0].model)
+        this.myDiagram.model = go.Model.fromJson(Object.assign({}, this.props.model))
     }
     
     render() {
         return (
             <div id="board-container" style={boardContainerStyle}>
-                <div id="myPaletteDiv" style={paletteStyle}></div>
-                <div id="board-and-infobox" style={boardAndInfoStyle}>
-                    <div id="myDiagramDiv" style={boardStyle}></div>
-                    <div id="info-board" style={infoBoardStyle}>
-                        <InfoBox partData={this.props.selectedPart} />
-                    </div>
-                </div>
-                <button onClick={this.save.bind(this)}>Save</button>
+            <div id="myPaletteDiv" style={paletteStyle}></div>
+            <div id="board-and-infobox" style={boardAndInfoStyle}>
+            <div id="myDiagramDiv" style={boardStyle}></div>
+            <div id="info-board" style={infoBoardStyle}>
+            <InfoBox partData={this.props.selectedPart} />
+            </div>
+            </div>
+            <button onClick={this.save.bind(this)}>Save</button>
             </div>
         )
     }
