@@ -19,33 +19,49 @@ class InfoBox extends React.Component {
         return (
             <span>
                 <h4>Info about selected component</h4>
-                Key: {selectedPart.key}
-                <br />
-                Comment: 
                 <TextField 
                     id="comment"
+                    label="Comment"
                     className="classes.textField"
                     margin="normal"
                     onChange={this.handleStateUpdate.bind(this)}
                     value={this.state.comment}
                     />
                 <br />
-                Name: 
                 <TextField 
                     id="name"
+                    label="Name"
                     className="classes.textField"
                     margin="normal"
                     onChange={this.handleStateUpdate.bind(this)}
                     value={this.state.name}
                     />
                 <br />
-                NodeType: 
                 <TextField 
                     id="nodeType"
+                    label="Node type"
                     className="classes.textField"
                     margin="normal"
                     onChange={this.handleStateUpdate.bind(this)}
                     value={this.state.nodeType}
+                    />
+                <br />
+                <TextField 
+                    id="capacity"
+                    label="Capacity"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.capacity}
+                    />
+                <br />
+                <TextField 
+                    id="dimension"
+                    label="Dimension"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.dimension}
                     />
             </span>
         )
@@ -59,7 +75,7 @@ class InfoBox extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this._setStatesForComponents(nextProps, ['comment', 'name', 'nodeType'])
+        this._setStatesForComponents(nextProps, ['comment', 'name', 'nodeType', 'capacity', 'dimension'])
     }
 }
 

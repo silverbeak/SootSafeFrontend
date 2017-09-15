@@ -172,6 +172,14 @@ class DrawingBoard extends React.Component {
     }
     
     onSelectionChanged(part) {
+        if (part.diagram.selection.count > 1) {
+            this.props.partSelected({ info: 'More than one part selected' })
+            return
+        }
+        if (part.diagram.selection.count < 1) {
+            this.props.partSelected({ info: 'No parts selected' })
+            return
+        }
         if (part.key) {
             const partFromModel = _.find(this.props.model.nodeDataArray, n => n.key === part.key)
             this.props.partSelected(partFromModel ? partFromModel : {})
