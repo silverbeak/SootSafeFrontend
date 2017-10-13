@@ -1,7 +1,7 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
-import Firebase from '../firebase/firebase'
+import {fbApp} from '../firebase/firebase'
 
 const styles = {
     textField: {
@@ -19,7 +19,7 @@ class Header extends React.Component {
     }
 
     componentDidMount() {
-        Firebase.auth().onAuthStateChanged( user => {
+        fbApp.auth().onAuthStateChanged( user => {
             if (user) {
                 // User logged in
                 this.props.userLoggedIn(user)
@@ -33,11 +33,11 @@ class Header extends React.Component {
     }
 
     logout() {
-        Firebase.auth().signOut()
+        fbApp.auth().signOut()
     }
 
     loginBtnClick(event) {
-        Firebase.auth().signInWithEmailAndPassword(this.state.name, this.state.pwd)
+        fbApp.auth().signInWithEmailAndPassword(this.state.name, this.state.pwd)
         .catch( e => console.log('Error when logging in', e))
     }
 

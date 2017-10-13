@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import DrawingBoard from './drawing-board'
 import * as actions from '../actions/drawing-board-actions'
+import * as databaseActions from '../actions/firebase-actions'
 import * as projectActions from '../actions/project-actions'
 
 const mapStateToProps = state => {
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         modelUpdated: (incrementalUpdateJson, sketchId) => {
             dispatch(projectActions.modelUpdated(incrementalUpdateJson, sketchId))
+        },
+        projectSaved: (projectData, sketchId) => {
+            dispatch(databaseActions.saveProjectToDb(projectData))
         }
     }
 }

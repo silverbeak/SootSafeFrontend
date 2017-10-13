@@ -1,14 +1,20 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import * as actions from '../actions/project-actions'
+import * as _ from '../../../node_modules/lodash/lodash.min'
 
 import { connect } from 'react-redux'
 
 class InfoBox extends React.Component {
 
     handleStateUpdate(event) {
-        this.setState({ [event.target.id]: event.target.value })
+        const key = event.target.id
+        const value = event.target.value
+        const state = Object.assign({}, this.state)
+        _.set(state, key, value)
+        this.setState(state)
         this.props.partInfoUpdated(this.props.selectedPart.key, event.target.id, event.target.value)
+        // debugger
     }
 
     render() {
@@ -56,26 +62,47 @@ class InfoBox extends React.Component {
                     />
                 <br />
                 <TextField 
-                    id="dimension"
-                    label="Dimension"
+                    id="dimension.diameter"
+                    label="Diameter"
                     className="classes.textField"
                     margin="normal"
                     onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.dimension}
+                    value={this.state.dimension.diameter}
+                    />
+                <br />
+                <TextField 
+                    id="dimension.length"
+                    label="Length"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.dimension.length}
+                    />
+                <br />
+                <TextField 
+                    id="pressureloss"
+                    label="Pressure Loss"
+                    className="classes.textField"
+                    margin="normal"
+                    onChange={this.handleStateUpdate.bind(this)}
+                    value={this.state.pressureloss}
                     />
             </span>
         )
     }
 
     _setStatesForComponents(props, fieldNames) {
+        const state = Object.assign({}, this.state)
         fieldNames.forEach( name => {
-            const value = props.selectedPart.ssInfo ? props.selectedPart.ssInfo[name] : ''
-            this.setState( { [name]: value ? value : '' } )
+            const value = _.get(props.selectedPart.ssInfo, name, '')
+            _.set(state, name, value)
         })
+        this.setState(state)
     }
 
     componentWillReceiveProps(nextProps) {
-        this._setStatesForComponents(nextProps, ['comment', 'name', 'nodeType', 'capacity', 'dimension'])
+        const propKeys = ['comment', 'name', 'nodeType', 'capacity', 'dimension.diameter', 'dimension.length', 'pressureloss']
+        this._setStatesForComponents(nextProps, propKeys)
     }
 }
 

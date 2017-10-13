@@ -6,7 +6,7 @@
     "react-scripts": "1.0.12"
   },
   "dependencies": {
-    "firebase": "^4.3.0",
+    "firebase": "^4.5.0",
     "gojs": "^1.7.21",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-beta.5",

@@ -6,7 +6,7 @@ import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
 const boardStyle = {
     border: "solid 1px black",
-    height: "500px",
+    height: "45em",
     display: "flex",
     flex: "3 0 0"
 }
@@ -67,54 +67,54 @@ class DrawingBoard extends React.Component {
         
         myDiagram.nodeTemplate = nodeTemplate,
         
-        // myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
-        //     $("ContextMenuButton",
-        //     $(go.TextBlock, "Rotate +45"),
-        //     { click: function(e, obj) { rotate(obj.part.adornedPart, 45); } }),
-        //     $("ContextMenuButton",
-        //     $(go.TextBlock, "Rotate -45"),
-        //     { click: function(e, obj) { rotate(obj.part.adornedPart, -45); } }),
-        //     $("ContextMenuButton",
-        //     $(go.TextBlock, "Rotate 180"),
-        //     { click: function(e, obj) { rotate(obj.part.adornedPart, 180); } }),
-        //     $("ContextMenuButton",
-        //     $(go.TextBlock, "Detach"),
-        //     { click: function(e, obj) { detachSelection(); } }),
-        //     $("ContextMenuButton",
-        //     $(go.TextBlock, "Delete"),
-        //     { click: function(e, obj) { e.diagram.commandHandler.deleteSelection(); } })
-        // );
-        // // Change the angle of the parts connected with the given node
-        // function rotate(node, angle) {
-        //     var tool = myDiagram.toolManager.draggingTool;  // should be a SnappingTool
-        //     myDiagram.startTransaction("rotate " + angle.toString());
-        //     var sel = new go.Set(go.Node);
-        //     sel.add(node);
-        //     var coll = tool.computeEffectiveCollection(sel).toKeySet();
-        //     var bounds = myDiagram.computePartsBounds(coll);
-        //     var center = bounds.center;
-        //     coll.each(function(n) {
-        //         n.angle += angle;
-        //         n.location = n.location.copy().subtract(center).rotate(angle).add(center);
-        //     });
-        //     myDiagram.commitTransaction("rotate " + angle.toString());
-        // }
-        // function detachSelection() {
-        //     myDiagram.startTransaction("detach");
-        //     var coll = new go.Set(go.Link);
-        //     myDiagram.selection.each(function(node) {
-        //         if (!(node instanceof go.Node)) return;
-        //         node.linksConnected.each(function(link) {
-        //             if (link.category !== "") return;  // ignore comments
-        //             // ignore links to other selected nodes
-        //             if (link.getOtherNode(node).isSelected) return;
-        //             // disconnect this link
-        //             coll.add(link);
-        //         });
-        //     });
-        //     myDiagram.removeParts(coll, false);
-        //     myDiagram.commitTransaction("detach");
-        // }
+        myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
+            $("ContextMenuButton",
+            $(go.TextBlock, "Rotate +45"),
+            { click: function(e, obj) { rotate(obj.part.adornedPart, 45); } }),
+            $("ContextMenuButton",
+            $(go.TextBlock, "Rotate -45"),
+            { click: function(e, obj) { rotate(obj.part.adornedPart, -45); } }),
+            $("ContextMenuButton",
+            $(go.TextBlock, "Rotate 180"),
+            { click: function(e, obj) { rotate(obj.part.adornedPart, 180); } }),
+            $("ContextMenuButton",
+            $(go.TextBlock, "Detach"),
+            { click: function(e, obj) { detachSelection(); } }),
+            $("ContextMenuButton",
+            $(go.TextBlock, "Delete"),
+            { click: function(e, obj) { e.diagram.commandHandler.deleteSelection(); } })
+        );
+        // Change the angle of the parts connected with the given node
+        function rotate(node, angle) {
+            var tool = myDiagram.toolManager.draggingTool;  // should be a SnappingTool
+            myDiagram.startTransaction("rotate " + angle.toString());
+            var sel = new go.Set(go.Node);
+            sel.add(node);
+            var coll = tool.computeEffectiveCollection(sel).toKeySet();
+            var bounds = myDiagram.computePartsBounds(coll);
+            var center = bounds.center;
+            coll.each(function(n) {
+                n.angle += angle;
+                n.location = n.location.copy().subtract(center).rotate(angle).add(center);
+            });
+            myDiagram.commitTransaction("rotate " + angle.toString());
+        }
+        function detachSelection() {
+            myDiagram.startTransaction("detach");
+            var coll = new go.Set(go.Link);
+            myDiagram.selection.each(function(node) {
+                if (!(node instanceof go.Node)) return;
+                node.linksConnected.each(function(link) {
+                    if (link.category !== "") return;  // ignore comments
+                    // ignore links to other selected nodes
+                    if (link.getOtherNode(node).isSelected) return;
+                    // disconnect this link
+                    coll.add(link);
+                });
+            });
+            myDiagram.removeParts(coll, false);
+            myDiagram.commitTransaction("detach");
+        }
         
         // no visual representation of any link data
         myDiagram.linkTemplate = $(go.Link, { visible: false });
@@ -281,6 +281,7 @@ class DrawingBoard extends React.Component {
         // document.getElementById("mySavedModel").value = this.myDiagram.model.toJson();
         console.log(this.myDiagram.model.toJson())
         this.myDiagram.isModified = false;
+        this.props.projectSaved(JSON.parse(this.myDiagram.model.toJson()), 0) // TODO: Fix proper sketch id
     }
     
     load() {
@@ -290,14 +291,14 @@ class DrawingBoard extends React.Component {
     render() {
         return (
             <div id="board-container" style={boardContainerStyle}>
-            <div id="myPaletteDiv" style={paletteStyle}></div>
-            <div id="board-and-infobox" style={boardAndInfoStyle}>
-            <div id="myDiagramDiv" style={boardStyle}></div>
-            <div id="info-board" style={infoBoardStyle}>
-            <InfoBox partData={this.props.selectedPart} />
-            </div>
-            </div>
-            <button onClick={this.save.bind(this)}>Save</button>
+                <div id="myPaletteDiv" style={paletteStyle}></div>
+                <div id="board-and-infobox" style={boardAndInfoStyle}>
+                    <div id="myDiagramDiv" style={boardStyle}></div>
+                    <div id="info-board" style={infoBoardStyle}>
+                        <InfoBox partData={this.props.selectedPart} />
+                    </div>
+                </div>
+                <button onClick={this.save.bind(this)}>Save</button>
             </div>
         )
     }

@@ -52,7 +52,7 @@ const projects = (state = initialState, action) => {
             const piCopy = Object.assign({}, state)
             const nodeDataCopy = piCopy.sketches[0].model.nodeDataArray
             const currentNode = _.find(nodeDataCopy, n => n.key == action.partKey)
-            currentNode.ssInfo[action.infoKey] = action.value
+            _.set(currentNode.ssInfo, action.infoKey, action.value)
             return piCopy
         
         case 'MODEL_UPDATED': 
@@ -60,6 +60,10 @@ const projects = (state = initialState, action) => {
             const incrementalUpdateState = Object.assign({}, state)
             handleInserts(incrementalJson.insertedNodeKeys, incrementalJson.modifiedNodeData, incrementalUpdateState.sketches[action.sketchId].model.nodeDataArray)
             return incrementalUpdateState
+
+        case 'PROJECT_SAVED': 
+            console.log('Project has been saved locally')
+            return state
         default:
             return state
     }
