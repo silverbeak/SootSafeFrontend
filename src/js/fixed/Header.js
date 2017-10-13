@@ -80,7 +80,8 @@ class Header extends React.Component {
 
         return (
             <div className="App-header">
-                <h2>Welcome {displayName}</h2>
+                <a onClick={this.props.pushHistory('/about')} >Click me</a>
+                
                 <div style={{background: 'white'}}>
 
                     {loginPanel}

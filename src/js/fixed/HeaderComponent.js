@@ -1,6 +1,7 @@
 import Header from './Header'
 import { connect } from 'react-redux'
 import { userLoggedIn, userLoggedOut } from '../actions/login-actions'
+import { push } from 'react-router-redux'
 
 const mapStateToProps = state => {
     return {
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         userLoggedOut: () => {
             dispatch(userLoggedOut())
+        },
+        pushHistory: path => { return () =>
+            dispatch(push(path))
         }
     }
 }

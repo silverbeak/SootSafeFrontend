@@ -8,10 +8,13 @@
   "dependencies": {
     "firebase": "^4.5.0",
     "gojs": "^1.7.21",
+    "history": "^4.7.2",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-beta.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2"
   },
   "scripts": {
