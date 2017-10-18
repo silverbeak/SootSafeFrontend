@@ -5,6 +5,7 @@ import Header from './js/fixed/HeaderComponent';
 import Footer from './js/fixed/Footer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk'
 import reducer from './js/reducers';
 import DrawingBoard from './js/pages/DrawingBoardComponent.js';
 
@@ -19,7 +20,7 @@ const history = createHistory()
 // Build the middleware for intercepting and dispatching navigation actions
 const middleware = routerMiddleware(history)
 
-const store = createStore(reducer, applyMiddleware(middleware));
+const store = createStore(reducer, applyMiddleware(middleware, ReduxThunk));
 
 
 class App extends Component {
