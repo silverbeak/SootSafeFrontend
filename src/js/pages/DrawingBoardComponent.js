@@ -3,6 +3,7 @@ import DrawingBoard from './drawing-board'
 import * as actions from '../actions/drawing-board-actions'
 import * as databaseActions from '../actions/firebase-actions'
 import * as projectActions from '../actions/project-actions'
+import * as backendActions from '../actions/backend-communicator-actions'
 
 const mapStateToProps = state => {
     return {
@@ -24,7 +25,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(projectActions.modelUpdated(incrementalUpdateJson, sketchId))
         },
         projectSaved: (projectData, sketchId) => {
-            dispatch(databaseActions.saveProjectToDb(projectData))
+            // dispatch(databaseActions.saveProjectToDb(projectData))
+            dispatch(backendActions.saveToBackend(projectData))
+        },
+        requestProjectLoad: () => {
+            // TODO: Fix proper sketchId
+            dispatch(backendActions.loadFromBackend(0))
         }
     }
 }

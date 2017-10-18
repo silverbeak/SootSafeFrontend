@@ -274,18 +274,22 @@ class DrawingBoard extends React.Component {
             modifiedLinkData: this.props.model.linkDataArray
         })
 
-        this.load()
+        this.myDiagram.model = go.Model.fromJson(Object.assign({}, this.props.model))
     }
     
     save() {
         // document.getElementById("mySavedModel").value = this.myDiagram.model.toJson();
-        console.log(this.myDiagram.model.toJson())
         this.myDiagram.isModified = false;
         this.props.projectSaved(JSON.parse(this.myDiagram.model.toJson()), 0) // TODO: Fix proper sketch id
     }
     
     load() {
-        this.myDiagram.model = go.Model.fromJson(Object.assign({}, this.props.model))
+        this.props.requestProjectLoad()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('Next props', nextProps)
+        this.myDiagram.model = go.Model.fromJson(Object.assign({}, nextProps.model))
     }
     
     render() {
@@ -299,6 +303,7 @@ class DrawingBoard extends React.Component {
                     </div>
                 </div>
                 <button onClick={this.save.bind(this)}>Save</button>
+                <button onClick={this.load.bind(this)}>Load</button>
             </div>
         )
     }
