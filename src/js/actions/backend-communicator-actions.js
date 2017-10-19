@@ -38,15 +38,10 @@ export const saveToBackend = payload => {
             },
             method: 'post',
             body: jsonString
-        })
-        .then( res => {
-            res.json().then( data => {
+        }).then(res => {
+            res.json().then(data => {
                 dispatch(dataSaveResponseReceived(data))
             })
-        })
-        .then( data => {
-            console.log('Got an error response', data)
-            dispatch(dataSaveErrorReceived(data))
         })
     }
     

@@ -2,6 +2,8 @@ import React from 'react'
 import go from 'gojs/release/go-debug'
 import Card, { CardContent } from 'material-ui/Card'
 import SnappingTool from '../gojs/snapping-tool'
+import { initDrawingBoard } from '../gojs/board-tool'
+import { initPalette } from '../gojs/palette-tool'
 import InfoBox from '../components/info-box.js'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
@@ -47,135 +49,6 @@ class DrawingBoard extends React.Component {
         this.projectId = projectId
         this.initiated = false
         props.requestProjectLoad(projectId, sketchId)
-    }
-    
-    initDrawingBoard(treeDefinition, nodeTemplate) {
-        const $ = treeDefinition
-        const myDiagram = $(go.Diagram, "myDiagramDiv", {
-            initialScale: 1.5,
-            "commandHandler.defaultScale": 1.5,
-            allowDrop: true,  // accept drops from palette
-            allowLink: false,  // no user-drawn links
-            initialContentAlignment: go.Spot.Center,
-            // use a custom DraggingTool instead of the standard one, defined below
-            draggingTool: new SnappingTool(),
-            "undoManager.isEnabled": true
-        });
-        
-        // TODO: Det här kanske vi kan använda sen?
-        // myDiagram.nodeTemplateMap.add("Comment",
-        // $(go.Node,
-        //     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-        //     $(go.TextBlock,
-        //         { stroke: "brown", font: "9pt sans-serif" },
-        //         new go.Binding("text"))
-        //     )
-        // );
-        
-        myDiagram.nodeTemplate = nodeTemplate,
-        
-        myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
-            $("ContextMenuButton",
-            $(go.TextBlock, "Rotate +45"),
-            { click: function(e, obj) { rotate(obj.part.adornedPart, 45); } }),
-            $("ContextMenuButton",
-            $(go.TextBlock, "Rotate -45"),
-            { click: function(e, obj) { rotate(obj.part.adornedPart, -45); } }),
-            $("ContextMenuButton",
-            $(go.TextBlock, "Rotate 180"),
-            { click: function(e, obj) { rotate(obj.part.adornedPart, 180); } }),
-            $("ContextMenuButton",
-            $(go.TextBlock, "Detach"),
-            { click: function(e, obj) { detachSelection(); } }),
-            $("ContextMenuButton",
-            $(go.TextBlock, "Delete"),
-            { click: function(e, obj) { e.diagram.commandHandler.deleteSelection(); } })
-        );
-        // Change the angle of the parts connected with the given node
-        function rotate(node, angle) {
-            var tool = myDiagram.toolManager.draggingTool;  // should be a SnappingTool
-            myDiagram.startTransaction("rotate " + angle.toString());
-            var sel = new go.Set(go.Node);
-            sel.add(node);
-            var coll = tool.computeEffectiveCollection(sel).toKeySet();
-            var bounds = myDiagram.computePartsBounds(coll);
-            var center = bounds.center;
-            coll.each(function(n) {
-                n.angle += angle;
-                n.location = n.location.copy().subtract(center).rotate(angle).add(center);
-            });
-            myDiagram.commitTransaction("rotate " + angle.toString());
-        }
-        function detachSelection() {
-            myDiagram.startTransaction("detach");
-            var coll = new go.Set(go.Link);
-            myDiagram.selection.each(function(node) {
-                if (!(node instanceof go.Node)) return;
-                node.linksConnected.each(function(link) {
-                    if (link.category !== "") return;  // ignore comments
-                    // ignore links to other selected nodes
-                    if (link.getOtherNode(node).isSelected) return;
-                    // disconnect this link
-                    coll.add(link);
-                });
-            });
-            myDiagram.removeParts(coll, false);
-            myDiagram.commitTransaction("detach");
-        }
-        
-        // no visual representation of any link data
-        myDiagram.linkTemplate = $(go.Link, { visible: false });
-        
-        // // support optional links from comment nodes to pipe nodes
-        // myDiagram.linkTemplateMap.add("Comment",
-        // $(go.Link,
-        //     { curve: go.Link.Bezier },
-        //     $(go.Shape, { stroke: "brown", strokeWidth: 2 }),
-        //     $(go.Shape, { toArrow: "OpenTriangle", stroke: "brown" })
-        // ));
-        // this model needs to know about particular ports
-        myDiagram.model = $(go.GraphLinksModel, {
-            copiesArrays: true,
-            copiesArrayObjects: true,
-            linkFromPortIdProperty: "fid",
-            linkToPortIdProperty: "tid",
-            linkKeyProperty: "key"
-        });
-        
-        return myDiagram
-    } // end init
-    
-    initPalette(treeDefinition, nodeTemplate, nodeDataArray) {
-        // Make sure the pipes are ordered by their key in the palette inventory
-        function keyCompare(a, b) {
-            var at = a.data.key;
-            var bt = b.data.key;
-            if (at < bt) return -1;
-            if (at > bt) return 1;
-            return 0;
-        }
-        
-        const $ = treeDefinition
-        const myPalette = $(go.Palette, "myPaletteDiv", {
-            initialScale: 1.2,
-            contentAlignment: go.Spot.Center,
-            nodeTemplate: nodeTemplate,  // shared with the main Diagram
-            "contextMenuTool.isEnabled": false,
-            layout: $(go.GridLayout, {
-                cellSize: new go.Size(1, 1), spacing: new go.Size(5, 5),
-                wrappingColumn: 12, comparer: keyCompare
-            }),
-            // initialize the Palette with a few "pipe" nodes
-            model: $(go.GraphLinksModel, {
-                copiesArrays: true,
-                copiesArrayObjects: true,
-                linkFromPortIdProperty: "fid",
-                linkToPortIdProperty: "tid",
-                linkKeyProperty: "key",
-                nodeDataArray: nodeDataArray
-            })  // end model
-        });  // end Palette
-        return myPalette
     }
     
     onSelectionChanged(part) {
@@ -257,10 +130,10 @@ class DrawingBoard extends React.Component {
     componentDidMount() {
         var $ = go.GraphObject.make;  // for more concise visual tree definitions
         const nodeTemplate = this.createNodeTemplate($, this.onSelectionChanged.bind(this))
-        this.myDiagram = this.initDrawingBoard($, nodeTemplate)
+        this.myDiagram = initDrawingBoard($, nodeTemplate)
         const paletteNodeTemplate = this.createNodeTemplate($, () => {})
         
-        this.myPalette = this.initPalette($, paletteNodeTemplate, this.props.palette)
+        this.myPalette = initPalette($, paletteNodeTemplate, this.props.palette)
         
         this.myDiagram.addModelChangedListener( e => {
             if (e.isTransactionFinished) {

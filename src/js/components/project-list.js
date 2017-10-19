@@ -15,8 +15,6 @@ class ProjectList extends React.Component {
 
     render() {
 
-        console.log('Projects', this.props.projects)
-
         const projectLink = project => {
             return (
                 <li key={project.id}>
