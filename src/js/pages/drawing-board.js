@@ -1,18 +1,17 @@
 import React from 'react'
 import go from 'gojs/release/go-debug'
+import Card, { CardContent } from 'material-ui/Card'
 import SnappingTool from '../gojs/snapping-tool'
 import InfoBox from '../components/info-box.js'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
 const boardStyle = {
-    border: "solid 1px black",
     height: "45em",
     display: "flex",
     flex: "3 0 0"
 }
 
 const paletteStyle = {
-    border: "solid 1px black",
     height: "160px",
     margin: ".4em"
 }
@@ -32,7 +31,6 @@ const boardAndInfoStyle = {
 
 const infoBoardStyle = {
     display: "flex",
-    border: "1px solid",
     flex: "1 0 0",
     marginLeft: ".4em",
     paddingLeft: ".4em",
@@ -41,6 +39,15 @@ const infoBoardStyle = {
 }
 
 class DrawingBoard extends React.Component {
+
+    constructor(props) {
+        super(props)
+        const { projectId, sketchId } = props.urlParams
+        this.sketchId = sketchId
+        this.projectId = projectId
+        this.initiated = false
+        props.requestProjectLoad(projectId, sketchId)
+    }
     
     initDrawingBoard(treeDefinition, nodeTemplate) {
         const $ = treeDefinition
@@ -181,7 +188,7 @@ class DrawingBoard extends React.Component {
             return
         }
         if (part.key) {
-            const partFromModel = _.find(this.props.model.nodeDataArray, n => n.key === part.key)
+            const partFromModel = _.find(this.sketch.model.nodeDataArray, n => n.key === part.key)
             this.props.partSelected(partFromModel ? partFromModel : {})
         } else {
             console.log('Illegal select', part)
@@ -258,52 +265,50 @@ class DrawingBoard extends React.Component {
         this.myDiagram.addModelChangedListener( e => {
             if (e.isTransactionFinished) {
                 const json = e.model.toIncrementalJson(e)
-                this.props.modelUpdated(json, 0)
+                this.props.modelUpdated(json, this.sketchId)
             }
         })
 
         this.myDiagram.addDiagramListener('SelectionDeleted', () => { this.props.partSelected({})})
         this.myDiagram.addDiagramListener('BackgroundSingleClicked', () => { this.props.partSelected({})})
-
-        this.myDiagram.model.applyIncrementalJson({
-            class: "go.GraphLinksModel",
-            incremental: 1,
-            nodeKeyProperty: "key",
-            linkKeyProperty: "key",
-            modifiedNodeData: Object.assign({}, this.props.model.nodeDataArray),
-            modifiedLinkData: this.props.model.linkDataArray
-        })
-
-        this.myDiagram.model = go.Model.fromJson(Object.assign({}, this.props.model))
     }
     
     save() {
         // document.getElementById("mySavedModel").value = this.myDiagram.model.toJson();
         this.myDiagram.isModified = false;
-        this.props.projectSaved(JSON.parse(this.myDiagram.model.toJson()), 0) // TODO: Fix proper sketch id
-    }
-    
-    load() {
-        this.props.requestProjectLoad()
+        this.props.projectSaved(JSON.parse(this.myDiagram.model.toJson()), this.sketchId)
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Next props', nextProps)
-        this.myDiagram.model = go.Model.fromJson(Object.assign({}, nextProps.model))
+        if (!this.initiated && nextProps.sketches[this.sketchId]) {
+            this.initiated = true
+            
+            this.sketch = nextProps.sketches[this.sketchId]
+
+            this.myDiagram.model.applyIncrementalJson({
+                class: "go.GraphLinksModel",
+                incremental: 1,
+                nodeKeyProperty: "key",
+                linkKeyProperty: "key",
+                modifiedNodeData: Object.assign({}, nextProps.sketches[this.sketchId].model.nodeDataArray),
+                modifiedLinkData: nextProps.sketches[this.sketchId].model.linkDataArray
+            })
+
+            this.myDiagram.model = go.Model.fromJson(Object.assign({}, nextProps.sketches[this.sketchId].model))
+        }
     }
     
     render() {
         return (
             <div id="board-container" style={boardContainerStyle}>
-                <div id="myPaletteDiv" style={paletteStyle}></div>
+                <Card id="myPaletteDiv" style={paletteStyle}></Card>
                 <div id="board-and-infobox" style={boardAndInfoStyle}>
-                    <div id="myDiagramDiv" style={boardStyle}></div>
-                    <div id="info-board" style={infoBoardStyle}>
+                    <Card id="myDiagramDiv" style={boardStyle}></Card>
+                    <Card id="info-board" style={infoBoardStyle}>
                         <InfoBox partData={this.props.selectedPart} />
-                    </div>
+                    </Card>
                 </div>
                 <button onClick={this.save.bind(this)}>Save</button>
-                <button onClick={this.load.bind(this)}>Load</button>
             </div>
         )
     }

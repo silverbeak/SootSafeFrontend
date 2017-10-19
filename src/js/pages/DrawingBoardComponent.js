@@ -5,11 +5,13 @@ import * as databaseActions from '../actions/firebase-actions'
 import * as projectActions from '../actions/project-actions'
 import * as backendActions from '../actions/backend-communicator-actions'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     return {
+        urlParams: ownProps.match.params,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
-        model: state.projects.sketches[0].model
+        projects: state.projects,
+        sketches: state.projects.sketches,
     }
 }
 
@@ -28,10 +30,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))
             dispatch(backendActions.saveToBackend(projectData))
         },
-        requestProjectLoad: () => {
-            // TODO: Fix proper sketchId
-            dispatch(backendActions.loadFromBackend(0))
-        }
+        requestProjectLoad: (projectId, sketchId) => {
+            dispatch(backendActions.loadFromBackend(projectId, sketchId))
+        },
     }
 }
 

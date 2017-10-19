@@ -7,7 +7,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk'
 import reducer from './js/reducers';
+import { loadProjectIndices } from './js/actions/backend-communicator-actions'
 import DrawingBoard from './js/pages/DrawingBoardComponent.js';
+import StatedProjectList from './js/components/project-list'
+import StatedSketchList from './js/components/sketch-list'
 
 import createHistory from 'history/createBrowserHistory'
 import { Route } from 'react-router'
@@ -21,6 +24,7 @@ const history = createHistory()
 const middleware = routerMiddleware(history)
 
 const store = createStore(reducer, applyMiddleware(middleware, ReduxThunk));
+store.dispatch(loadProjectIndices())
 
 
 class App extends Component {
@@ -32,9 +36,9 @@ class App extends Component {
                     
                     <ConnectedRouter history={history}>
                         <div>
-                            <Route exact path="/" component={DrawingBoard}/>
-                            <Route path="/about" component={DrawingBoard}/>
-                            <Route path="/topics" component={DrawingBoard}/>
+                            <Route exact path="/" component={StatedProjectList}/>
+                            <Route path="/project/:projectId" component={StatedSketchList}/>
+                            <Route path="/project/:projectId/sketch/:sketchId" component={DrawingBoard}/>
                         </div>
                     </ConnectedRouter>
                     

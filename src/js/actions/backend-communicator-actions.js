@@ -10,7 +10,6 @@ export const saveToBackend = payload => {
     }
     
     const dataSaveResponseReceived = data => {
-        console.log('Yay! Success!', data)
         return {
             type: 'DATA_SAVE_RESPONSE_RECEIVED',
             data
@@ -53,7 +52,7 @@ export const saveToBackend = payload => {
     
 }
 
-export const loadFromBackend = sketchId => {
+export const loadFromBackend = (projectId, sketchId) => {
 
     const sketchLoaded = sketchData => {
         return {
@@ -64,15 +63,32 @@ export const loadFromBackend = sketchId => {
     }
 
     return dispatch => {
-        fetch('http://localhost:3001/').then(
+        fetch(`http://localhost:3001/project/${projectId}/sketch/${sketchId}`).then(
             opt => {
                 opt.json().then(jsonData => {
-                    // console.log('OPT', opt.json())
                     dispatch(sketchLoaded(jsonData))
                 })
             }
         ).then(
             data => console.log('Data', data)
         )
+    }
+}
+
+export const loadProjectIndices = () => {
+
+    const projectIndicesLoaded = projectIndices => {
+        return {
+            type: 'PROJECT_INDICES_LOADED',
+            projectIndices
+        }
+    }
+
+    return dispatch => {
+        fetch('http://localhost:3001/project').then( opt => {
+            opt.json().then(jsonData => {
+                dispatch(projectIndicesLoaded(jsonData))
+            })
+        })
     }
 }
