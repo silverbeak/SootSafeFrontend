@@ -1,4 +1,6 @@
-const initialState = [
+import { defaultMerge } from './component-field-index'
+
+const initialPalette = [
     { id: 1, name: 'default', data: 
     // Several different kinds of pipe objects, some already rotated for convenience.
     // Each "glue point" is implemented by a port.
@@ -23,7 +25,8 @@ const initialState = [
             fill: "rgba(128, 0, 128, 0.5)"
         },
         {
-            key: 3, angle: 90,
+            key: 3,
+            angle: 90,
             geo: "F1 M0 0 L20 0 20 20 0 20z",
             ports: [
                 { id: "U6", spot: "0.5 0 0 0.5" },
@@ -39,7 +42,8 @@ const initialState = [
             ]
         },
         {
-            key: 7, angle: 90,
+            key: 7,
+            angle: 90,
             geo: "F1 M0 0 L20 0 20 60 0 60z",
             ports: [
                 { id: "U6", spot: "0.5 0 0 0.5" },
@@ -55,7 +59,8 @@ const initialState = [
             ]
         },
         {
-            key: 12, angle: 90,
+            key: 12,
+            angle: 90,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -63,7 +68,8 @@ const initialState = [
             ]
         },
         {
-            key: 13, angle: 180,
+            key: 13,
+            angle: 180,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -71,7 +77,8 @@ const initialState = [
             ]
         },
         {
-            key: 14, angle: 270,
+            key: 14,
+            angle: 270,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -88,7 +95,8 @@ const initialState = [
             ]
         },
         {
-            key: 22, angle: 90,
+            key: 22,
+            angle: 90,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -97,7 +105,8 @@ const initialState = [
             ]
         },
         {
-            key: 23, angle: 180,
+            key: 23,
+            angle: 180,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -106,7 +115,8 @@ const initialState = [
             ]
         },
         {
-            key: 24, angle: 270,
+            key: 24,
+            angle: 270,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
             ports: [
                 { id: "U0", spot: "1 0.25 -0.5 0.25" },
@@ -114,48 +124,50 @@ const initialState = [
                 { id: "U2", spot: "0.5 1 0 -0.5" }
             ]
         },
-        {
-            key: 31,
-            geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
-            ports: [
-                { id: "U6", spot: "0 0 10.5 0.5" },
-                { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
-            ]
-        },
-        {
-            key: 32, angle: 90,
-            geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
-            ports: [
-                { id: "U6", spot: "0 0 10.5 0.5" },
-                { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
-            ]
-        },
-        {
-            key: 33, angle: 180,
-            geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
-            ports: [
-                { id: "U6", spot: "0 0 10.5 0.5" },
-                { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
-            ]
-        },
-        {
-            key: 34, angle: 270,
-            geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
-            ports: [
-                { id: "U6", spot: "0 0 10.5 0.5" },
-                { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
-            ]
-        },
-        {
-            key: 41,
-            geo: "F1 M14.142 0 L28.284 14.142 14.142 28.284 0 14.142z",
-            ports: [
-                { id: "U1", spot: "1 1 -7.321 -7.321" },
-                { id: "U3", spot: "0 1 7.321 -7.321" },
-                { id: "U5", spot: "0 0 7.321 7.321" },
-                { id: "U7", spot: "1 0 -7.321 7.321" }
-            ]
-        },
+
+        // {
+        //     key: 31,
+        //     geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
+        //     ports: [
+        //         { id: "U6", spot: "0 0 10.5 0.5" },
+        //         { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
+        //     ]
+        // },
+        // {
+        //     key: 32, angle: 90,
+        //     geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
+        //     ports: [
+        //         { id: "U6", spot: "0 0 10.5 0.5" },
+        //         { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
+        //     ]
+        // },
+        // {
+        //     key: 33, angle: 180,
+        //     geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
+        //     ports: [
+        //         { id: "U6", spot: "0 0 10.5 0.5" },
+        //         { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
+        //     ]
+        // },
+        // {
+        //     key: 34, angle: 270,
+        //     geo: "F1 M0 0 L20 0 20 10 Q20 14.142 22.929 17.071 L30 24.142 15.858 38.284 8.787 31.213 Q0 22.426 0 10z",
+        //     ports: [
+        //         { id: "U6", spot: "0 0 10.5 0.5" },
+        //         { id: "U1", spot: "1 1 -7.571 -7.571", angle: 45 }
+        //     ]
+        // },
+        // {
+        //     key: 41,
+        //     geo: "F1 M14.142 0 L28.284 14.142 14.142 28.284 0 14.142z",
+        //     ports: [
+        //         { id: "U1", spot: "1 1 -7.321 -7.321" },
+        //         { id: "U3", spot: "0 1 7.321 -7.321" },
+        //         { id: "U5", spot: "0 0 7.321 7.321" },
+        //         { id: "U7", spot: "1 0 -7.321 7.321" }
+        //     ]
+        // },
+
         // Example M-F connector pipes
         /*
         {
@@ -179,13 +191,20 @@ const initialState = [
     }
 ]
 
-const palettes = function(state = initialState, action) {
+const palettes = function(state = initialPalette, action) {
     switch(action.type) {
         case 'PALETTE_REQUESTED':
             // TODO: Return palette based on action.id
-            return state
+            // return state
         default: 
+        if (state[0]) {
+            const copy = Object.assign({}, state)
+            const merged = defaultMerge(state[0].data)
+            copy[0].data = merged
+            return copy
+        } else {
             return state
+        }
     }
 }
 

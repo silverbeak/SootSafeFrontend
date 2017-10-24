@@ -14,6 +14,13 @@ export const partInfoUpdated = (partKey, infoKey, value) => {
     }
 }
 
+export const partTypeChanged = (partKey, infoKey, value) => {
+    return {
+        type: 'PART_TYPE_CHANGED',
+        partKey, infoKey, value
+    }
+}
+
 export const modelUpdated = (incrementalUpdateJson, sketchId) => {
     return {
         type: 'MODEL_UPDATED',

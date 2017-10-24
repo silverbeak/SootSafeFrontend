@@ -1,11 +1,24 @@
 import React from 'react'
+import Input, { ImportLabel } from 'material-ui/Input'
+import { MenuItem } from 'material-ui/Menu'
+import Select from 'material-ui/Select'
 import TextField from 'material-ui/TextField'
 import * as actions from '../actions/project-actions'
 import * as _ from '../../../node_modules/lodash/lodash.min'
+import SketchComponent from './sketch-component'
+import { AVAILABLE_TYPES } from '../reducers/component-field-index'
 
 import { connect } from 'react-redux'
 
 class InfoBox extends React.Component {
+
+    handleTypeChange(event) {
+        const value = event.target.value
+        const state = Object.assign({}, this.state)
+        _.set(state, 'nodeType', value)
+        this.setState(state)
+        this.props.partTypeChanged(this.props.selectedPart.key, 'nodeType', value)
+    }
 
     handleStateUpdate(event) {
         const key = event.target.id
@@ -13,96 +26,50 @@ class InfoBox extends React.Component {
         const state = Object.assign({}, this.state)
         _.set(state, key, value)
         this.setState(state)
-        this.props.partInfoUpdated(this.props.selectedPart.key, event.target.id, event.target.value)
+        this.props.partInfoUpdated(this.props.selectedPart.key, key, value)
         // debugger
     }
 
+    mapElementFields(element) {
+        if (element) {
+            return _.map(element.fields, (field, name) => {
+                return <SketchComponent key={field.path} field={field} name={name} onChange={this.handleStateUpdate.bind(this)} />
+            })
+        }
+    }
+
     render() {
+        window.props = this.props
         const selectedPart = this.props.selectedPart
         if (!selectedPart.ssInfo) {
             return <span></span>
         }
         return (
             <span>
-                <h4>Info about selected component</h4>
-                <TextField 
-                    id="comment"
-                    label="Comment"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.comment}
-                    />
-                <br />
-                <TextField 
-                    id="name"
-                    label="Name"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.name}
-                    />
-                <br />
-                <TextField 
+                <Select
                     id="nodeType"
-                    label="Node type"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.nodeType}
-                    />
+                    value={this.props.selectedPart.ssInfo.nodeType ? this.props.selectedPart.ssInfo.nodeType : '' }
+                    onChange={this.handleTypeChange.bind(this)}
+                    input={<Input />} >
+
+                    { 
+                        _.map(AVAILABLE_TYPES, (t, index) => {
+                            return (
+                                <MenuItem
+                                    key={index} 
+                                    value={index}> {t}
+                                </MenuItem>
+                            )
+                        })
+                    }
+                </Select>
+
                 <br />
-                <TextField 
-                    id="capacity"
-                    label="Capacity"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.capacity}
-                    />
-                <br />
-                <TextField 
-                    id="dimension.diameter"
-                    label="Diameter"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.dimension.diameter}
-                    />
-                <br />
-                <TextField 
-                    id="dimension.length"
-                    label="Length"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.dimension.length}
-                    />
-                <br />
-                <TextField 
-                    id="pressureloss"
-                    label="Pressure Loss"
-                    className="classes.textField"
-                    margin="normal"
-                    onChange={this.handleStateUpdate.bind(this)}
-                    value={this.state.pressureloss}
-                    />
+
+                { this.mapElementFields(this.props.selectedPart) }
+
             </span>
         )
-    }
-
-    _setStatesForComponents(props, fieldNames) {
-        const state = Object.assign({}, this.state)
-        fieldNames.forEach( name => {
-            const value = _.get(props.selectedPart.ssInfo, name, '')
-            _.set(state, name, value)
-        })
-        this.setState(state)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const propKeys = ['comment', 'name', 'nodeType', 'capacity', 'dimension.diameter', 'dimension.length', 'pressureloss']
-        this._setStatesForComponents(nextProps, propKeys)
     }
 }
 
@@ -117,6 +84,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         partInfoUpdated: (partKey, infoKey, value) => {
             dispatch(actions.partInfoUpdated(partKey, infoKey, value))
+        },
+        partTypeChanged: (partKey, infoKey, value) => {
+            dispatch(actions.partTypeChanged(partKey, infoKey, value))
         }
     }
 }

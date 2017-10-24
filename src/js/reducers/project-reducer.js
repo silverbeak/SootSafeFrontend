@@ -38,11 +38,18 @@ const projects = (state = initialState, action) => {
         //     action.partKeys.each(key => addSootSafeInfoToNodeByKey(key, action.data.nodeDataArray))
         //     updatedCopy.sketches[action.sketchId].model = action.data
         //     return updatedCopy
+        case 'PART_TYPE_CHANGED':
+            const pcCopy = Object.assign({}, state)
+            const nodePartsCopy = pcCopy.sketches[0].model.nodeDataArray
+            const node = _.find(nodePartsCopy, n => n.key == action.partKey)
+            _.set(node.ssInfo, action.infoKey, action.value)
+            return pcCopy
+
         case 'PART_INFO_UPDATED':
             const piCopy = Object.assign({}, state)
             const nodeDataCopy = piCopy.sketches[0].model.nodeDataArray
             const currentNode = _.find(nodeDataCopy, n => n.key == action.partKey)
-            _.set(currentNode.ssInfo, action.infoKey, action.value)
+            _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy
         
         case 'MODEL_UPDATED':
