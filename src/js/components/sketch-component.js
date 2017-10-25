@@ -1,11 +1,26 @@
 import React from 'react';
 import TextField from 'material-ui/TextField'
+import Checkbox from 'material-ui/Checkbox'
+import { FormGroup, FormControlLabel } from 'material-ui/Form'
 import * as _ from '../../../node_modules/lodash/lodash'
 
 class SketchComponent extends React.Component {
     
     constructor(props) {
         super(props)
+    }
+
+    checkboxUpdate(callback, field) {
+        return function(event, checked) {
+            const target = {
+                id: field.path,
+                value: checked
+            }
+
+            event.target = target
+
+            callback(event)
+        }
     }
     
     singleField(field, name) {
@@ -39,6 +54,21 @@ class SketchComponent extends React.Component {
                         />
                         {field.unit}
                     <br />
+                </span>
+            )
+            case Boolean:
+            return (
+                <span key={name}>
+                    <FormControlLabel
+                        control = {
+                            <Checkbox
+                                checked={field.value}
+                                onChange={this.checkboxUpdate(this.props.onChange, field)}
+                                value={field.value}
+                            />
+                        }
+                        label={name}
+                  />
                 </span>
             )
             case Object: {
