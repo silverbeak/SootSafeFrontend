@@ -15,9 +15,9 @@ class InfoBox extends React.Component {
     handleTypeChange(event) {
         const value = event.target.value
         const state = Object.assign({}, this.state)
-        _.set(state, 'nodeType', value)
+        _.set(state, 'type', value)
         this.setState(state)
-        this.props.partTypeChanged(this.props.selectedPart.key, 'nodeType', value)
+        this.props.partTypeChanged(this.props.selectedPart.key, 'type', value)
     }
 
     handleStateUpdate(event) {
@@ -47,8 +47,8 @@ class InfoBox extends React.Component {
         return (
             <span>
                 <Select
-                    id="nodeType"
-                    value={this.props.selectedPart.ssInfo.nodeType ? this.props.selectedPart.ssInfo.nodeType : '' }
+                    id="type"
+                    value={this.props.selectedPart.type.name ? this.props.selectedPart.type.name : '' }
                     onChange={this.handleTypeChange.bind(this)}
                     input={<Input />} >
 
@@ -56,8 +56,8 @@ class InfoBox extends React.Component {
                         _.map(AVAILABLE_TYPES, (t, index) => {
                             return (
                                 <MenuItem
-                                    key={index} 
-                                    value={index}> {t}
+                                    key={index}
+                                    value={index}> {t.label}
                                 </MenuItem>
                             )
                         })

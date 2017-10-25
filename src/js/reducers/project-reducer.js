@@ -1,4 +1,5 @@
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
+import { mergeByName, AVAILABLE_TYPES } from './component-field-index'
 
 const initialState = {
     projectIndices: {
@@ -41,8 +42,9 @@ const projects = (state = initialState, action) => {
         case 'PART_TYPE_CHANGED':
             const pcCopy = Object.assign({}, state)
             const nodePartsCopy = pcCopy.sketches[0].model.nodeDataArray
-            const node = _.find(nodePartsCopy, n => n.key == action.partKey)
-            _.set(node.ssInfo, action.infoKey, action.value)
+            const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
+            _.set(nodePartsCopy[nodeIndex], action.infoKey, AVAILABLE_TYPES[action.value])
+            nodePartsCopy[nodeIndex] = mergeByName(nodePartsCopy[nodeIndex])
             return pcCopy
 
         case 'PART_INFO_UPDATED':

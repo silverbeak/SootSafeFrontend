@@ -1,12 +1,12 @@
 import * as _ from '../../../node_modules/lodash/lodash'
 
 export const AVAILABLE_TYPES = {
-    areaIncrement: 'Area Increment',
-    bend: 'Bend',
-    firecell: 'Fire Cell',
-    outlet: 'Outlet',
-    pipe: 'Pipe',
-    tpipe: 'T-Pipe',
+    areaIncrement: { name: 'areaIncrement', label: 'Area Increment' },
+    bend: { name: 'bend', label: 'Bend' },
+    firecell: { name: 'firecell', label: 'Fire Cell' },
+    outlet: { name: 'outlet', label: 'Outlet' },
+    pipe: { name: 'pipe', label: 'Pipe' },
+    tpipe: { name: 'tpipe', label: 'T-Pipe' },
 }
 
 export const SHAPE_TYPES = {
@@ -91,6 +91,25 @@ const mergeSingle = component => {
         case 23:
         case 24:
         return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        default:
+        return component
+    }
+}
+
+export const mergeByName = component => {
+    switch(component.type.name) {
+        case 'outlet': 
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: Object.assign({}, base, pressureLoss) })
+        case 'fireCell':
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, base) })
+        case 'pipe':
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        case 'bend':
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.bend }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        case 'tpipe':
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        case 'areaIncrement':
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base) })
         default:
         return component
     }
