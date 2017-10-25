@@ -7,17 +7,17 @@ export const partDropped = function(data, partKeys, sketchId) {
     }
 }
 
-export const partInfoUpdated = (partKey, infoKey, value) => {
+export const partInfoUpdated = (partKey, infoKey, value, sketchId) => {
     return {
         type: 'PART_INFO_UPDATED',
-        partKey, infoKey, value
+        partKey, infoKey, value, sketchId
     }
 }
 
-export const partTypeChanged = (partKey, infoKey, value) => {
+export const partTypeChanged = (partKey, infoKey, value, sketchId) => {
     return {
         type: 'PART_TYPE_CHANGED',
-        partKey, infoKey, value
+        partKey, infoKey, value, sketchId
     }
 }
 

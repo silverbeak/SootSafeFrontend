@@ -41,7 +41,7 @@ const projects = (state = initialState, action) => {
         //     return updatedCopy
         case 'PART_TYPE_CHANGED':
             const pcCopy = Object.assign({}, state)
-            const nodePartsCopy = pcCopy.sketches[0].model.nodeDataArray
+            const nodePartsCopy = pcCopy.sketches[action.sketchId].model.nodeDataArray
             const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
             _.set(nodePartsCopy[nodeIndex], action.infoKey, AVAILABLE_TYPES[action.value])
             nodePartsCopy[nodeIndex] = mergeByName(nodePartsCopy[nodeIndex])
@@ -49,7 +49,7 @@ const projects = (state = initialState, action) => {
 
         case 'PART_INFO_UPDATED':
             const piCopy = Object.assign({}, state)
-            const nodeDataCopy = piCopy.sketches[0].model.nodeDataArray
+            const nodeDataCopy = piCopy.sketches[action.sketchId].model.nodeDataArray
             const currentNode = _.find(nodeDataCopy, n => n.key == action.partKey)
             _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy

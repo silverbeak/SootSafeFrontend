@@ -83,10 +83,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         partInfoUpdated: (partKey, infoKey, value) => {
-            dispatch(actions.partInfoUpdated(partKey, infoKey, value))
+            dispatch(actions.partInfoUpdated(partKey, infoKey, value, ownProps.sketchId))
         },
         partTypeChanged: (partKey, infoKey, value) => {
-            dispatch(actions.partTypeChanged(partKey, infoKey, value))
+            dispatch(actions.partTypeChanged(partKey, infoKey, value, ownProps.sketchId))
         }
     }
 }

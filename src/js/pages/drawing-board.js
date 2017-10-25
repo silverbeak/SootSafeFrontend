@@ -178,7 +178,7 @@ class DrawingBoard extends React.Component {
                 <div id="board-and-infobox" style={boardAndInfoStyle}>
                     <Card id="myDiagramDiv" style={boardStyle}></Card>
                     <Card id="info-board" style={infoBoardStyle}>
-                        <InfoBox partData={this.props.selectedPart} />
+                        <InfoBox partData={this.props.selectedPart} sketchId={this.sketchId} />
                     </Card>
                 </div>
                 <button onClick={this.save.bind(this)}>Save</button>
