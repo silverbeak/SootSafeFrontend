@@ -64,7 +64,7 @@ class SketchComponent extends React.Component {
                             <Checkbox
                                 checked={field.value}
                                 onChange={this.checkboxUpdate(this.props.onChange, field)}
-                                value={field.value}
+                                value={name}
                             />
                         }
                         label={name}

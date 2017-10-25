@@ -85,7 +85,7 @@ const mergeSingle = component => {
         case 1: 
         return Object.assign({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: Object.assign({}, base, pressureLoss) })
         case 3:
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, base, targetCell) })
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, pressureLoss, targetCell) })
         case 5: 
         case 7:
         return Object.assign({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: Object.assign({}, base, capacity, pressureLoss) })
@@ -109,7 +109,7 @@ export const mergeByName = component => {
         case 'outlet': 
         return Object.assign({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: Object.assign({}, base, pressureLoss) })
         case 'fireCell':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, base, targetCell) })
+        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, pressureLoss, targetCell) })
         case 'pipe':
         return Object.assign({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: Object.assign({}, base, capacity, pressureLoss) })
         case 'bend':
