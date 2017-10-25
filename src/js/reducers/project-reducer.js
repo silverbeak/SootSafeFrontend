@@ -17,6 +17,8 @@ const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
     if (nodeKeys) {
         nodeKeys.forEach(key => {
             const newNode = _.find(nodeDataArray, n => n.key === key)
+            newNode.fields = _.merge({}, newNode.fields)
+            newNode.type = _.merge({}, newNode.type)
             newNode.ssInfo = {}
         })
     }

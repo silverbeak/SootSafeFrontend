@@ -83,22 +83,22 @@ const targetCell = {
 const mergeSingle = component => {
     switch(component.key) {
         case 1: 
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: Object.assign({}, base, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
         case 3:
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, pressureLoss, targetCell) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: _.merge({}, pressureLoss, targetCell) })
         case 5: 
         case 7:
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
         case 11:
         case 12:
         case 13:
         case 14:
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.bend }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, capacity, pressureLoss) })
         case 21:
         case 22:
         case 23:
         case 24:
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: _.merge({}, base, capacity, pressureLoss) })
         default:
         return component
     }
@@ -107,17 +107,17 @@ const mergeSingle = component => {
 export const mergeByName = component => {
     switch(component.type.name) {
         case 'outlet': 
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: Object.assign({}, base, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
         case 'fireCell':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: Object.assign({}, pressureLoss, targetCell) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: _.merge({}, pressureLoss, targetCell) })
         case 'pipe':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
         case 'bend':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.bend }, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, capacity, pressureLoss) })
         case 'tpipe':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: _.merge({}, base, capacity, pressureLoss) })
         case 'areaIncrement':
-        return Object.assign({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: Object.assign({}, base) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.areaIncrement}, { fields: _.merge({}, base) })
         default:
         return component
     }
