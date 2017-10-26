@@ -149,7 +149,8 @@ class DrawingBoard extends React.Component {
     save() {
         // document.getElementById("mySavedModel").value = this.myDiagram.model.toJson();
         this.myDiagram.isModified = false;
-        this.props.projectSaved(JSON.parse(this.myDiagram.model.toJson()), this.sketchId)
+        const saveObject = Object.assign({}, { nodeDataArray: this.myDiagram.model.nodeDataArray, linkDataArray: this.myDiagram.model.linkDataArray })
+        this.props.projectSaved(saveObject, this.sketchId)
     }
 
     componentWillReceiveProps(nextProps) {

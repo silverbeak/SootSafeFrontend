@@ -1,4 +1,35 @@
 import ReduxThunk from 'redux-thunk'
+import * as _ from '../../../node_modules/lodash/lodash.min'
+
+const convertSingleField = (field, name) => {
+    switch(field.type) {
+        case Number:
+        return {
+            numberValue: field.value,
+            name,
+        }
+        case Boolean:
+        return {
+            boolValue: field.value,
+            name
+        }
+        case String:
+        return {
+            stringValue: field.value,
+            name
+        }
+        case Object:
+        return { children: convertFields(field.children), name }
+    }
+}
+
+function convertFields(fields) {
+    return _.map(fields, convertSingleField)
+}
+
+function convertNode(node) {
+    if (node.fields) node.fields = convertFields(node.fields)
+}
 
 export const saveToBackend = payload => {
     
@@ -23,13 +54,17 @@ export const saveToBackend = payload => {
         }
     }
     
+    const createHttpPayload = payload => {
+        const payloadCopy = _.merge({}, payload)
+        _.map(payloadCopy.nodeDataArray, convertNode)
+        return JSON.stringify(payloadCopy)
+        
+    }
     
     return dispatch => {
         dispatch(sendingDataToBackend(payload))
         
-        const jsonString = JSON.stringify(payload)
-        var data = new FormData();
-        data.append( "json", jsonString)
+        const jsonString = createHttpPayload(payload)
         
         fetch("http://localhost:3001/test-page", {
             headers: {
