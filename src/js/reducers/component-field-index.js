@@ -104,21 +104,35 @@ const mergeSingle = component => {
     }
 }
 
-export const mergeByName = component => {
+export const changeTypeByName = component => {
+    const newComponent = _.merge({}, component)
     switch(component.type.name) {
         case 'outlet': 
-        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
-        case 'fireCell':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: _.merge({}, pressureLoss, targetCell) })
+        newComponent.type = AVAILABLE_TYPES.outlet
+        newComponent.fields = _.merge({}, base, pressureLoss)
+        break
+        case 'firecell':
+        newComponent.type = AVAILABLE_TYPES.firecell
+        newComponent.fields = _.merge({}, pressureLoss, targetCell)
+        break
         case 'pipe':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
+        newComponent.type = AVAILABLE_TYPES.pipe
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        break
         case 'bend':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, capacity, pressureLoss) })
+        newComponent.type = AVAILABLE_TYPES.bend
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        break
         case 'tpipe':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: _.merge({}, base, capacity, pressureLoss) })
+        newComponent.type = AVAILABLE_TYPES.tpipe
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        break
         case 'areaIncrement':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.areaIncrement}, { fields: _.merge({}, base) })
+        newComponent.type = AVAILABLE_TYPES.areaIncrement
+        newComponent.fields = _.merge({}, base)
+        break
         default:
-        return component
+        throw new Error("Bad component: " + component.type.name)
     }
+    return newComponent
 }
