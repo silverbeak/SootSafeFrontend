@@ -1,25 +1,16 @@
 import ReduxThunk from 'redux-thunk'
+import { extendFieldsByName } from '../reducers/component-field-index'
 import * as _ from '../../../node_modules/lodash/lodash.min'
 
 const convertSingleField = (field, name) => {
     switch(field.type) {
-        case Number:
-        return {
-            numberValue: field.value,
-            name,
-        }
-        case Boolean:
-        return {
-            boolValue: field.value,
-            name
-        }
-        case String:
-        return {
-            stringValue: field.value,
-            name
-        }
         case Object:
-        return { children: convertFields(field.children), name }
+        return { 
+            type: field.type.name,
+            children: convertFields(field.children), name 
+        }
+        default:
+        return { [name]: Object.assign({}, field, { type: field.type.name }) }
     }
 }
 
@@ -31,7 +22,7 @@ function convertNode(node) {
     if (node.fields) node.fields = convertFields(node.fields)
 }
 
-export const saveToBackend = payload => {
+export const saveToBackend = (payload, projectId, sketchId) => {
     
     const sendingDataToBackend = (data) => {
         return {
@@ -58,7 +49,6 @@ export const saveToBackend = payload => {
         const payloadCopy = _.merge({}, payload)
         _.map(payloadCopy.nodeDataArray, convertNode)
         return JSON.stringify(payloadCopy)
-        
     }
     
     return dispatch => {
@@ -66,7 +56,7 @@ export const saveToBackend = payload => {
         
         const jsonString = createHttpPayload(payload)
         
-        fetch("http://localhost:3001/test-page", {
+        fetch(`http://localhost:3001/project/${projectId}/sketch/${sketchId}`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -80,6 +70,10 @@ export const saveToBackend = payload => {
         })
     }
     
+}
+
+const convertIncomingFields = node => {
+    return Object.assign({}, node, _.map(node, extendFieldsByName))
 }
 
 export const loadFromBackend = (projectId, sketchId) => {
@@ -96,7 +90,22 @@ export const loadFromBackend = (projectId, sketchId) => {
         fetch(`http://localhost:3001/project/${projectId}/sketch/${sketchId}`).then(
             opt => {
                 opt.json().then(jsonData => {
-                    dispatch(sketchLoaded(jsonData))
+
+                    _.forEach(jsonData.nodeDataArray, node => node.fields = extendFieldsByName(node.fields))
+
+                    const model = {
+                        "model": {
+                            "class": "go.GraphLinksModel",
+                            "copiesArrays": true,
+                            "copiesArrayObjects": true,
+                            "linkKeyProperty": "key",
+                            "linkFromPortIdProperty": "fid",
+                            "linkToPortIdProperty": "tid",
+                            "nodeDataArray": jsonData.nodeDataArray,
+                            "linkDataArray": jsonData.linkDataArray
+                        }
+                    }
+                    dispatch(sketchLoaded(model))
                 })
             }
         ).then(

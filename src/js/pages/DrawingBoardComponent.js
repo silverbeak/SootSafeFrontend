@@ -26,9 +26,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         modelUpdated: (incrementalUpdateJson, sketchId) => {
             dispatch(projectActions.modelUpdated(incrementalUpdateJson, sketchId))
         },
-        projectSaved: (projectData, sketchId) => {
+        projectSaved: (projectData, projectId, sketchId) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))
-            dispatch(backendActions.saveToBackend(projectData, sketchId))
+            dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
         },
         requestProjectLoad: (projectId, sketchId) => {
             dispatch(backendActions.loadFromBackend(projectId, sketchId))

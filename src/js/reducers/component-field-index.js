@@ -98,7 +98,7 @@ const mergeSingle = component => {
         case 22:
         case 23:
         case 24:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe}, { fields: _.merge({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
         default:
         return component
     }
@@ -135,4 +135,37 @@ export const changeTypeByName = component => {
         throw new Error("Bad component: " + component.type.name)
     }
     return newComponent
+}
+
+const extendSingleFieldByType = (field, name) => {
+    switch(field.type) {
+        case 'Number': 
+        field.type = Number
+        break
+        case 'String':
+        field.type = String
+        break
+        case 'Boolean':
+        field.type = Boolean
+        break
+    }
+    return field
+}
+
+export const extendFieldsByName = fields => {
+    const agg = _.reduce(fields, (aggregator, field, name) => {
+        console.log('Logging here:', field)
+        if (field.children) {
+            aggregator[field.name] = {}
+            aggregator[field.name].children = extendFieldsByName(field.children)
+            aggregator[field.name].type = Object
+        } else {
+            _.mapValues(field, (f, name) => {
+                aggregator[name] = extendSingleFieldByType(f)
+             })
+        }
+        return aggregator
+    }
+    , {})
+    return agg
 }
