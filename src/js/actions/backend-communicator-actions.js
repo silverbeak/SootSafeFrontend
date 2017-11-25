@@ -22,15 +22,39 @@ function convertNode(node) {
     if (node.fields) node.fields = convertFields(node.fields)
 }
 
-export const saveToBackend = (payload, projectId, sketchId) => {
+const sendToBackend = (payload, path, onResult) => {
     
-    const sendingDataToBackend = (data) => {
-        return {
-            type: 'SENDING_DATA_TO_BACKEND',
-            data
+        const sendingDataToBackend = (data) => {
+            return {
+                type: 'SENDING_DATA_TO_BACKEND',
+                data
+            }
         }
-    }
     
+        const createHttpPayload = payload => {
+            const payloadCopy = _.merge({}, payload)
+            _.map(payloadCopy.nodeDataArray, convertNode)
+            return JSON.stringify(payloadCopy)
+        }
+
+        return dispatch => {
+            dispatch(sendingDataToBackend(payload))
+            
+            const jsonString = createHttpPayload(payload)
+            
+            fetch(path, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                body: jsonString
+            }).then(res => onResult(res, dispatch))
+        }
+    
+    }
+
+export const saveToBackend = (payload, projectId, sketchId) => {
     const dataSaveResponseReceived = data => {
         return {
             type: 'DATA_SAVE_RESPONSE_RECEIVED',
@@ -44,32 +68,33 @@ export const saveToBackend = (payload, projectId, sketchId) => {
             code, msg, trailer
         }
     }
-    
-    const createHttpPayload = payload => {
-        const payloadCopy = _.merge({}, payload)
-        _.map(payloadCopy.nodeDataArray, convertNode)
-        return JSON.stringify(payloadCopy)
-    }
-    
-    return dispatch => {
-        dispatch(sendingDataToBackend(payload))
-        
-        const jsonString = createHttpPayload(payload)
-        
-        fetch(`http://localhost:3001/project/${projectId}/sketch/${sketchId}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'post',
-            body: jsonString
-        }).then(res => {
-            res.json().then(data => {
-                dispatch(dataSaveResponseReceived(data))
-            })
+
+    const onResult = (res, dispatch) => {
+        res.json().then(data => {
+            // console.log('Save result:', data)
+            dispatch(dataSaveResponseReceived(data))
         })
     }
-    
+
+    return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}`, onResult)
+}
+
+export const calculatePressureLoss = (payload, projectId, sketchId) => {
+
+    const pressureResultReceived = data => {
+        return {
+            type: 'PRESSURE_RESULT_RECEIVED',
+            data
+        }
+    }
+
+    const onResult = (res, dispatch) => {
+        res.json().then(data => {
+            // console.log('Calculation result:', data)
+            dispatch(pressureResultReceived(data))
+        })
+    }
+    return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
 }
 
 const convertIncomingFields = node => {

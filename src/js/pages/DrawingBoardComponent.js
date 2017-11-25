@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         projectSaved: (projectData, projectId, sketchId) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))
             dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
+            dispatch(backendActions.calculatePressureLoss(projectData, projectId, sketchId))
         },
         requestProjectLoad: (projectId, sketchId) => {
             dispatch(backendActions.loadFromBackend(projectId, sketchId))

@@ -3,10 +3,11 @@ import * as _ from '../../../node_modules/lodash/lodash'
 export const AVAILABLE_TYPES = {
     areaIncrement: { name: 'areaIncrement', label: 'Area Increment' },
     bend: { name: 'bend', label: 'Bend' },
-    firecell: { name: 'firecell', label: 'Fire Cell' },
+    fireCell: { name: 'fireCell', label: 'Fire Cell' },
     outlet: { name: 'outlet', label: 'Outlet' },
     pipe: { name: 'pipe', label: 'Pipe' },
     tpipe: { name: 'tpipe', label: 'T-Pipe' },
+    box: { name: 'box', label: 'Låda' },
 }
 
 export const SHAPE_TYPES = {
@@ -85,7 +86,7 @@ const mergeSingle = component => {
         case 1: 
         return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
         case 3:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.firecell }, { fields: _.merge({}, pressureLoss, targetCell) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, pressureLoss, targetCell) })
         case 5: 
         case 7:
         return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
@@ -109,10 +110,10 @@ export const changeTypeByName = component => {
     switch(component.type.name) {
         case 'outlet': 
         newComponent.type = AVAILABLE_TYPES.outlet
-        newComponent.fields = _.merge({}, base, pressureLoss)
+        newComponent.fields = {}
         break
-        case 'firecell':
-        newComponent.type = AVAILABLE_TYPES.firecell
+        case 'fireCell':
+        newComponent.type = AVAILABLE_TYPES.fireCell
         newComponent.fields = _.merge({}, pressureLoss, targetCell)
         break
         case 'pipe':
@@ -129,7 +130,11 @@ export const changeTypeByName = component => {
         break
         case 'areaIncrement':
         newComponent.type = AVAILABLE_TYPES.areaIncrement
-        newComponent.fields = _.merge({}, base)
+        newComponent.fields = _.merge({}, base, capacity)
+        break
+        case 'box':
+        newComponent.type = AVAILABLE_TYPES.box
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
         break
         default:
         throw new Error("Bad component: " + component.type.name)
@@ -154,7 +159,6 @@ const extendSingleFieldByType = (field, name) => {
 
 export const extendFieldsByName = fields => {
     const agg = _.reduce(fields, (aggregator, field, name) => {
-        console.log('Logging here:', field)
         if (field.children) {
             aggregator[field.name] = {}
             aggregator[field.name].children = extendFieldsByName(field.children)
