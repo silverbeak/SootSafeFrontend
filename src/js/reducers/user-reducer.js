@@ -6,7 +6,8 @@ const users = (state = initialState, action) => {
             const loggedInState = Object.assign({}, state, { user: action.user })
             return loggedInState
         case 'USER_LOGGED_OUT':
-            const loggedOutState = Object.assign({}, state, { user: null })
+            const loggedOutState = Object.assign({}, state)
+            delete loggedOutState.user
             return loggedOutState
         default: 
     }

@@ -1,15 +1,10 @@
 import React from 'react'
-import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
+import Avatar from 'material-ui/Avatar'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import {fbApp} from '../firebase/firebase'
-
-const styles = {
-    textField: {
-        marginLeft: "1em",
-        marginRight: "1em",
-        width: 200,
-    }
-}
+import PermIdentity from 'material-ui-icons/PermIdentity'
 
 class Header extends React.Component {
     
@@ -18,75 +13,65 @@ class Header extends React.Component {
         this.state = {}
     }
 
-    componentDidMount() {
-        fbApp.auth().onAuthStateChanged( user => {
-            if (user) {
-                // User logged in
-                this.props.userLoggedIn(user)
-            } else {
-                // User logged out
-                this.props.userLoggedOut()
-            }
-            this.setState({name: ''})
-            this.setState({pwd: ''})
-        })
-    }
-
-    logout() {
-        fbApp.auth().signOut()
-    }
-
-    loginBtnClick(event) {
-        fbApp.auth().signInWithEmailAndPassword(this.state.name, this.state.pwd)
-        .catch( e => console.log('Error when logging in', e))
-    }
-
     render() {
 
-        const loginFields = <span>
-            <TextField 
-                id="name"
-                label="Name"
-                style={styles.textField}
-                className="classes.textField"
-                margin="normal"
-                onChange={ event => this.setState({ name: event.target.value })}
-                value={this.state.name}
-            />
-
-            <TextField 
-                id="password"
-                label="Password"
-                type="password"
-                style={styles.textField}
-                className="classes.textField"
-                margin="normal"
-                onChange={ event => this.setState({ pwd: event.target.value })}
-                value={this.state.pwd}
-                InputLabelProps={{ shrink: true }}
-            />
-
-            <Button 
-                raised
-                onClick={this.loginBtnClick.bind(this)}>
-                Log in
-            </Button>
-        </span>
-
-        const logoutButton = <span><Button onClick={this.logout.bind(this)}>Log out</Button></span>
-
-        const loginPanel = this.props.user ? logoutButton : loginFields
         const displayName = this.props.user ? this.props.user.displayName : ''
 
+        const openUserMenu = event => {
+            this.setState({ userMenuOpen: true, anchorEl: event.currentTarget })
+        }
+
+        const closeUserMenu = event => {
+            this.setState({ userMenuOpen: false })
+        }
+
+        const logout = () => {
+            this.props.userLogoutRequested()
+            this.props.pushHistory()('/')
+        }
+
+        const menuItems = () => {
+            if (this.props.user) {
+                return(
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.anchorEl}
+                        open={this.state.userMenuOpen}
+                        onRequestClose={closeUserMenu}
+                    >
+                        <MenuItem onClick={logout}>Log out</MenuItem>
+                    </Menu>
+                )
+            } else {
+                return (
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.anchorEl}
+                        open={this.state.userMenuOpen}
+                        onRequestClose={closeUserMenu}
+                    >
+                        <MenuItem onClick={this.props.pushHistory('/login')}>Log in</MenuItem>
+                        <MenuItem onClick={this.props.pushHistory('/createAccount')}>Create account</MenuItem>
+                        <MenuItem onClick={this.props.pushHistory('/about')}>About SootSafe</MenuItem>
+                    </Menu>
+                )
+            }
+        }
+        
         return (
-            <div className="App-header">
-                <a onClick={this.props.pushHistory('/about')} >Click me</a>
+            <div className="App-header">                
+                <Button 
+                    className="right-header-button"
+                    onClick={openUserMenu}>
+                    <Avatar>
+                        <PermIdentity/>
+                    </Avatar>
+                </Button>
                 
-                <div style={{background: 'white'}}>
 
-                    {loginPanel}
-
-                </div>
+                { menuItems() }
+                { this.props.user ? this.props.user.email : '' }
+                
             </div>
         )
     }

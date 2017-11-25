@@ -12,6 +12,7 @@ import StatedSketchList from './js/components/sketch-list'
 import StatedLogin from './js/pages/LoginComponent'
 import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
+import UserComponent from './js/components/UserComponent'
 
 Store.dispatch(loadProjectIndices())
 
@@ -28,10 +29,12 @@ class App extends Component {
                             <Route exact path="/" component={StatedProjectList}/>
                             <Route path="/project/:projectId" component={StatedSketchList}/>
                             <Route path="/project/:projectId/sketch/:sketchId" component={DrawingBoard}/>
+                            <Route path="/login" component={StatedLogin}/>
                         </div>
                     </ConnectedRouter>
                     
                     <Footer />
+                    <UserComponent />
                 </div>
             </Provider>
         );
