@@ -24,6 +24,16 @@ const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
     }
 }
 
+const pressureCalculationResult = (state, action) => {
+    const stateCopy = Object.assign({}, state)
+    const nodeDataCopy = stateCopy.sketches[action.sketchId].model.nodeDataArray
+    const currentNode = _.find(nodeDataCopy, n => n.key == action.entry.key)
+    _.set(currentNode, 'calculationResult.pressure.value', action.entry.pressure)
+    _.set(currentNode, 'calculationResult.flow.value', action.entry.flow)
+    console.log(state.sketches[action.sketchId].model.nodeDataArray)
+    return stateCopy
+}
+
 const projects = (state = initialState, action) => {
     switch(action.type) {
         case 'LOAD_PROJECT_REQUEST':
@@ -55,6 +65,8 @@ const projects = (state = initialState, action) => {
             const currentNode = _.find(nodeDataCopy, n => n.key == action.partKey)
             _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy
+
+        case 'PRESSURE_CALCULATION_ENTRY_RESULT': return pressureCalculationResult(state, action)
         
         case 'MODEL_UPDATED':
             if (state.sketches[action.sketchId]) {

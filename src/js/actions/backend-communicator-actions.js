@@ -3,14 +3,14 @@ import { extendFieldsByName } from '../reducers/component-field-index'
 import * as _ from '../../../node_modules/lodash/lodash.min'
 
 const convertSingleField = (field, name) => {
-    switch(field.type) {
+    switch (field.type) {
         case Object:
-        return { 
-            type: field.type.name,
-            children: convertFields(field.children), name 
-        }
+            return {
+                type: field.type.name,
+                children: convertFields(field.children), name
+            }
         default:
-        return { [name]: Object.assign({}, field, { type: field.type.name }) }
+            return { [name]: Object.assign({}, field, { type: field.type.name }) }
     }
 }
 
@@ -23,36 +23,36 @@ function convertNode(node) {
 }
 
 const sendToBackend = (payload, path, onResult) => {
-    
-        const sendingDataToBackend = (data) => {
-            return {
-                type: 'SENDING_DATA_TO_BACKEND',
-                data
-            }
-        }
-    
-        const createHttpPayload = payload => {
-            const payloadCopy = _.merge({}, payload)
-            _.map(payloadCopy.nodeDataArray, convertNode)
-            return JSON.stringify(payloadCopy)
-        }
 
-        return dispatch => {
-            dispatch(sendingDataToBackend(payload))
-            
-            const jsonString = createHttpPayload(payload)
-            
-            fetch(path, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: jsonString
-            }).then(res => onResult(res, dispatch))
+    const sendingDataToBackend = (data) => {
+        return {
+            type: 'SENDING_DATA_TO_BACKEND',
+            data
         }
-    
     }
+
+    const createHttpPayload = payload => {
+        const payloadCopy = _.merge({}, payload)
+        _.map(payloadCopy.nodeDataArray, convertNode)
+        return JSON.stringify(payloadCopy)
+    }
+
+    return dispatch => {
+        dispatch(sendingDataToBackend(payload))
+
+        const jsonString = createHttpPayload(payload)
+
+        fetch(path, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            body: jsonString
+        }).then(res => onResult(res, dispatch))
+    }
+
+}
 
 export const saveToBackend = (payload, projectId, sketchId) => {
     const dataSaveResponseReceived = data => {
@@ -61,7 +61,7 @@ export const saveToBackend = (payload, projectId, sketchId) => {
             data
         }
     }
-    
+
     const dataSaveErrorReceived = (code, msg, trailer) => {
         return {
             type: 'DATA_SAVE_ERROR_RECEIVED',
@@ -81,17 +81,27 @@ export const saveToBackend = (payload, projectId, sketchId) => {
 
 export const calculatePressureLoss = (payload, projectId, sketchId) => {
 
-    const pressureResultReceived = data => {
-        return {
-            type: 'PRESSURE_RESULT_RECEIVED',
-            data
+    const handleCalculationResult = (dispatch, data) => {
+        dispatch({ type: 'PRESSURE_RESULT_RECEIVED', projectId, sketchId })
+        if (data.errorMessage) {
+            dispatch({
+                type: 'PRESSURE_CALCULATION_ERROR_RECEIVED',
+                message: data.errorMessage
+            })
+        } else {
+            _.forEach(data.entries, entry => {
+                dispatch({
+                    type: 'PRESSURE_CALCULATION_ENTRY_RESULT',
+                    entry, projectId, sketchId
+                })
+            })
         }
     }
 
     const onResult = (res, dispatch) => {
         res.json().then(data => {
-            // console.log('Calculation result:', data)
-            dispatch(pressureResultReceived(data))
+            console.log('Calculation result:', data)
+            handleCalculationResult(dispatch, data)
         })
     }
     return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
@@ -135,7 +145,7 @@ export const loadFromBackend = (projectId, sketchId) => {
             }
         ).then(
             data => console.log('Data', data)
-        )
+            )
     }
 }
 
@@ -149,7 +159,7 @@ export const loadProjectIndices = () => {
     }
 
     return dispatch => {
-        fetch('http://localhost:3001/project').then( opt => {
+        fetch('http://localhost:3001/project').then(opt => {
             opt.json().then(jsonData => {
                 dispatch(projectIndicesLoaded(jsonData))
             })

@@ -30,10 +30,18 @@ class InfoBox extends React.Component {
         // debugger
     }
 
+    mapCalculationResults(element) {
+        if(element && element.calculationResult) {
+            return _.map(['flow', 'pressure'], (fieldName) => {
+                return <div key={`${element.key}-${fieldName}`}> {fieldName}: {element.calculationResult[fieldName].value} </div>
+            })
+        }
+    }
+
     mapElementFields(element) {
         if (element) {
             return _.map(element.fields, (field, name) => {
-                return <SketchComponent key={field.path} field={field} name={name} onChange={this.handleStateUpdate.bind(this)} />
+                return <SketchComponent key={`${field.path}-${name}`} field={field} name={name} onChange={this.handleStateUpdate.bind(this)} />
             })
         }
     }
@@ -67,6 +75,8 @@ class InfoBox extends React.Component {
                 <br />
 
                 { this.mapElementFields(this.props.selectedPart) }
+                <br />
+                { this.mapCalculationResults(this.props.selectedPart) }
 
             </span>
         )
