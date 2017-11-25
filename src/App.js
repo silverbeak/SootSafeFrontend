@@ -1,36 +1,25 @@
-import React, { Component } from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import Header from './js/fixed/HeaderComponent';
-import Footer from './js/fixed/Footer';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk'
-import reducer from './js/reducers';
+import React, { Component } from 'react'
+// import logo from './logo.svg'
+import './App.css'
+import Header from './js/fixed/HeaderComponent'
+import Footer from './js/fixed/Footer'
+import { Provider } from 'react-redux'
+import { Store, history } from './js/reducers/store'
 import { loadProjectIndices } from './js/actions/backend-communicator-actions'
-import DrawingBoard from './js/pages/DrawingBoardComponent.js';
+import DrawingBoard from './js/pages/DrawingBoardComponent.js'
 import StatedProjectList from './js/components/project-list'
 import StatedSketchList from './js/components/sketch-list'
-
-import createHistory from 'history/createBrowserHistory'
+import StatedLogin from './js/pages/LoginComponent'
+import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
 
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
-
-// Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory()
-
-// Build the middleware for intercepting and dispatching navigation actions
-const middleware = routerMiddleware(history)
-
-const store = createStore(reducer, applyMiddleware(middleware, ReduxThunk));
-store.dispatch(loadProjectIndices())
+Store.dispatch(loadProjectIndices())
 
 
 class App extends Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={Store}>
                 <div className="App">
                     <Header/>
                     
