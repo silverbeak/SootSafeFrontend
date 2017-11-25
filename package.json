@@ -2,20 +2,18 @@
   "name": "sootsafe-app",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "react-scripts": "1.0.12"
-  },
   "dependencies": {
-    "firebase": "^4.5.0",
-    "gojs": "^1.7.21",
+    "firebase": "^4.6.2",
+    "gojs": "^1.8.2",
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.17",
-    "material-ui-icons": "^1.0.0-beta.5",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.6",
-    "redux": "^3.7.2",
+    "react-router-redux": "^5.0.0-alpha.8",
+    "react-scripts": "1.0.17",
+    "redux": "^4.0.0-beta.1",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
