@@ -5,6 +5,7 @@ import toolbox from './toolbox-reducer'
 import parts from './drawing-board-reducer'
 import projects from './project-reducer'
 import palettes from './palette-reducer'
+import notifications from './notification-reducer'
 
 export default combineReducers({
     firebase,
@@ -12,5 +13,6 @@ export default combineReducers({
     toolbox,
     parts,
     projects,
-    palettes
+    palettes,
+    notifications
 })

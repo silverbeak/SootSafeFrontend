@@ -1,6 +1,7 @@
 import ReduxThunk from 'redux-thunk'
 import { extendFieldsByName } from '../reducers/component-field-index'
 import * as _ from '../../../node_modules/lodash/lodash.min'
+import { showNotification } from './notification-actions'
 
 const convertSingleField = (field, name) => {
     switch (field.type) {
@@ -73,6 +74,7 @@ export const saveToBackend = (payload, projectId, sketchId) => {
         res.json().then(data => {
             // console.log('Save result:', data)
             dispatch(dataSaveResponseReceived(data))
+            dispatch(showNotification('Successfully saved'))
         })
     }
 
@@ -102,6 +104,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
         res.json().then(data => {
             console.log('Calculation result:', data)
             handleCalculationResult(dispatch, data)
+            dispatch(showNotification('Calculation performed'))
         })
     }
     return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
@@ -141,11 +144,12 @@ export const loadFromBackend = (projectId, sketchId) => {
                         }
                     }
                     dispatch(sketchLoaded(model))
+                    dispatch(showNotification('Project loaded'))
                 })
             }
         ).then(
             data => console.log('Data', data)
-            )
+        )
     }
 }
 
