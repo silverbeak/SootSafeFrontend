@@ -3,8 +3,9 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Avatar from 'material-ui/Avatar'
 import Menu, { MenuItem } from 'material-ui/Menu'
-import {fbApp} from '../firebase/firebase'
+import {fbApp} from '../../firebase/firebase'
 import PermIdentity from 'material-ui-icons/PermIdentity'
+import {StatedProjectMenu} from '../../components/menus/project-menu'
 
 class Header extends React.Component {
     
@@ -59,7 +60,10 @@ class Header extends React.Component {
         }
         
         return (
-            <div className="App-header">                
+            <div className="App-header">
+
+                <StatedProjectMenu />
+
                 <Button 
                     className="right-header-button"
                     onClick={openUserMenu}>

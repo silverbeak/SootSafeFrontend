@@ -2,9 +2,7 @@ import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { changeTypeByName, AVAILABLE_TYPES } from './component-field-index'
 
 const initialState = {
-    projectIndices: {
-        selectedSketch: -1
-    },
+    projectIndices: { },
     sketches: {}
 }
 

@@ -1,6 +1,6 @@
 import Header from './Header'
 import { connect } from 'react-redux'
-import { userLoggedIn, userLogoutRequested } from '../actions/login-actions'
+import { userLoggedIn, userLogoutRequested } from '../../actions/login-actions'
 import { push } from 'react-router-redux'
 
 const mapStateToProps = state => {
