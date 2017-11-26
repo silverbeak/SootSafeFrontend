@@ -1,9 +1,13 @@
 import React from 'react'
+import logo from '../../assets/images/logo.svg'
 
 class MainPage extends React.Component {
     render () {
         return (
-            <h2>Welcome to SootSafe</h2>
+            <span>
+                <h4>Welcome to</h4>
+                <img src={logo} height="75" alt="SootSafe Logo" />
+            </span>
         )
     }
 }

@@ -64,17 +64,18 @@ class Header extends React.Component {
 
                 <StatedProjectMenu />
 
-                <Button 
-                    className="right-header-button"
-                    onClick={openUserMenu}>
-                    <Avatar>
-                        <PermIdentity/>
-                    </Avatar>
-                </Button>
                 
 
-                { menuItems() }
-                { this.props.user ? this.props.user.email : '' }
+                <span className="right-user-menu">
+                    <Button
+                        onClick={openUserMenu}>
+                        <Avatar>
+                            <PermIdentity/>
+                        </Avatar>
+                    </Button>
+                    { this.props.user ? this.props.user.email : '' }
+                    { menuItems() }
+                </span>
                 
             </div>
         )

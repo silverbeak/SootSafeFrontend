@@ -20,11 +20,11 @@ class App extends Component {
     render() {
         return (
             <Provider store={Store}>
-                <div className="App">
+                <div className="App Site">
                     <Header/>
                     
                     <ConnectedRouter history={history}>
-                        <div>
+                        <div className="Site-content">
                             <Route exact path="/" component={MainPage}/>
                             <Route path="/project/:projectId/sketch/:sketchId" component={DrawingBoard}/>
                             <Route path="/login" component={StatedLogin}/>

@@ -1,6 +1,7 @@
 import React from 'react'
-import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
 import { connect } from 'react-redux'
+import Menu from 'material-ui-icons/Menu'
 import ListSubheader from 'material-ui/List/ListSubheader'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import { push } from 'react-router-redux'
@@ -8,17 +9,6 @@ import { ExpandLess, ExpandMore } from 'material-ui-icons'
 import Collapse from 'material-ui/transitions/Collapse'
 import Drawer from 'material-ui/Drawer'
 import * as _ from 'lodash'
-
-const styles = theme => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        background: theme.palette.background.paper,
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
-})
 
 class ProjectMenu extends React.Component {
 
@@ -41,7 +31,6 @@ class ProjectMenu extends React.Component {
             <ListItem
                 button
                 key={sketch.id}
-                style={styles.nested}
                 onClick={openSketch}>
                 <ListItemText inset primary={sketch.name} />
             </ListItem>
@@ -98,11 +87,11 @@ class ProjectMenu extends React.Component {
 
         return (
             <span>
-                <Button
-                    className="right-header-button"
+                <IconButton
+                    className="left-header-menu"
                     onClick={this.toggleDrawer.bind(this)}>
-                    My projects
-                </Button>
+                    <Menu style={{ color: 'white' }} />
+                </IconButton>
 
                 <Drawer open={this.state.projectDrawerOpen} onRequestClose={this.toggleDrawer.bind(this)}>
                     {menu()}
