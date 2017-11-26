@@ -1,9 +1,15 @@
 import { fbApp } from '../firebase/firebase'
+import { push } from 'react-router-redux'
 
-export const userLoggedIn = user => {
-    return {
-        type: 'USER_LOGGED_IN',
-        user
+export const userLoggedIn = (user, path = '/') => {
+    return dispatch => {
+
+        dispatch(push(path))
+
+        return {
+            type: 'USER_LOGGED_IN',
+            user
+        }
     }
 }
 
