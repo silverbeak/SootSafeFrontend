@@ -7,7 +7,8 @@ import * as backendActions from '../actions/backend-communicator-actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        urlParams: ownProps.match.params,
+        sketchId: ownProps.match.params.sketchId,
+        projectId: ownProps.match.params.projectId,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
         projects: state.projects,
