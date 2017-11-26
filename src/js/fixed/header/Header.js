@@ -3,12 +3,13 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Avatar from 'material-ui/Avatar'
 import Menu, { MenuItem } from 'material-ui/Menu'
-import {fbApp} from '../../firebase/firebase'
+import { fbApp } from '../../firebase/firebase'
 import PermIdentity from 'material-ui-icons/PermIdentity'
-import {StatedProjectMenu} from '../../components/menus/project-menu'
+import { StatedProjectMenu } from '../../components/menus/project-menu'
+import logo from '../../../assets/images/logo.svg'
 
 class Header extends React.Component {
-    
+
     constructor(props) {
         super(props)
         this.state = {}
@@ -33,7 +34,7 @@ class Header extends React.Component {
 
         const menuItems = () => {
             if (this.props.user) {
-                return(
+                return (
                     <Menu
                         id="simple-menu"
                         anchorEl={this.state.anchorEl}
@@ -58,25 +59,30 @@ class Header extends React.Component {
                 )
             }
         }
-        
+
         return (
             <div className="App-header">
 
-                <StatedProjectMenu />
+                <div className="left-hand-menu-cluster">
+                    <StatedProjectMenu className="left-header-menu" />
+                    <a href="/">
+                        <img src={logo} />
+                    </a>
+                </div>
 
-                
+
 
                 <span className="right-user-menu">
                     <Button
                         onClick={openUserMenu}>
                         <Avatar>
-                            <PermIdentity/>
+                            <PermIdentity />
                         </Avatar>
                     </Button>
-                    { this.props.user ? this.props.user.email : '' }
-                    { menuItems() }
+                    {this.props.user ? this.props.user.email : ''}
+                    {menuItems()}
                 </span>
-                
+
             </div>
         )
     }

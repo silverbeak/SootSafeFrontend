@@ -11,7 +11,7 @@ class UserComponent extends React.Component {
             console.log('Changed login status', user)
             if (user) {
                 // User logged in
-                this.props.userLoggedIn(user)
+                this.props.userLoggedIn(user, props.path)
             } else {
                 // User logged out
                 this.props.userLoggedOut()
@@ -24,12 +24,14 @@ class UserComponent extends React.Component {
     }
 }
 
-const mapStateToProps = state => { return {} }
+const mapStateToProps = (state, ownProps) => { 
+    return { path: ownProps.path }
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        userLoggedIn: user => {
-            dispatch(actions.userLoggedIn(user))
+        userLoggedIn: (user, path) => {
+            dispatch(actions.userLoggedIn(user, path))
         },
         userLoggedOut: () => {
             dispatch(actions.userLoggedOut())

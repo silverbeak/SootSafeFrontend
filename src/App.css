@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: row;
   background-color: #222;
-  height: 1.7em;
-  padding: 2em;
+  height: 4em;
+  /* padding: 2em; */
   color: white;
 }
 
@@ -30,10 +30,26 @@
   to { transform: rotate(360deg); }
 }
 
-.left-header-menu {
-  align-self: flex-start;
+.project-menu {
+  padding-left: 15em;
+  width: .5em;
+  height: .5em;
 }
 
 .right-user-menu {
   margin-left: auto;
+  padding-right: 1em;
+  padding-top: .2em;
+}
+
+.left-hand-menu-cluster {
+  padding-top: .4em;
+  padding-left: .5em;
+  padding-right: .5em;
+  /* height: 100%; */
+  background: linear-gradient( to right, lightgray, #222);
+}
+
+footer {
+  font-size: smaller;
 }

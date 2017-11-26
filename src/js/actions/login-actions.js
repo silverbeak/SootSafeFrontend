@@ -4,12 +4,9 @@ import { push } from 'react-router-redux'
 export const userLoggedIn = (user, path = '/') => {
     return dispatch => {
 
+        path = path === '/login' ? '/' : path
         dispatch(push(path))
-
-        return {
-            type: 'USER_LOGGED_IN',
-            user
-        }
+        dispatch({ type: 'USER_LOGGED_IN', user })
     }
 }
 
@@ -22,7 +19,6 @@ export const userLogoutRequested = () => {
 
 export const emailAndPasswordLoginAttempt = (name, password) => {
     return dispatch => {
-        console.log('ATTEMPTING LOGIN', name, password)
         fbApp.auth().signInWithEmailAndPassword(name, password).catch(e => {
             console.error('Could not login user', name)
         })
@@ -32,7 +28,10 @@ export const emailAndPasswordLoginAttempt = (name, password) => {
 }
 
 export const userLoggedOut = () => {
-    return { type: 'USER_LOGGED_OUT' }
+    return dispatch => { 
+        dispatch(push('/'))
+        dispatch({type: 'USER_LOGGED_OUT' })
+    }
 }
 
 export const loginFailed = error => {

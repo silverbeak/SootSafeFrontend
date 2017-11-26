@@ -88,9 +88,9 @@ class ProjectMenu extends React.Component {
         return (
             <span>
                 <IconButton
-                    className="left-header-menu"
+                    className="project-menu"
                     onClick={this.toggleDrawer.bind(this)}>
-                    <Menu style={{ color: 'white' }} />
+                    <Menu />
                 </IconButton>
 
                 <Drawer open={this.state.projectDrawerOpen} onRequestClose={this.toggleDrawer.bind(this)}>

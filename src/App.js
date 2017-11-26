@@ -32,7 +32,7 @@ class App extends Component {
                     </ConnectedRouter>
                     
                     <Footer />
-                    <UserComponent />
+                    <UserComponent path={history.location.pathname} />
                 </div>
             </Provider>
         );

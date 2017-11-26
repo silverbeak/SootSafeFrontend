@@ -28,7 +28,6 @@ const pressureCalculationResult = (state, action) => {
     const currentNode = _.find(nodeDataCopy, n => n.key == action.entry.key)
     _.set(currentNode, 'calculationResult.pressure.value', action.entry.pressure)
     _.set(currentNode, 'calculationResult.flow.value', action.entry.flow)
-    console.log(state.sketches[action.sketchId].model.nodeDataArray)
     return stateCopy
 }
 
