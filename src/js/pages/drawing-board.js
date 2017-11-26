@@ -2,6 +2,7 @@ import React from 'react'
 import go from 'gojs/release/go-debug'
 import Card, { CardContent } from 'material-ui/Card'
 import SnappingTool from '../gojs/snapping-tool'
+import Button from 'material-ui/Button'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
 import InfoBox from '../components/info-box.js'
@@ -190,7 +191,7 @@ class DrawingBoard extends React.Component {
                         <InfoBox partData={this.props.selectedPart} sketchId={this.sketchId} />
                     </Card>
                 </div>
-                <button onClick={this.save.bind(this)}>Save</button>
+                <Button onClick={this.save.bind(this)}>Save</Button>
             </div>
         )
     }
