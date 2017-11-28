@@ -49,7 +49,7 @@ class InfoBox extends React.Component {
     render() {
         window.props = this.props
         const selectedPart = this.props.selectedPart
-        if (!selectedPart.ssInfo) {
+        if (!selectedPart.fields) {
             return <span></span>
         }
         return (
