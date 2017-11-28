@@ -15,9 +15,13 @@ const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
     if (nodeKeys) {
         nodeKeys.forEach(key => {
             const newNode = _.find(nodeDataArray, n => n.key === key)
-            newNode.fields = _.merge({}, newNode.fields)
-            newNode.type = _.merge({}, newNode.type)
-            newNode.ssInfo = {}
+            if (newNode) {
+                newNode.fields = _.merge({}, newNode.fields)
+                newNode.type = _.merge({}, newNode.type)
+                newNode.ssInfo = {}
+            } else {
+                console.warn('No matching node found. This will happen once for new sketches. Disregard warning.')
+            }
         })
     }
 }
