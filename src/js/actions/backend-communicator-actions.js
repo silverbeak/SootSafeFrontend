@@ -55,6 +55,42 @@ const sendToBackend = (payload, path, onResult) => {
 
 }
 
+export const createNewProject = projectName => {
+
+    const json = { projectName }
+
+    fetch('http://localhost:3001/project', {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify(json)
+    }).then(res => {
+        console.log('New Project, Got Result', res)
+    })
+
+    return { type: 'CREATE_NEW_PROJECT_REQUEST_SENT_TO_SERVER' }
+}
+
+export const createNewSketch = (sketchName, projectId) => {
+    
+    const json = { sketchName, projectId }
+
+    fetch(`http://localhost:3001/project/${projectId}/sketch`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify(json)
+    }).then(res => {
+        console.log('New Sketch, Got Result', res)
+    })
+
+    return { type: 'CREATE_NEW_SKETCH_REQUEST_SENT_TO_SERVER' }
+}
+
 export const saveToBackend = (payload, projectId, sketchId) => {
     const dataSaveResponseReceived = data => {
         return {

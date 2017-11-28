@@ -7,8 +7,11 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import { push } from 'react-router-redux'
 import { ExpandLess, ExpandMore } from 'material-ui-icons'
 import Collapse from 'material-ui/transitions/Collapse'
+import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
+import { StatedNewProjectDialog, StatedNewSketchDialog } from '../dialogs/new-project-dialog'
 import * as _ from 'lodash'
+import * as dialogActions from '../../actions/dialog-actions';
 
 class ProjectMenu extends React.Component {
 
@@ -43,6 +46,24 @@ class ProjectMenu extends React.Component {
         this.setState({ projectsExpanded })
     }
 
+    createNewSketch(projectId) {
+        return () => {
+            this.props.createNewSketch(projectId)
+        }
+    }
+
+    createNewSketchItem(projectId) {
+        return (
+            <ListItem
+                button
+                key='newSketch'
+                onClick={this.createNewSketch(projectId)}
+            >
+                <ListItemText inset primary='Create new sketch' />
+            </ListItem>
+        )
+    }
+
     singleProject(project) {
         const sketches = _.map(project.sketches, this.generateSketchMenuItem(project.id))
 
@@ -58,6 +79,8 @@ class ProjectMenu extends React.Component {
                 {this.state.projectsExpanded[project.id] ? <ExpandLess /> : <ExpandMore />}
                 <Collapse in={this.state.projectsExpanded[project.id]} transitionDuration="auto" unmountOnExit>
                     <List disablePadding>
+                        {this.createNewSketchItem(project.id)}
+                        <Divider />
                         {sketches}
                     </List>
                 </Collapse>
@@ -65,25 +88,17 @@ class ProjectMenu extends React.Component {
         )
     }
 
-    generateMenuFromProps(projects) {
-        const items = _.map(projects, this.singleProject.bind(this))
-        return (
-            <List
-                subheader={<ListSubheader>Projects</ListSubheader>}
-                open={this.state.projectDrawerOpen}
-            >
-                {items}
-            </List>
-        )
-    }
-
     toggleDrawer = () => {
         this.setState({ projectDrawerOpen: !this.state.projectDrawerOpen })
     }
 
+    newProject() {
+        this.props.createNewProject()
+    }
+
     render() {
 
-        const menu = this.generateMenuFromProps.bind(this, this.props.projects)
+        const items = _.map(this.props.projects, this.singleProject.bind(this))
 
         return (
             <span>
@@ -94,8 +109,26 @@ class ProjectMenu extends React.Component {
                 </IconButton>
 
                 <Drawer open={this.state.projectDrawerOpen} onRequestClose={this.toggleDrawer.bind(this)}>
-                    {menu()}
+                    <List
+                        subheader={<ListSubheader>Projects</ListSubheader>}
+                        open={this.state.projectDrawerOpen}
+                    >
+                        <ListItem
+                            button
+                            key="new-project"
+                            onClick={this.newProject.bind(this)}
+                        >
+                            <ListItemText inset primary="New project" />
+                        </ListItem>
+
+                        <Divider />
+
+                        {items}
+                    </List>
                 </Drawer>
+
+                <StatedNewProjectDialog />
+                <StatedNewSketchDialog />
             </span>
         )
     }
@@ -112,6 +145,12 @@ const mapDispatchToPros = (dispatch, ownState) => {
     return {
         pushHistory: path => {
             dispatch(push(path))
+        },
+        createNewSketch: projectId => {
+            dispatch(dialogActions.createNewSketchDialog(projectId))
+        },
+        createNewProject: projectName => {
+            dispatch(dialogActions.createNewProjectDialog())
         }
     }
 }
