@@ -5,7 +5,7 @@ import SnappingTool from '../gojs/snapping-tool'
 import Button from 'material-ui/Button'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
-import InfoBox from '../components/info-box'
+import ResultBox from '../components/result-box'
 import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
@@ -143,7 +143,7 @@ class DrawingBoard extends React.Component {
                     <Card id="myDiagramDiv" style={boardStyle}></Card>
                     <div style={rightHandCards}>
                         <Card id="info-board" style={infoBoxStyle}>
-                            <InfoBox partData={this.props.selectedPart} sketchId={this.sketchId} />
+                            <ResultBox partData={this.props.selectedPart} sketchId={this.sketchId} />
                         </Card>
                         <Card style={errorBoxStyle}>
                             <StatedErrorMessageBox />

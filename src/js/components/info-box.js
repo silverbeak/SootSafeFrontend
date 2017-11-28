@@ -30,14 +30,6 @@ class InfoBox extends React.Component {
         // debugger
     }
 
-    mapCalculationResults(element) {
-        if(element && element.calculationResult) {
-            return _.map(['flow', 'pressure'], (fieldName) => {
-                return <div key={`${element.key}-${fieldName}`}> {fieldName}: {element.calculationResult[fieldName].value} </div>
-            })
-        }
-    }
-
     mapElementFields(element) {
         if (element) {
             return _.map(element.fields, (field, name) => {
@@ -75,8 +67,6 @@ class InfoBox extends React.Component {
                 <br />
 
                 { this.mapElementFields(this.props.selectedPart) }
-                <br />
-                { this.mapCalculationResults(this.props.selectedPart) }
 
             </span>
         )
