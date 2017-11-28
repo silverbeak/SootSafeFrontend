@@ -22,11 +22,12 @@ class CalculatedResultsBox extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map(['flow', 'pressure'], fieldName => {
+                    {_.map([{ fieldName: 'flow', unit: 'l/s'}, { fieldName: 'pressure', unit: 'Pa'}], fieldNameAndUnit => {
+                        const { fieldName, unit } = fieldNameAndUnit
                         return (
                             <TableRow key={`${element.key}-${fieldName}`}>
                                 <TableCell>{capitalizeFirstLetter(fieldName)}</TableCell>
-                                <TableCell>{element.calculationResult[fieldName].value}</TableCell>
+                                <TableCell>{element.calculationResult[fieldName].value.toFixed(2)} {unit}</TableCell>
                             </TableRow>
                         );
                     })}
