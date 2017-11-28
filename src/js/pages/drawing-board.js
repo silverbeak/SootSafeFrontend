@@ -5,7 +5,8 @@ import SnappingTool from '../gojs/snapping-tool'
 import Button from 'material-ui/Button'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
-import InfoBox from '../components/info-box.js'
+import InfoBox from '../components/info-box'
+import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
 const boardStyle = {
@@ -32,9 +33,20 @@ const boardAndInfoStyle = {
     paddingTop: ".4em"
 }
 
-const infoBoardStyle = {
+const infoBoxStyle = {
+    flex: 2
+}
+
+const errorBoxStyle = {
+    marginTop: ".4em",
+    flex: 1
+}
+
+const rightHandCards = {
     display: "flex",
-    flex: "1 0 0",
+    flexDirection: "column",
+    alignItems: "stretch",
+    flex: "1 1",
     marginLeft: ".4em",
     paddingLeft: ".4em",
     marginRight: ".4em",
@@ -187,9 +199,14 @@ class DrawingBoard extends React.Component {
                 <Card id="myPaletteDiv" style={paletteStyle}></Card>
                 <div id="board-and-infobox" style={boardAndInfoStyle}>
                     <Card id="myDiagramDiv" style={boardStyle}></Card>
-                    <Card id="info-board" style={infoBoardStyle}>
-                        <InfoBox partData={this.props.selectedPart} sketchId={this.sketchId} />
-                    </Card>
+                    <div style={rightHandCards}>
+                        <Card id="info-board" style={infoBoxStyle}>
+                            <InfoBox partData={this.props.selectedPart} sketchId={this.sketchId} />
+                        </Card>
+                        <Card style={errorBoxStyle}>
+                            <StatedErrorMessageBox />
+                        </Card>
+                    </div>
                 </div>
                 <Button onClick={this.save.bind(this)}>Save</Button>
             </div>

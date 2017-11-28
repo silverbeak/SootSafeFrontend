@@ -7,6 +7,7 @@ import projects from './project-reducer'
 import palettes from './palette-reducer'
 import notifications from './notification-reducer'
 import dialogs from './dialog-reducer'
+import errorMessages from './error-message-reducer'
 
 export default combineReducers({
     firebase,
@@ -16,5 +17,6 @@ export default combineReducers({
     projects,
     palettes,
     notifications,
-    dialogs
+    dialogs,
+    errorMessages
 })

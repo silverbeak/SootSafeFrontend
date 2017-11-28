@@ -110,7 +110,7 @@ export const saveToBackend = (payload, projectId, sketchId) => {
         res.json().then(data => {
             // console.log('Save result:', data)
             dispatch(dataSaveResponseReceived(data))
-            dispatch(showNotification('Successfully saved'))
+            // dispatch(showNotification('Successfully saved'))
         })
     }
 
@@ -122,11 +122,14 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
     const handleCalculationResult = (dispatch, data) => {
         dispatch({ type: 'PRESSURE_RESULT_RECEIVED', projectId, sketchId })
         if (data.errorMessage) {
+            dispatch(showNotification('Calculation could not be performed'))
             dispatch({
-                type: 'PRESSURE_CALCULATION_ERROR_RECEIVED',
+                type: 'SHOW_GENERIC_ERROR_MESSAGE',
+                title: 'Calculation unsuccessful',
                 message: data.errorMessage
             })
         } else {
+            dispatch(showNotification('Calculation performed successfully'))
             _.forEach(data.entries, entry => {
                 dispatch({
                     type: 'PRESSURE_CALCULATION_ENTRY_RESULT',
@@ -140,7 +143,6 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
         res.json().then(data => {
             console.log('Calculation result:', data)
             handleCalculationResult(dispatch, data)
-            dispatch(showNotification('Calculation performed'))
         })
     }
     return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
