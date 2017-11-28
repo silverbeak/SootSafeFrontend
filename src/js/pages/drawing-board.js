@@ -167,7 +167,7 @@ class DrawingBoard extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.state.initiated && (nextProps.projectId !== this.projectId || nextProps.sketchId !== this.sketchId)) {
+        if (this.state.initiated && (nextProps.projectId !== this.projectId || nextProps.sketchId !== this.sketchId)) {
             const { projectId, sketchId } = nextProps
             this.sketchId = sketchId
             this.projectId = projectId
