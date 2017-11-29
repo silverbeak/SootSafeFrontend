@@ -56,39 +56,72 @@ const sendToBackend = (payload, path, onResult) => {
 }
 
 export const createNewProject = projectName => {
+    return dispatch => {
+        const json = { projectName }
+    
+        const handleResponse = response => {
+            if (response.status === 200 || response.status === 201) {
+                dispatch(loadProjectIndices())
+                dispatch({
+                    type: 'NEW_PROJECT_CREATED',
+                    project: { projectName }
+                })
+            } else {
+                dispatch({
+                    type: 'PROJECT_CREATE_ERROR'
+                    // TODO: Some error message
+                })
+            }
+        }
+    
+        fetch('http://localhost:3001/project', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            body: JSON.stringify(json)
+        }).then(res => {
+            handleResponse(res)
+        })
+    
+        return { type: 'CREATE_NEW_PROJECT_REQUEST_SENT_TO_SERVER' }
+    }
 
-    const json = { projectName }
-
-    fetch('http://localhost:3001/project', {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: 'post',
-        body: JSON.stringify(json)
-    }).then(res => {
-        console.log('New Project, Got Result', res)
-    })
-
-    return { type: 'CREATE_NEW_PROJECT_REQUEST_SENT_TO_SERVER' }
 }
 
 export const createNewSketch = (sketchName, projectId) => {
+    return dispatch => {
+        const json = { sketchName, projectId }
     
-    const json = { sketchName, projectId }
+        const handleResponse = res => {
+            if (res.status === 200 || res.status === 201) {
+                dispatch(loadProjectIndices())
+                dispatch({
+                    type: 'NEW_SKETCH_CREATED',
+                    projectId, sketchName
+                })
+            } else {
+                dispatch({
+                    type: 'SKETCH_CREATE_ERROR'
+                    // TODO: Some error message
+                })
+            }
+        }
 
-    fetch(`http://localhost:3001/project/${projectId}/sketch`, {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: 'post',
-        body: JSON.stringify(json)
-    }).then(res => {
-        console.log('New Sketch, Got Result', res)
-    })
-
-    return { type: 'CREATE_NEW_SKETCH_REQUEST_SENT_TO_SERVER' }
+        fetch(`http://localhost:3001/project/${projectId}/sketch`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            body: JSON.stringify(json)
+        }).then(res => {
+            handleResponse(res)
+        })
+    
+        return { type: 'CREATE_NEW_SKETCH_REQUEST_SENT_TO_SERVER' }
+    }
 }
 
 export const saveToBackend = (payload, projectId, sketchId) => {
