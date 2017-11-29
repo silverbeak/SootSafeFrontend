@@ -49,7 +49,7 @@ class ResultBox extends React.Component {
                     </Tabs>
                 </AppBar>
 
-                { value === 0 && <TabContainer dir='rtl'><StatedInfoBox /></TabContainer> }
+                { value === 0 && <TabContainer dir='rtl'><StatedInfoBox sketchId={this.props.sketchId} /></TabContainer> }
                 { value === 1 && <TabContainer dir='rtl'><StatedCalculatedResultsBox /></TabContainer> }
                 { value === 2 && <TabContainer dir='rtl'>Errors can go here in the future</TabContainer> }
             </span>

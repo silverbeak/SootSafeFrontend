@@ -26,6 +26,21 @@ const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
     }
 }
 
+const partTypeChanged = (state, action) => {
+    const stateCopy = Object.assign({}, state)
+    const targetSketch = stateCopy.sketches[action.sketchId]
+    const nodePartsCopy = targetSketch.model.nodeDataArray
+    const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
+    _.set(nodePartsCopy[nodeIndex], action.infoKey, AVAILABLE_TYPES[action.value])
+    nodePartsCopy[nodeIndex] = changeTypeByName(nodePartsCopy[nodeIndex])
+    return stateCopy
+}
+
+const pressureCalculationError = (state, action) => {
+    // TODO: May handle errors for individual nodes here in the future
+    return state
+}
+
 const pressureCalculationResult = (state, action) => {
     const stateCopy = Object.assign({}, state)
     const nodeDataCopy = stateCopy.sketches[action.sketchId].model.nodeDataArray
@@ -52,13 +67,7 @@ const projects = (state = initialState, action) => {
         //     action.partKeys.each(key => addSootSafeInfoToNodeByKey(key, action.data.nodeDataArray))
         //     updatedCopy.sketches[action.sketchId].model = action.data
         //     return updatedCopy
-        case 'PART_TYPE_CHANGED':
-            const pcCopy = Object.assign({}, state)
-            const nodePartsCopy = pcCopy.sketches[action.sketchId].model.nodeDataArray
-            const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
-            _.set(nodePartsCopy[nodeIndex], action.infoKey, AVAILABLE_TYPES[action.value])
-            nodePartsCopy[nodeIndex] = changeTypeByName(nodePartsCopy[nodeIndex])
-            return pcCopy
+        case 'PART_TYPE_CHANGED': return partTypeChanged(state, action)
 
         case 'PART_INFO_UPDATED':
             const piCopy = Object.assign({}, state)
@@ -68,6 +77,8 @@ const projects = (state = initialState, action) => {
             return piCopy
 
         case 'PRESSURE_CALCULATION_ENTRY_RESULT': return pressureCalculationResult(state, action)
+
+        case 'PRESSURE_CALCULATION_ERROR_RECEIVED': return pressureCalculationError(state, action)
         
         case 'MODEL_UPDATED':
             if (state.sketches[action.sketchId]) {
