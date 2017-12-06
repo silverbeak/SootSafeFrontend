@@ -10,28 +10,30 @@ import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
 
-const boardStyle = {
-    height: "45em",
+const boardContainerStyle = {
     display: "flex",
-    flex: "3 0 0"
+    flex: 1,
+    flexDirection: "column",
+    alignContent: 'stretch'
+    // justifyContent: "flex-start"
 }
 
 const paletteStyle = {
-    height: "160px",
+    flex: 1,
     margin: ".4em"
 }
 
-const boardContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start"
-}
-
 const boardAndInfoStyle = {
+    flex: 5,
     display: "flex",
     flexDirection: "row",
     paddingLeft: ".4em",
     paddingTop: ".4em"
+}
+
+const boardStyle = {
+    display: "flex",
+    flex: "3 0 0"
 }
 
 const infoBoxStyle = {

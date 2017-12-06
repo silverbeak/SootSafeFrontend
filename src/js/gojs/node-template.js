@@ -50,11 +50,11 @@ export const createNodeTemplate = (treeDefinition, onSelectionChanged) => {
             // the following are default values;
             // actual values may come from the node data object via data binding
             geometryString: "F1 M0 0 L40 0 20 20 0 20 z",
-            fill: "rgba(128, 128, 0, 0.5)"
+            fill: "rgba(128, 128, 128, 0.5)"
         },
             // this determines the actual shape of the Shape
             new go.Binding("geometryString", "geo"),
             // selection causes the stroke to be blue instead of black
-            new go.Binding("stroke", "isSelected", function (s) { return s ? "dodgerblue" : "black"; }).ofObject())
+            new go.Binding("stroke", "isSelected", function (s) { return s ? "#ee4b28" : "black"; }).ofObject())
     );
 }

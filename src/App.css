@@ -22,7 +22,9 @@
 }
 
 .Site-content {
+  display: flex;
   flex: 1;
+  justify-content: center;
 }
 
 @keyframes App-logo-spin {
