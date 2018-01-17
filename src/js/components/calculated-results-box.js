@@ -22,12 +22,12 @@ class CalculatedResultsBox extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {_.map([{ fieldName: 'flow', unit: 'l/s'}, { fieldName: 'pressure', unit: 'Pa'}], fieldNameAndUnit => {
+                    {_.map(this.props.fieldNamesAndUnits, fieldNameAndUnit => {
                         const { fieldName, unit } = fieldNameAndUnit
                         return (
                             <TableRow key={`${element.key}-${fieldName}`}>
                                 <TableCell>{capitalizeFirstLetter(fieldName)}</TableCell>
-                                <TableCell>{element.calculationResult[fieldName].value.toFixed(2)} {unit}</TableCell>
+                                <TableCell>{element.calculationResult[fieldName].toFixed(2)} {unit}</TableCell>
                             </TableRow>
                         );
                     })}
@@ -47,7 +47,17 @@ class CalculatedResultsBox extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        selectedPart: state.parts.selectedPart
+        selectedPart: state.parts.selectedPart,
+        fieldNamesAndUnits: [
+            { fieldName: 'addedFireFlow', unit: 'l/s' },
+            { fieldName: 'firePressureDifference', unit: 'Pa' },
+            { fieldName: 'aggregatedRegularFlow', unit: 'l/s' },
+            { fieldName: 'pointRegularPressure', unit: 'Pa' },
+            { fieldName: 'addedRegularFlow', unit: 'l/s' },
+            { fieldName: 'aggregatedFireFlow', unit: 'l/s' },
+            { fieldName: 'pointFirePressure', unit: 'Pa' },
+            { fieldName: 'regularPressureDifference', unit: 'Pa' }
+        ]
     }
 }
 

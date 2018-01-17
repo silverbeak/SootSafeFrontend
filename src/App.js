@@ -13,6 +13,7 @@ import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
 import { StatedNotifier } from './js/components/notifier'
+import { StatedResultTable } from './js/components/result-table'
 
 Store.dispatch(loadProjectIndices())
 
@@ -27,7 +28,8 @@ class App extends Component {
                     <ConnectedRouter history={history}>
                         <div className="Site-content">
                             <Route exact path="/" component={MainPage} />
-                            <Route path="/project/:projectId/sketch/:sketchId" component={DrawingBoard} />
+                            <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
+                            <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} />
                             <Route path="/login" component={StatedLogin} />
                         </div>
                     </ConnectedRouter>

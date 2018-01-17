@@ -178,6 +178,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
             handleCalculationResult(dispatch, data)
         })
     }
+    payload.targetFirePressure = 1000
     return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
 }
 

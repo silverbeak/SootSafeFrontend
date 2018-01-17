@@ -27,7 +27,7 @@ class ProjectMenu extends React.Component {
 
         const openSketch = () => {
             this.setState({ projectDrawerOpen: false })
-            this.props.pushHistory(`/project/${projectId}/sketch/${sketch.id}`)
+            this.props.pushHistory(`/project/${projectId}/sketch/${sketch.id}/board`)
         }
 
         return (
