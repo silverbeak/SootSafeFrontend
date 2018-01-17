@@ -77,7 +77,7 @@ class ProjectMenu extends React.Component {
             >
                 <ListItemText inset primary={project.name} />
                 {this.state.projectsExpanded[project.id] ? <ExpandLess /> : <ExpandMore />}
-                <Collapse in={this.state.projectsExpanded[project.id]} transitionDuration="auto" unmountOnExit>
+                <Collapse in={this.state.projectsExpanded[project.id]} unmountOnExit>
                     <List disablePadding>
                         {this.createNewSketchItem(project.id)}
                         <Divider />
