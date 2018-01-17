@@ -28,8 +28,9 @@ class NewProjectDialog extends React.Component {
     }
 
     render() {
+        const open = this.props.open || false
         return <Dialog
-            open={this.props.open}
+            open={open}
             onRequestClose={this.handleRequestClose.bind(this)}
         >
             <DialogTitle>{this.props.title}</DialogTitle>

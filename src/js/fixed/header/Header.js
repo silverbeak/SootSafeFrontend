@@ -33,12 +33,13 @@ class Header extends React.Component {
         }
 
         const menuItems = () => {
+            const open = this.state.userMenuOpen || false
             if (this.props.user) {
                 return (
                     <Menu
                         id="simple-menu"
                         anchorEl={this.state.anchorEl}
-                        open={this.state.userMenuOpen}
+                        open={open}
                         onRequestClose={closeUserMenu}
                     >
                         <MenuItem onClick={logout}>Log out</MenuItem>
@@ -49,7 +50,7 @@ class Header extends React.Component {
                     <Menu
                         id="simple-menu"
                         anchorEl={this.state.anchorEl}
-                        open={this.state.userMenuOpen}
+                        open={open}
                         onRequestClose={closeUserMenu}
                     >
                         <MenuItem onClick={this.props.pushHistory('/login')}>Log in</MenuItem>
