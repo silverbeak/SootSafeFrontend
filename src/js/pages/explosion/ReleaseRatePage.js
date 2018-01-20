@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../../style/Rtable.css'
 import { connect } from 'react-redux'
 import { withStyles } from 'material-ui/styles'
 import * as actions from '../../actions/explosion/releaserate-actions'
@@ -9,6 +10,7 @@ import GasOrLiquidStep from './GasOrLiquidStep'
 import ReleaseRateStep from './ReleaseRateStep'
 import PoolStep from './PoolStep'
 import ParameterStep from './ParameterStep'
+import CalculateStep from './CalculateStep'
 
 class ReleaseRatePage extends React.Component {
 
@@ -16,21 +18,14 @@ class ReleaseRatePage extends React.Component {
         super(props)
         this.state = {
             steps: ['Liquid/Gas', 'Release rate', 'Source', 'Parameters', 'Calculate'],
-            activeStep: 3,
+            activeStep: 0,
             completed: [],
-            stepDescriptions: [
-                'Is the leakage liquid or gas?',
-                'Will the release rate need to be calculated?',
-                'Will evaporation be from pool?',
-                'Collecting data',
-                'Verify data and calculate'
-            ],
             stepRenderers: [
                 GasOrLiquidStep,
                 ReleaseRateStep,
                 PoolStep,
                 ParameterStep,
-                ReleaseRateStep
+                CalculateStep
             ]
         }
     }
@@ -52,10 +47,6 @@ class ReleaseRatePage extends React.Component {
         console.log('Resetting')
     }
 
-    getStepContent(index) {
-        return this.state.stepDescriptions[index]
-    }
-
     handleBack = () => {
         this.setState({ activeStep: this.state.activeStep - 1 })
     }
@@ -69,7 +60,34 @@ class ReleaseRatePage extends React.Component {
     }
 
     render() {
-        const {classes} = this.props
+        const { classes } = this.props
+
+        const navigatorBar = (
+            <div className="stepper-details">
+                {this.state.activeStep === this.state.steps.length ? (
+                    <div>
+                        <Typography className={classes.instructions}>
+                            All steps completed
+                    </Typography>
+                        <Button onClick={this.handleReset}>Reset</Button>
+                    </div>
+                ) : (
+                        <div>
+                            <div>
+                                <Button
+                                    disabled={this.state.activeStep === 0}
+                                    onClick={this.handleBack}
+                                    className={classes.backButton}>
+                                    Back
+                                </Button>
+                                <Button raised color="primary" onClick={this.handleNext}>
+                                    {this.state.activeStep === this.state.steps.length - 1 ? 'Finish' : 'Next'}
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+            </div>)
+
         return (
             <div className="stepper-page">
                 <div>
@@ -89,38 +107,13 @@ class ReleaseRatePage extends React.Component {
                             );
                         })}
                     </Stepper>
-
-                    <div className="stepper-details">
-                        {this.state.activeStep === this.state.steps.length ? (
-                            <div>
-                                <Typography className={classes.instructions}>
-                                    All steps completed
-                                </Typography>
-                                <Button onClick={this.handleReset}>Reset</Button>
-                            </div>
-                        ) : (
-                                <div>
-                                    <Typography className={classes.instructions}>
-                                        {this.getStepContent(this.state.activeStep)}
-                                    </Typography>
-                                    <div>
-                                        <Button
-                                            disabled={this.state.activeStep === 0}
-                                            onClick={this.handleBack}
-                                            className={classes.backButton}>
-                                            Back
-                                        </Button>
-                                        <Button raised color="primary" onClick={this.handleNext}>
-                                            {this.state.activeStep === this.state.steps.length - 1 ? 'Finish' : 'Next'}
-                                        </Button>
-                                    </div>
-                                </div>
-                            )}
-                    </div>
                 </div>
 
-                <br />
+                {navigatorBar}
+
                 {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props)}
+
+                {navigatorBar}
             </div>
         )
     }
