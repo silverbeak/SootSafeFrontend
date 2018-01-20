@@ -14,6 +14,7 @@ import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
 import { StatedNotifier } from './js/components/notifier'
 import { StatedResultTable } from './js/components/result-table'
+import ReleaseRatePage from './js/pages/explosion/ReleaseRatePage'
 
 Store.dispatch(loadProjectIndices())
 
@@ -30,6 +31,7 @@ class App extends Component {
                             <Route exact path="/" component={MainPage} />
                             <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
                             <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} />
+                            <Route path="/releaserate/start" component={ReleaseRatePage} />
                             <Route path="/login" component={StatedLogin} />
                         </div>
                     </ConnectedRouter>

@@ -8,6 +8,7 @@ import palettes from './palette-reducer'
 import notifications from './notification-reducer'
 import dialogs from './dialog-reducer'
 import errorMessages from './error-message-reducer'
+import releaseRate from './explosion/releaserate-reducer'
 
 export default combineReducers({
     firebase,
@@ -18,5 +19,6 @@ export default combineReducers({
     palettes,
     notifications,
     dialogs,
-    errorMessages
+    errorMessages,
+    releaseRate
 })

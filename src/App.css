@@ -55,3 +55,18 @@
 footer {
   font-size: smaller;
 }
+
+.stepper-page {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.stepper-details {
+  background: lightgray;
+  padding: 1em;
+}
+
+.field-and-unit {
+  
+}
