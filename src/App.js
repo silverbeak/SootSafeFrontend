@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import logo from './logo.svg'
-import './App.css'
+import './style/App.css'
 import Header from './js/fixed/header/HeaderComponent'
 import Footer from './js/fixed/footer/Footer'
 import { Provider } from 'react-redux'
