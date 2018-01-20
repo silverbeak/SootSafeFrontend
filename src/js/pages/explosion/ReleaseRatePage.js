@@ -52,7 +52,12 @@ class ReleaseRatePage extends React.Component {
     }
 
     handleNext = () => {
-        this.setState({ activeStep: this.state.activeStep + 1 })
+        if (this.state.activeStep === this.state.steps.length - 1) {
+            // We are finished. Send to backend...
+            this.props.submitRequest(this.props.fields)
+        } else {
+            this.setState({ activeStep: this.state.activeStep + 1 })
+        }
     }
 
     getStep = (index) => {
@@ -99,7 +104,7 @@ class ReleaseRatePage extends React.Component {
                             return (
                                 <Step key={label}>
                                     <StepButton
-                                        onClick={() => this.handleStep(index)}
+                                        // onClick={() => this.handleStep(index)}
                                         completed={this.state.completed[index]}>
                                         {label}
                                     </StepButton>
@@ -130,6 +135,9 @@ const mapDispatchToProps = dispatch => {
     return {
         valueUpdated: (fieldName, value) => {
             dispatch(actions.fieldValueUpdated(fieldName, value))
+        },
+        submitRequest: fields => {
+            dispatch(actions.submitReleaseRateCalculationRequest(fields))
         }
     }
 }
