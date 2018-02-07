@@ -13,9 +13,12 @@ var config = {
 
 const firebaseApp = firebase.initializeApp(config)
 const firebaseDatabase = firebase.firestore()
+const firebaseStorage = firebase.storage()
 
 export const fbApp = firebaseApp
     // .database()
     // .ref();
 
 export const db = firebaseDatabase
+
+export const storage = firebaseStorage
