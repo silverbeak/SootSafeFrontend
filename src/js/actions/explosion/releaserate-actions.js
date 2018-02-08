@@ -9,6 +9,12 @@ export const fieldValueUpdated = (fieldName, value) => {
     }
 }
 
+export const elementUpdated = value => {
+    return {
+        type: 'RR_ELEMENT_VALUE_UPDATED',
+        value
+    }
+}
 
 export const submitReleaseRateCalculationRequest = fieldValues => {
     return (dispatch, getState) => {

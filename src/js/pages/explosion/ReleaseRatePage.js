@@ -6,25 +6,33 @@ import * as actions from '../../actions/explosion/releaserate-actions'
 import Stepper, { Step, StepButton } from 'material-ui/Stepper'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+import ElementStep from './ElementStep'
 import GasOrLiquidStep from './GasOrLiquidStep'
 import ReleaseRateStep from './ReleaseRateStep'
 import PoolStep from './PoolStep'
 import ParameterStep from './ParameterStep'
 import CalculateStep from './CalculateStep'
+import IndoorOutdoorStep from './IndoorOutdoorStep'
+import VentilationVelocityStep from './VentilationVelocityStep'
+import BackgroundConcentrationStep from './BackgroundConcentrationStep'
 
 class ReleaseRatePage extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            steps: ['Liquid/Gas', 'Release rate', 'Source', 'Parameters', 'Calculate'],
+            steps: ['Element', 'Liquid/Gas', 'Release rate', 'Source', 'Parameters', 'Environment', 'Ventilation velocity', 'Background concentration', 'Calculate'],
             activeStep: 0,
             completed: [],
             stepRenderers: [
+                ElementStep,
                 GasOrLiquidStep,
                 ReleaseRateStep,
                 PoolStep,
                 ParameterStep,
+                IndoorOutdoorStep,
+                VentilationVelocityStep,
+                BackgroundConcentrationStep,
                 CalculateStep
             ]
         }
@@ -127,7 +135,8 @@ class ReleaseRatePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        fields: state.releaseRate.fields
+        fields: state.releaseRate.fields,
+        gasList: state.releaseRate.gasList
     }
 }
 
@@ -135,6 +144,9 @@ const mapDispatchToProps = dispatch => {
     return {
         valueUpdated: (fieldName, value) => {
             dispatch(actions.fieldValueUpdated(fieldName, value))
+        },
+        elementUpdated: e => {
+            dispatch(actions.elementUpdated(e.target.value))
         },
         submitRequest: fields => {
             dispatch(actions.submitReleaseRateCalculationRequest(fields))
