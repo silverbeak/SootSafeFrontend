@@ -15,6 +15,7 @@ import CalculateStep from './CalculateStep'
 import IndoorOutdoorStep from './IndoorOutdoorStep'
 import VentilationVelocityStep from './VentilationVelocityStep'
 import ZoneTypeStep from './ZoneTypeStep'
+import ReleaseGradeStep from './ReleaseGradeStep'
 
 class ReleaseRatePage extends React.Component {
 
@@ -30,6 +31,7 @@ class ReleaseRatePage extends React.Component {
                 'Parameters',
                 'Ventilation velocity',
                 'Zone type',
+                'Release grade',
                 'Calculate'
             ],
             activeStep: 0,
@@ -43,6 +45,7 @@ class ReleaseRatePage extends React.Component {
                 ParameterStep,
                 VentilationVelocityStep,
                 ZoneTypeStep,
+                ReleaseGradeStep,
                 CalculateStep
             ]
         }
