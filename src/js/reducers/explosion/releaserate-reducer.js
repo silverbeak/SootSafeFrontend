@@ -45,7 +45,9 @@ const initialReleaseRateState = {
         airChangeFrequency: 0,
         roomVolume: 0,
         openingCrossSection: 0,
-        mixingSafetyFactor: 1
+        mixingSafetyFactor: 1,
+
+        zoneType: 0
     },
     gasList
 }
