@@ -16,10 +16,10 @@ const initialReleaseRateState = {
 
         volumetricGasFlowRate: 0,
         safetyFactor: 0.25,
-        lowerFlammableLimit: 0,
+        lowerFlammableLimit: gasList[0].explosionLimit.volume.LFL,
         massReleaseRate: 0,
-        molarMass: 0,
-        gasDensity: 0,
+        molarMass: gasList[0].gasDensity,
+        gasDensity: gasList[0].molarMass,
         dischargeCoefficient: 0,
         crossSectionArea: 0,
         pressureDifference: 0,
@@ -38,7 +38,14 @@ const initialReleaseRateState = {
         ventilationVelocity: 0,
 
         backgroundConcentration: 'greater',
-        element: '1333-74-0'
+        element: gasList[0].CASnr,
+
+        backgroundConcentration: 0,
+        airEnteringRoomFlowRate: 0,
+        airChangeFrequency: 0,
+        roomVolume: 0,
+        openingCrossSection: 0,
+        mixingSafetyFactor: 1
     },
     gasList
 }
@@ -57,7 +64,7 @@ const releaseRate = (state = initialReleaseRateState, action) => {
             elementStateCopy.fields.element = action.value
             elementStateCopy.fields.lowerFlammableLimit = element.explosionLimit.volume.LFL
             elementStateCopy.fields.gasDensity = element.gasDensity
-            elementStateCopy.fields.molarMass = element.molarMass            
+            elementStateCopy.fields.molarMass = element.molarMass
             
             return elementStateCopy
 

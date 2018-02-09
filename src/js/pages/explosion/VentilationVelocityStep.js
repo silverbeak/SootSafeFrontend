@@ -14,11 +14,11 @@ const ventilationVelocityStep = (handleChange, props) => {
             <FormControl component="fieldset" required className={classes.formControl}>
                 <FormLabel component="legend">Location</FormLabel>
                 <RadioGroup
-                    aria-label="obstructedarea"
-                    name="obstructedarea"
+                    aria-label="obstructedorunobstructed"
+                    name="obstructedorunobstructed"
                     className={classes.group}
-                    value={props.fields.obstructedArea}
-                    onChange={handleChange('obstructedArea')}
+                    value={props.fields.obstructedOrUnobstructed}
+                    onChange={handleChange('obstructedOrUnobstructed')}
                 >
                     <FormControlLabel value="obstructed" control={<Radio />} label="Obstructed" />
                     <FormControlLabel value="unobstructed" control={<Radio />} label="Unobstructed" />

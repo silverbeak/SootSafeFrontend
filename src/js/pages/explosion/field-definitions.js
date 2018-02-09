@@ -73,6 +73,26 @@ export const fieldDefinitions = [
         names.COMPRESSIBILITY_FACTOR,
         () => 'Z',
         () => <i>no unit</i>
+    ],[
+        names.AIR_ENTERING_ROOM_FLOW_RATE,
+        () => <span>Q<sub>1</sub></span>,
+        () => <span>m<sup>3</sup>/s</span>
+    ],[
+        names.AIR_CHANGE_FREQUENCY,
+        () => 'C',
+        () => <span>s<sup>-1</sup></span>
+    ],[
+        names.ROOM_VOLUME,
+        () => <span>V<sub>0</sub></span>,
+        () => <span>m<sup>3</sup></span>
+    ],[
+        names.OPENING_CROSS_SECTION,
+        () => 'S',
+        () => <span>m<sup>2</sup></span>
+    ],[
+        names.MIXING_SAFETY_FACTOR,
+        () => <i>f </i>,
+        () => <i>no unit</i>
     ]
 ]
 
@@ -81,9 +101,11 @@ export const filterFields = (definitions, fieldValues) => {
     const isGasCalculation = fieldValues.liquidOrGas === 'gas'
     const hasReleaseRateInKgPerSecond = fieldValues.releaseRateInKgPerSecond === 'yes'
     const isEvaporationFromPool = fieldValues.poolLeakage === 'yes'
+    
+    const backgroundConcentration = fieldValues.indoorOutdoor === 'indoors' ? [names.AIR_ENTERING_ROOM_FLOW_RATE, names.AIR_CHANGE_FREQUENCY, names.ROOM_VOLUME, names.OPENING_CROSS_SECTION, names.MIXING_SAFETY_FACTOR] : []
 
     const namesForSelectedValues = () => {
-        const base = [names.VOLUMETRIC_GAS_FLOW_RATE, names.SAFETY_FACTOR, names.LOWER_FLAMMABLE_LIMIT]
+        const base = [names.VOLUMETRIC_GAS_FLOW_RATE, names.SAFETY_FACTOR, names.LOWER_FLAMMABLE_LIMIT, names.BACKGROUND_CONCENTRATION]
         const baseAndB5 = base.concat([names.MASS_RELEASE_RATE, names.MOLAR_MASS, names.GAS_DENSITY])
         if (!performReleaseCalculation && isGasCalculation && !hasReleaseRateInKgPerSecond) {
             return base
@@ -102,7 +124,8 @@ export const filterFields = (definitions, fieldValues) => {
         }
     }
 
-    return _.intersectionWith(definitions, namesForSelectedValues(), (def, name) => def[0] === name)
+    const nameCollection = backgroundConcentration.concat(namesForSelectedValues())
+    return _.intersectionWith(definitions, nameCollection, (def, name) => def[0] === name)
 }
 
 export const ccToDisplayString = str => {

@@ -7,7 +7,7 @@ const gasOrLiquidStep = (handleChange, props) => {
     return (
         <div>
             <FormControl component="fieldset" required className={classes.formControl}>
-                <FormLabel component="legend">What is the leakage form?</FormLabel>
+                <FormLabel component="legend">What is the primary leakage state?</FormLabel>
                 <RadioGroup
                     aria-label="gasorliquid"
                     name="gasorliquid"

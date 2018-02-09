@@ -14,14 +14,22 @@ import ParameterStep from './ParameterStep'
 import CalculateStep from './CalculateStep'
 import IndoorOutdoorStep from './IndoorOutdoorStep'
 import VentilationVelocityStep from './VentilationVelocityStep'
-import BackgroundConcentrationStep from './BackgroundConcentrationStep'
 
 class ReleaseRatePage extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            steps: ['Element', 'Liquid/Gas', 'Release rate', 'Source', 'Parameters', 'Environment', 'Ventilation velocity', 'Background concentration', 'Calculate'],
+            steps: [
+                'Element', 
+                'Primary state', 
+                'Release rate', 
+                'Source', 
+                'Environment', 
+                'Parameters',
+                'Ventilation velocity',
+                'Calculate'
+            ],
             activeStep: 0,
             completed: [],
             stepRenderers: [
@@ -29,10 +37,9 @@ class ReleaseRatePage extends React.Component {
                 GasOrLiquidStep,
                 ReleaseRateStep,
                 PoolStep,
-                ParameterStep,
                 IndoorOutdoorStep,
+                ParameterStep,
                 VentilationVelocityStep,
-                BackgroundConcentrationStep,
                 CalculateStep
             ]
         }
