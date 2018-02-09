@@ -48,7 +48,8 @@ const initialReleaseRateState = {
         mixingSafetyFactor: 1,
 
         zoneType: '0',
-        releaseGrade: 'A'
+        releaseGrade: 'A',
+        releaseType: '0'
     },
     gasList
 }
