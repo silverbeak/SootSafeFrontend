@@ -47,8 +47,7 @@ const initialReleaseRateState = {
         openingCrossSection: 0,
         mixingSafetyFactor: 1,
 
-        releaseGrade: 'A',
-        releaseType: '0'
+        releaseGrade: 'primary'
     },
     gasList
 }
