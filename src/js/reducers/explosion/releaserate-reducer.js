@@ -36,8 +36,8 @@ const initialReleaseRateState = {
         obstructedOrUnobstructed: 'unobstructed',
         elevation: 1,
         ventilationVelocity: 0,
+        ventilationAvailability: 'good',
 
-        backgroundConcentration: 'greater',
         element: gasList[0].CASnr,
 
         backgroundConcentration: 0,
@@ -47,7 +47,6 @@ const initialReleaseRateState = {
         openingCrossSection: 0,
         mixingSafetyFactor: 1,
 
-        zoneType: '0',
         releaseGrade: 'A',
         releaseType: '0'
     },

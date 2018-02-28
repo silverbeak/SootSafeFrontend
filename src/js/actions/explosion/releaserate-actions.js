@@ -22,8 +22,19 @@ export const submitReleaseRateCalculationRequest = fieldValues => {
         const isGasCalculation = fieldValues.liquidOrGas === 'gas'
         const hasReleaseRateInKgPerSecond = fieldValues.releaseRateInKgPerSecond === 'yes'
         const isEvaporationFromPool = fieldValues.poolLeakage === 'yes'
+        const isIndoor = fieldValues.indoorOutdoor === 'indoors'
+        const isObstructed = fieldValues.obstructedOrUnobstructed === 'obstructed'
 
-        const properData = _.merge({}, fieldValues, {performReleaseCalculation, isGasCalculation, hasReleaseRateInKgPerSecond, isEvaporationFromPool})
+        const booleanCollection = {
+            performReleaseCalculation,
+            isGasCalculation,
+            hasReleaseRateInKgPerSecond,
+            isEvaporationFromPool,
+            isIndoor,
+            isObstructed
+        }
+
+        const properData = _.merge({}, fieldValues, booleanCollection)
 
         dispatch(firebaseActions.submitReleaseRateCalculation(properData))
     }
