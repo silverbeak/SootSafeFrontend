@@ -108,7 +108,7 @@ class ProjectMenu extends React.Component {
                     <Menu />
                 </IconButton>
 
-                <Drawer open={this.state.projectDrawerOpen} onRequestClose={this.toggleDrawer.bind(this)}>
+                <Drawer open={this.state.projectDrawerOpen} onClose={this.toggleDrawer.bind(this)}>
                     <List
                         subheader={<ListSubheader>Projects</ListSubheader>}
                         open={this.state.projectDrawerOpen}

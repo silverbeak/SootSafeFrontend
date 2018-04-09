@@ -40,7 +40,7 @@ class Header extends React.Component {
                         id="simple-menu"
                         anchorEl={this.state.anchorEl}
                         open={open}
-                        onRequestClose={closeUserMenu}
+                        onClose={closeUserMenu}
                     >
                         <MenuItem onClick={logout}>Log out</MenuItem>
                     </Menu>
@@ -51,7 +51,7 @@ class Header extends React.Component {
                         id="simple-menu"
                         anchorEl={this.state.anchorEl}
                         open={open}
-                        onRequestClose={closeUserMenu}
+                        onClose={closeUserMenu}
                     >
                         <MenuItem onClick={this.props.pushHistory('/login')}>Log in</MenuItem>
                         <MenuItem onClick={this.props.pushHistory('/createAccount')}>Create account</MenuItem>
