@@ -6,6 +6,8 @@ import { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
 
+import * as _ from '../../../../node_modules/lodash/lodash.min'
+
 const ventilationVelocityStep = (handleChange, props) => {
     const { classes } = props
 
@@ -14,20 +16,20 @@ const ventilationVelocityStep = (handleChange, props) => {
             <FormControl component="fieldset" required className={classes.formControl}>
                 <FormLabel component="legend">Location</FormLabel>
                 <RadioGroup
-                    aria-label="obstructedorunobstructed"
-                    name="obstructedorunobstructed"
+                    aria-label="obstructed"
+                    name="obstructed"
                     className={classes.group}
-                    value={props.fields.obstructedOrUnobstructed}
-                    onChange={handleChange('obstructedOrUnobstructed')}
+                    value={_.get(props.fields, 'ventilationVelocityValues.obstructed')}
+                    onChange={handleChange('obstructed')}
                 >
-                    <FormControlLabel value="obstructed" control={<Radio />} label="Obstructed" />
-                    <FormControlLabel value="unobstructed" control={<Radio />} label="Unobstructed" />
+                    <FormControlLabel value="Obstructed" control={<Radio />} label="Obstructed" />
+                    <FormControlLabel value="Unobstructed" control={<Radio />} label="Unobstructed" />
                 </RadioGroup>
 
 
                 <FormLabel component="legend">Elevation from ground level</FormLabel>
                 <Select
-                    value={props.fields.elevation}
+                    value={_.get(props.fields, 'ventilationVelocityValues.elevation')}
                     onChange={handleChange('elevation')}
                     inputProps={{
                         name: 'elevation',

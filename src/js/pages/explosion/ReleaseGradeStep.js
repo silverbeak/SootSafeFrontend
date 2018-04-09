@@ -10,15 +10,15 @@ const releaseGradeStep = (handleChange, props) => {
             <FormControl component="fieldset" required className={classes.formControl}>
                 <FormLabel component="legend">Release grade</FormLabel>
                 <RadioGroup
-                    aria-label="releaseGrade"
-                    name="releaseGrade"
+                    aria-label="gradeOfRelease"
+                    name="gradeOfRelease"
                     className={classes.group}
-                    value={props.fields.releaseGrade}
-                    onChange={handleChange('releaseGrade')}
+                    value={props.fields.gradeOfRelease}
+                    onChange={handleChange('gradeOfRelease')}
                 >
-                    <FormControlLabel value='primary' control={<Radio />} label='Primary' />
-                    <FormControlLabel value='secondary' control={<Radio />} label='Secondary' />
-                    <FormControlLabel value='continuous' control={<Radio />} label='Continuous' />
+                    <FormControlLabel value='Primary' control={<Radio />} label='Primary' />
+                    <FormControlLabel value='Secondary' control={<Radio />} label='Secondary' />
+                    <FormControlLabel value='Continuous' control={<Radio />} label='Continuous' />
                 </RadioGroup>
             </FormControl>
         </div>

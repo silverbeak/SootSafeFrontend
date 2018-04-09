@@ -16,9 +16,9 @@ const ventilationAvailabilityStep = (handleChange, props) => {
                     value={props.fields.ventilationAvailability}
                     onChange={handleChange('ventilationAvailability')}
                 >
-                    <FormControlLabel value="good" control={<Radio />} label="Good" />
-                    <FormControlLabel value="fair" control={<Radio />} label="Fair" />
-                    <FormControlLabel value="poor" control={<Radio />} label="Poor" />
+                    <FormControlLabel value="Good" control={<Radio />} label="Good" />
+                    <FormControlLabel value="Fair" control={<Radio />} label="Fair" />
+                    <FormControlLabel value="Poor" control={<Radio />} label="Poor" />
                 </RadioGroup>
             </FormControl>
         </div>

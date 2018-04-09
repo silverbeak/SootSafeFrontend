@@ -15,9 +15,9 @@ const releaseTypeStep = (handleChange, props) => {
                     value={props.fields.releaseType}
                     onChange={handleChange('releaseType')}
                 >
-                    <FormControlLabel value="0" control={<Radio />} label="Unimpeded jet with high velocity" />
-                    <FormControlLabel value="1" control={<Radio />} label="Diffusive jet with low velocity" />
-                    <FormControlLabel value="2" control={<Radio />} label="Heavy gas or vapours" />
+                    <FormControlLabel value="Jet" control={<Radio />} label="Unimpeded jet with high velocity" />
+                    <FormControlLabel value="DiffusiveJet" control={<Radio />} label="Diffusive jet with low velocity" />
+                    <FormControlLabel value="HeavyGas" control={<Radio />} label="Heavy gas or vapours" />
                 </RadioGroup>
             </FormControl>
         </div>

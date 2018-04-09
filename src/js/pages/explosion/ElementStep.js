@@ -15,7 +15,7 @@ const elementStep = (handleChange, props) => {
                 <FormLabel component="legend">Element</FormLabel>
                 <br />
                 <Select
-                    value={props.fields.element}
+                    value={props.fields.casNumber}
                     onChange={props.elementUpdated}
                     inputProps={{
                         name: 'element',

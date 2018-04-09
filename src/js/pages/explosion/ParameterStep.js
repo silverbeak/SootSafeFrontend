@@ -3,6 +3,7 @@ import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 
 import * as names from './field-names'
+import * as _ from '../../../../node_modules/lodash/lodash.min'
 
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 
@@ -33,7 +34,7 @@ const parameterStep = (handleChange, props) => {
                     <TextField
                         id="number"
                         // label={fieldName[0]}
-                        value={props.fields[fieldName[0]]}
+                        value={_.get(props.fields, fieldName[0])}
                         onChange={handleChange(fieldName[0])}
                         type="number"
                         className={classes.textField}

@@ -22,6 +22,10 @@ export const fieldDefinitions = [
         () => <span>W<sub>g</sub></span>,
         () => 'kg/s'
     ],[
+        names.EVAPORATION_RATE,
+        () => <span>W<sub>e</sub></span>,
+        () => 'kg/s'
+    ],[
         names.MOLAR_MASS,
         () => 'M',
         () => 'kg/mol'
@@ -82,16 +86,20 @@ export const fieldDefinitions = [
         () => 'C',
         () => <span>s<sup>-1</sup></span>
     ],[
-        names.ROOM_VOLUME,
-        () => <span>V<sub>0</sub></span>,
-        () => <span>m<sup>3</sup></span>
+        names.ROOM_DIMENSION_DEPTH,
+        () => <span>L</span>,
+        () => <span>m</span>
     ],[
-        names.OPENING_CROSS_SECTION,
-        () => 'S',
-        () => <span>m<sup>2</sup></span>
+        names.ROOM_DIMENSION_HEIGHT,
+        () => <span>H</span>,
+        () => <span>m</span>
     ],[
-        names.MIXING_SAFETY_FACTOR,
-        () => <i>f </i>,
+        names.ROOM_DIMENSION_WIDTH,
+        () => <span>B</span>,
+        () => <span>m</span>
+    ],[
+        names.VENTILATION_EFFICIENCY_FACTOR,
+        () => <i>f</i>,
         () => <i>no unit</i>
     ]
 ]
@@ -102,11 +110,11 @@ export const filterFields = (definitions, fieldValues) => {
     const hasReleaseRateInKgPerSecond = fieldValues.releaseRateInKgPerSecond === 'yes'
     const isEvaporationFromPool = fieldValues.poolLeakage === 'yes'
     
-    const backgroundConcentration = fieldValues.indoorOutdoor === 'indoors' ? [names.AIR_ENTERING_ROOM_FLOW_RATE, names.AIR_CHANGE_FREQUENCY, names.ROOM_VOLUME, names.OPENING_CROSS_SECTION, names.MIXING_SAFETY_FACTOR] : []
+    const backgroundConcentration = fieldValues.indoorOutdoor === 'indoors' ? [names.AIR_ENTERING_ROOM_FLOW_RATE, /*names.AIR_CHANGE_FREQUENCY,*/ names.ROOM_DIMENSION_DEPTH, names.ROOM_DIMENSION_HEIGHT, names.ROOM_DIMENSION_WIDTH/*, names.MIXING_SAFETY_FACTOR*/] : []
 
     const namesForSelectedValues = () => {
-        const base = [names.VOLUMETRIC_GAS_FLOW_RATE, names.SAFETY_FACTOR, names.LOWER_FLAMMABLE_LIMIT, names.BACKGROUND_CONCENTRATION]
-        const baseAndB5 = base.concat([names.MASS_RELEASE_RATE, names.MOLAR_MASS, names.GAS_DENSITY])
+        const base = [names.VOLUMETRIC_GAS_FLOW_RATE, names.SAFETY_FACTOR, names.LOWER_FLAMMABLE_LIMIT, names.BACKGROUND_CONCENTRATION, names.VENTILATION_EFFICIENCY_FACTOR]
+        const baseAndB5 = base.concat([names.EVAPORATION_RATE, names.MOLAR_MASS, names.GAS_DENSITY])
         if (!performReleaseCalculation && isGasCalculation && !hasReleaseRateInKgPerSecond) {
             return base
         } else if (!performReleaseCalculation && !isGasCalculation && !hasReleaseRateInKgPerSecond) {
@@ -129,7 +137,8 @@ export const filterFields = (definitions, fieldValues) => {
 }
 
 export const ccToDisplayString = str => {
-    return str
+    const fieldName = _.last(str.split('.'))
+    return fieldName
         .replace(/([A-Z][a-z]+)/g, ' $1')
         .trim()
         .replace(/(\w)/, (match) => match.toUpperCase())
