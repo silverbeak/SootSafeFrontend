@@ -22,8 +22,9 @@ class ResultTable extends React.Component {
                 <GroupingState
                     grouping={[{ columnName: 'componentid' }]}
                 />
-                <LocalGrouping />
-                <TableView />
+                {/* TODO: Something has changed from previous version. Fix later. */}
+                {/* <LocalGrouping /> */}
+                {/* <TableView /> */}
                 <TableHeaderRow />
                 <TableGroupRow />
             </Grid>

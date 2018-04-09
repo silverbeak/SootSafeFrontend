@@ -109,7 +109,7 @@ class ReleaseRatePage extends React.Component {
                                     className={classes.backButton}>
                                     Back
                                 </Button>
-                                <Button raised color="primary" onClick={this.handleNext}>
+                                <Button raised="true" color="primary" onClick={this.handleNext}>
                                     {this.state.activeStep === this.state.steps.length - 1 ? 'Finish' : 'Next'}
                                 </Button>
                             </div>
