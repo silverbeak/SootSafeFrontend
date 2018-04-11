@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles'
 import * as actions from '../../actions/explosion/releaserate-actions'
 import Stepper, { Step, StepButton } from 'material-ui/Stepper'
 import Button from 'material-ui/Button'
+import { LinearProgress } from 'material-ui/Progress'
 import Typography from 'material-ui/Typography'
 import ElementStep from './ElementStep'
 import GasOrLiquidStep from './GasOrLiquidStep'
@@ -17,6 +18,13 @@ import VentilationVelocityStep from './VentilationVelocityStep'
 import ReleaseGradeStep from './ReleaseGradeStep'
 import ReleaseTypeStep from './ReleaseTypeStep'
 import VentilationAvailabilityStep from './VentilationAvailabilityStep'
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    withMobileDialog,
+} from 'material-ui/Dialog';
 
 class ReleaseRatePage extends React.Component {
 
@@ -24,11 +32,11 @@ class ReleaseRatePage extends React.Component {
         super(props)
         this.state = {
             steps: [
-                'Element', 
-                'Primary state', 
-                'Release rate', 
-                'Source', 
-                'Environment', 
+                'Element',
+                'Primary state',
+                'Release rate',
+                'Source',
+                'Environment',
                 'Parameters',
                 'Ventilation velocity',
                 'Ventilation availability',
@@ -50,8 +58,13 @@ class ReleaseRatePage extends React.Component {
                 ReleaseGradeStep,
                 ReleaseTypeStep,
                 CalculateStep
-            ]
+            ],
+            showReportDialog: false
         }
+    }
+
+    componentDidMount() {
+        this.props.resetReportLink()
     }
 
     handleChange(field) {
@@ -79,6 +92,7 @@ class ReleaseRatePage extends React.Component {
         if (this.state.activeStep === this.state.steps.length - 1) {
             // We are finished. Send to backend...
             this.props.submitRequest(this.props.fields)
+            this.setState({ showReportDialog: true })
         } else {
             this.setState({ activeStep: this.state.activeStep + 1 })
         }
@@ -86,6 +100,10 @@ class ReleaseRatePage extends React.Component {
 
     getStep = (index) => {
         return this.state.stepRenderers[index]
+    }
+
+    displayReportDialog = (show) => () => {
+        this.setState({ showReportDialog: show })
     }
 
     render() {
@@ -117,6 +135,43 @@ class ReleaseRatePage extends React.Component {
                     )}
             </div>)
 
+        const reportDialog =
+            this.props.reportUrl ? (
+                <Dialog
+                    open={this.state.showReportDialog}
+                    onClose={this.displayReportDialog(false)}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">{"Your report is ready!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Your report has been generated.
+                                    <a href={this.props.reportUrl}>Click here</a> to download your report. This link will be active for 24 hours.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.displayReportDialog(false)} color="primary" autoFocus>
+                            Done
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            ) : (
+                    <Dialog
+                        open={this.state.showReportDialog}
+                        onClose={this.displayReportDialog(false)}
+                        aria-labelledby="responsive-dialog-title">
+                        <DialogTitle id="responsive-dialog-title">{"Your report is being generated!"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Waiting for your report to be generated. This may take some time.<br />
+                            </DialogContentText>
+                            <LinearProgress />
+                        </DialogContent>
+                    </Dialog>
+                )
+
+
+
         return (
             <div className="stepper-page">
                 <div>
@@ -143,6 +198,8 @@ class ReleaseRatePage extends React.Component {
                 {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props)}
 
                 {navigatorBar}
+
+                {reportDialog}
             </div>
         )
     }
@@ -152,7 +209,8 @@ class ReleaseRatePage extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         fields: state.releaseRate.fields,
-        gasList: state.releaseRate.gasList
+        gasList: state.releaseRate.gasList,
+        reportUrl: state.releaseRate.report.url
     }
 }
 
@@ -166,6 +224,9 @@ const mapDispatchToProps = dispatch => {
         },
         submitRequest: fields => {
             dispatch(actions.submitReleaseRateCalculationRequest(fields))
+        },
+        resetReportLink: () => {
+            dispatch(actions.resetReportLink())
         }
     }
 }

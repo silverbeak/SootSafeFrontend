@@ -22,7 +22,11 @@ export const submitReleaseRateCalculation = calculationValues => {
                     .doc('pdf')
                     .onSnapshot(doc => {
                         if (doc.exists) {
-                            dispatch(downloadStorageObject(doc.data().path))
+                            // dispatch(downloadStorageObject(doc.data().reportPath))
+                            dispatch({
+                                type: 'RR_REPORT_LINK_RECEIVED',
+                                url: doc.data().reportPath
+                            })
                             unsubscribe()
                         }
                     })
@@ -50,24 +54,25 @@ const saveData = (blob, fileName) => {
     window.URL.revokeObjectURL(url)
 }
 
-export const downloadStorageObject = path => {
-    return (dispatch, getState) => {
-        const storage = getState().firebase.storage
+// TODO: Probably remove. Don't think we want to do it this way
+// export const downloadStorageObject = path => {
+//     return (dispatch, getState) => {
+//         const storage = getState().firebase.storage
 
-        const storageRef = storage.refFromURL(path)
+//         const storageRef = storage.refFromURL(path)
 
-        storageRef.getDownloadURL().then(url => {
-            var xhr = new XMLHttpRequest()
-            xhr.responseType = 'blob'
-            xhr.onload = event => {
-                const blob = xhr.response
-                saveData(blob, 'ReleaseRate.pdf')
-                dispatch({ type: 'XXX' })
-            }
-            xhr.open('GET', url)
-            xhr.send()
-        }).catch(function (error) {
-            // Handle any errors
-        })
-    }
-}
+//         storageRef.getDownloadURL().then(url => {
+//             var xhr = new XMLHttpRequest()
+//             xhr.responseType = 'blob'
+//             xhr.onload = event => {
+//                 const blob = xhr.response
+//                 saveData(blob, 'ReleaseRate.pdf')
+//                 dispatch({ type: 'XXX' })
+//             }
+//             xhr.open('GET', url)
+//             xhr.send()
+//         }).catch(function (error) {
+//             // Handle any errors
+//         })
+//     }
+// }

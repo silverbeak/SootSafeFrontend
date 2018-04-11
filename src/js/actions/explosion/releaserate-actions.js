@@ -16,6 +16,12 @@ export const elementUpdated = value => {
     }
 }
 
+export const resetReportLink = () => {
+    return {
+        type: 'RR_RESET_REPORT_LINK'
+    }
+}
+
 export const submitReleaseRateCalculationRequest = fieldValues => {
     return (dispatch, getState) => {
         const performReleaseCalculation = fieldValues.calculateReleaseRate === 'yes'

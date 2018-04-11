@@ -67,7 +67,14 @@ const initialReleaseRateState = {
 
         gradeOfRelease: 'Primary'
     },
-    gasList
+    gasList,
+    report: {}
+}
+
+const setReportLink = (originalState, url) => {
+    const stateCopy = _.merge({}, originalState)
+    stateCopy.report.url = url
+    return stateCopy
 }
 
 const releaseRate = (state = initialReleaseRateState, action) => {
@@ -87,6 +94,12 @@ const releaseRate = (state = initialReleaseRateState, action) => {
             elementStateCopy.fields.releaseRateValues.molarMass = element.molarMass
             
             return elementStateCopy
+
+        case 'RR_RESET_REPORT_LINK':
+            return setReportLink(state, null)
+
+        case 'RR_REPORT_LINK_RECEIVED':
+            return setReportLink(state, action.url)
 
         default:
             return state
