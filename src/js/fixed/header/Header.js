@@ -65,9 +65,13 @@ class Header extends React.Component {
             <div className="App-header">
 
                 <div className="left-hand-menu-cluster">
-                    <StatedProjectMenu className="left-header-menu" />
+                {
+                    this.props.user ?
+                        <div className="project-menu-launcher"><StatedProjectMenu /></div> :
+                        <span></span>
+                }
                     <a href="/">
-                        <img src={logo} />
+                        <img src={logo} className="header-logo" />
                     </a>
                 </div>
 

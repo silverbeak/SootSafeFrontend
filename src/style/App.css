@@ -21,6 +21,12 @@
   flex-direction: column;
 }
 
+.header-logo {
+  margin-top: 1em;
+  margin-left: 1em;
+  height: 1.4em;
+}
+
 .Site-content {
   display: flex;
   flex: 1;
@@ -33,9 +39,9 @@
 }
 
 .project-menu {
-  padding-left: 15em;
-  width: .5em;
-  height: .5em;
+  float: left;
+  margin-top: .4em;
+  margin-left: .2em;
 }
 
 .right-user-menu {
@@ -45,11 +51,17 @@
 }
 
 .left-hand-menu-cluster {
+  display: flex;
+  flex-direction: row;
   padding-top: .4em;
   padding-left: .5em;
   padding-right: .5em;
   /* height: 100%; */
   background: linear-gradient( to right, lightgray, #222);
+}
+
+.project-menu-launcher {
+  margin-top: .5em;
 }
 
 footer {
