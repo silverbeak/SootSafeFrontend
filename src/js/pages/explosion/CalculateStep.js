@@ -1,5 +1,6 @@
 import React from 'react'
 
+import * as _ from '../../../../node_modules/lodash/lodash.min'
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 
 const calculateStep = (handleChange, props) => {
@@ -10,7 +11,7 @@ const calculateStep = (handleChange, props) => {
             {ccToDisplayString(field[0])} ({field[1]()})
         </div>,
         <div className="Rtable-cell value" key={`${field[0]}-value`}>
-            {props.fields[field[0]]} &nbsp; {field[2]()}
+            {_.get(props.fields, field[0])} &nbsp; {field[2]()}
         </div>
     ]
 

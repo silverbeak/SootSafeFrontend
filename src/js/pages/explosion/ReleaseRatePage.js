@@ -146,7 +146,8 @@ class ReleaseRatePage extends React.Component {
                     <DialogContent>
                         <DialogContentText>
                             Your report has been generated.
-                                    <a href={this.props.reportUrl}>Click here</a> to download your report. This link will be active for 24 hours.
+                            <br />
+                            <a href={this.props.reportUrl}>Click here</a> to download your report. This link will be active for 24 hours.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -164,6 +165,7 @@ class ReleaseRatePage extends React.Component {
                         <DialogContent>
                             <DialogContentText>
                                 Waiting for your report to be generated. This may take some time.<br />
+                                Please do not close this window.<br />
                             </DialogContentText>
                             <LinearProgress />
                         </DialogContent>
