@@ -8,7 +8,6 @@ class UserComponent extends React.Component {
     constructor(props) {
         super(props)
         fbApp.auth().onAuthStateChanged( user => {
-            console.log('Changed login status', user)
             if (user) {
                 // User logged in
                 this.props.userLoggedIn(user, props.path)

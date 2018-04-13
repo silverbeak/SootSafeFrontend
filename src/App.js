@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import './style/App.css'
 import Header from './js/fixed/header/HeaderComponent'
 import Footer from './js/fixed/footer/Footer'
+import About from './js/pages/About'
 import { Provider } from 'react-redux'
 import { Store, history } from './js/reducers/store'
 import { loadProjectIndices } from './js/actions/backend-communicator-actions'
 import DrawingBoard from './js/pages/DrawingBoardComponent.js'
 import MainPage from './js/pages/MainPage.js'
-import StatedLogin from './js/pages/LoginComponent'
 import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
@@ -32,7 +32,7 @@ class App extends Component {
                             <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
                             <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} />
                             <Route path="/releaserate/start" component={ReleaseRatePage} />
-                            <Route path="/login" component={StatedLogin} />
+                            <Route path="/about" component={About} />
                         </div>
                     </ConnectedRouter>
 

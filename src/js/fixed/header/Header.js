@@ -28,8 +28,15 @@ class Header extends React.Component {
         }
 
         const logout = () => {
+            closeUserMenu()
             this.props.userLogoutRequested()
             this.props.pushHistory()('/')
+        }
+
+        const closeAndNavigate = path => () => {
+            console.log('Navigating to ', path)
+            closeUserMenu()
+            this.props.pushHistory()(path)
         }
 
         const menuItems = () => {
@@ -43,6 +50,7 @@ class Header extends React.Component {
                         onClose={closeUserMenu}
                     >
                         <MenuItem onClick={logout}>Log out</MenuItem>
+                        <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem>
                     </Menu>
                 )
             } else {
@@ -53,9 +61,8 @@ class Header extends React.Component {
                         open={open}
                         onClose={closeUserMenu}
                     >
-                        <MenuItem onClick={this.props.pushHistory('/login')}>Log in</MenuItem>
-                        <MenuItem onClick={this.props.pushHistory('/createAccount')}>Create account</MenuItem>
-                        <MenuItem onClick={this.props.pushHistory('/about')}>About SootSafe</MenuItem>
+                        <MenuItem onClick={closeAndNavigate('/')}>Log in</MenuItem>
+                        <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem>
                     </Menu>
                 )
             }

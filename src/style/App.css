@@ -66,6 +66,7 @@
 
 footer {
   font-size: smaller;
+  color: dimgray;
 }
 
 .stepper-page {
@@ -81,4 +82,36 @@ footer {
 
 .field-and-unit {
   
+}
+
+.main-pane {
+  display: flex;
+  flex: 1;
+}
+
+.main-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.main-column .left-column {
+  flex: 1;
+}
+
+.main-column .right-column {
+  flex: 1;
+}
+
+.column-divider {
+  width: 1px;
+  margin: 6px 0;
+  background: dimgray;
+}
+
+.tagline {
+  color: dimgray;
+  margin-top: 1.2em;
 }
