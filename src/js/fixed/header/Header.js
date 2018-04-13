@@ -74,7 +74,8 @@ class Header extends React.Component {
                 <div className="left-hand-menu-cluster">
                 {
                     this.props.user ?
-                        <div className="project-menu-launcher"><StatedProjectMenu /></div> :
+                        // <div className="project-menu-launcher"><StatedProjectMenu /></div> :
+                        <span></span> : // Remove this line, uncomment above to enable project menu
                         <span></span>
                 }
                     <a href="/">

@@ -17,16 +17,6 @@ export const userLogoutRequested = () => {
     }
 }
 
-export const emailAndPasswordLoginAttempt = (name, password) => {
-    return dispatch => {
-        fbApp.auth().signInWithEmailAndPassword(name, password).catch(e => {
-            console.error('Could not login user', name)
-        })
-
-        return { type: 'USER_LOGIN_ATTEMPT_SENT' }
-    }
-}
-
 export const userLoggedOut = () => {
     return dispatch => { 
         dispatch(push('/'))
