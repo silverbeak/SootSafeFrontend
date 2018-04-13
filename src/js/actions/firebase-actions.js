@@ -9,7 +9,8 @@ export const submitReleaseRateCalculation = calculationValues => {
     return (dispatch, getState) => {
         const db = getState().firebase.db
 
-        db.collection('releaseRate').add(calculationValues)
+        db.collection('releaseRate')
+            .add(calculationValues)
             .then(docRef => {
 
                 console.log('CREATED', docRef.id)
@@ -35,8 +36,14 @@ export const submitReleaseRateCalculation = calculationValues => {
                     type: 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED',
                     id: docRef.id
                 })
-            })
-            .catch(error => {
+
+                return docRef
+            }).then(docRef => {
+                console.log(`Listener created for document ${docRef.id}. Now sending request to releaseRateRequests collection`)
+                db.collection('releaseRateRequests')
+                    .doc('requests')
+                    .set({id: docRef.id})
+            }).catch(error => {
                 console.error("Error adding document: ", error)
             })
     }

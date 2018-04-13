@@ -38,17 +38,7 @@ export const submitReleaseRateCalculationRequest = fieldValues => {
             isIndoors
         }
 
-        // Not sure if we still need this. May have solved it in backend.
-        const filteredValues = _.omit(fieldValues, [
-            'releaseRateInKgPerSecond',
-            'indoorOutdoor',
-            'calculateReleaseRate',
-            'liquidOrGas',
-            'poolLeakage',
-            'backgroundConcentration'
-        ])
-
-        const properData = _.merge({}, filteredValues, booleanCollection)
+        const properData = _.merge({}, fieldValues, booleanCollection)
 
         dispatch(firebaseActions.submitReleaseRateCalculation(properData))
     }
