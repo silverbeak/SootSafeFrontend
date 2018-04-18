@@ -4,103 +4,131 @@ import * as _ from '../../../../node_modules/lodash/lodash.min'
 
 import * as names from './field-names'
 
+const greaterThanZero = (value) => {
+    return value > 0 ? '' : 'Value must be greater than 0'
+}
+
 export const fieldDefinitions = [
     [
         names.VOLUMETRIC_GAS_FLOW_RATE,
         () => <span>Q<sub>g</sub></span>,
-        () => <span>m<sup>3</sup>/s</span>
+        () => <span>m<sup>3</sup>/s</span>,
+        greaterThanZero
     ],[
         names.SAFETY_FACTOR,
         () => 'k',
-        () => <i>no unit</i>
+        () => <i>no unit</i>,
+        greaterThanZero
     ],[
         names.LOWER_FLAMMABLE_LIMIT,
         () => 'LFL',
-        () => 'vol/vol'
+        () => 'vol/vol',
+        greaterThanZero
     ],[
         names.MASS_RELEASE_RATE,
         () => <span>W<sub>g</sub></span>,
-        () => 'kg/s'
+        () => 'kg/s',
+        greaterThanZero
     ],[
         names.EVAPORATION_RATE,
         () => <span>W<sub>e</sub></span>,
-        () => 'kg/s'
+        () => 'kg/s',
+        greaterThanZero
     ],[
         names.MOLAR_MASS,
         () => 'M',
-        () => 'kg/mol'
+        () => 'kg/mol',
+        greaterThanZero
     ],[
         names.GAS_DENSITY,
         () => <span>&rho;<sub>g</sub></span>,
-        () => <span>kg/m<sup>3</sup></span>
+        () => <span>kg/m<sup>3</sup></span>,
+        greaterThanZero
     ],[
         names.DISCHARGE_COEFFICIENT,
         () => <span>C<sub>d</sub></span>,
-        () => <i>no unit</i>
+        () => <i>no unit</i>,
+        greaterThanZero
     ],[
         names.CROSS_SECTION_AREA,
         () => 'S',
-        () => <span>m<sup>2</sup></span>
+        () => <span>m<sup>2</sup></span>,
+        greaterThanZero
     ],[
         names.PRESSURE_DIFFERENCE,
         () => 'p',
-        () => 'Pa'
+        () => 'Pa',
+        greaterThanZero
     ],[
         names.POOL_SURFACE_AREA,
         () => <span>A<sub>p</sub></span>,
-        () => <span>m<sup>2</sup></span>
+        () => <span>m<sup>2</sup></span>,
+        greaterThanZero
     ],[
         names.WIND_SPEED,
         () => <span>u<sub>w</sub></span>,
-        () => 'm/s'
+        () => 'm/s',
+        greaterThanZero
     ],[
         names.ABSOLUTE_TEMPERATURE,
         () => 'T',
-        () => 'K'
+        () => 'K',
+        greaterThanZero
     ],[
         names.ADIABATIC_EXPANSION,
         () => <span>&gamma;</span>,
-        () => <i>no unit</i>
+        () => <i>no unit</i>,
+        greaterThanZero
     ],[
         names.ATMOSPHERIC_PRESSURE,
         () => 'pa',
-        () => 'Pa'
+        () => 'Pa',
+        greaterThanZero
     ],[
         names.CONTAINER_PRESSURE,
         () => 'p',
-        () => 'Pa'
+        () => 'Pa',
+        greaterThanZero
     ],[
         names.CRITICAL_GAS_PRESSURE,
         () => <span>p<sub>c</sub></span>,
-        () => 'Pa'
+        () => 'Pa',
+        greaterThanZero
     ],[
         names.COMPRESSIBILITY_FACTOR,
         () => 'Z',
-        () => <i>no unit</i>
+        () => <i>no unit</i>,
+        greaterThanZero
     ],[
         names.AIR_ENTERING_ROOM_FLOW_RATE,
         () => <span>Q<sub>1</sub></span>,
-        () => <span>m<sup>3</sup>/s</span>
+        () => <span>m<sup>3</sup>/s</span>,
+        greaterThanZero
     ],[
         names.AIR_CHANGE_FREQUENCY,
         () => 'C',
-        () => <span>s<sup>-1</sup></span>
+        () => <span>s<sup>-1</sup></span>,
+        greaterThanZero
     ],[
         names.ROOM_DIMENSION_DEPTH,
         () => <span>L</span>,
-        () => <span>m</span>
+        () => <span>m</span>,
+        greaterThanZero
     ],[
         names.ROOM_DIMENSION_HEIGHT,
         () => <span>H</span>,
-        () => <span>m</span>
+        () => <span>m</span>,
+        greaterThanZero
     ],[
         names.ROOM_DIMENSION_WIDTH,
         () => <span>B</span>,
-        () => <span>m</span>
+        () => <span>m</span>,
+        greaterThanZero
     ],[
         names.VENTILATION_EFFICIENCY_FACTOR,
         () => <i>f</i>,
-        () => <i>no unit</i>
+        () => <i>no unit</i>,
+        greaterThanZero
     ]
 ]
 
