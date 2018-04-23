@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "sootsafe-app-test"
+    "default": "sootsafe-app-test",
+    "production": "sootsafe-app"
   }
 }
