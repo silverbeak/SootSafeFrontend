@@ -1,10 +1,10 @@
 import * as _ from '../../../../node_modules/lodash/lodash.min'
 
 const gasList = [
-    { name: 'Hydrogen', CASnr: '1333-74-0', EGnr: '215-605-7', RDT: 0.07, flamePoint: 'gas', explosionLimit: { volume: { LFL: 4.0, UFL: 77.0 }, weight: { LFL: 3.4, UFL: 63 } }, autoIgnitionTemperature: 538, temperatureClass: 'T1', MESG: 0.29, explosionClass: 'IIC', gasDensity: 0.0899, molarMass: 2.014 / 1000 },
-    { name: 'Acetylene (ethyne)', CASnr: '74-86-2', EGnr: '200-816-9', RDT: 0.90, flamePoint: 'gas', explosionLimit: { volume: { LFL: 2.3, UFL: 100 }, weight: { LFL: 24, UFL: 1092 } }, autoIgnitionTemperature: 305, temperatureClass: 'T2', MESG: 0.37, explosionClass: 'IIC', gasDensity: 1.092, molarMass: 26.04 / 1000 },
-    { name: 'Ethanol', CASnr: '64-17-5', EGnr: '200-578-6', RDT: 1.59, flamePoint: '12', explosionLimit: { volume: { LFL: 3.1, UFL: 19.0 }, weight: { LFL: 59, UFL: 532 } }, autoIgnitionTemperature: 400, temperatureClass: 'T2', MESG: 0.89, explosionClass: 'IIB', gasDensity: 0, molarMass: 46.07 / 1000 },
-    { name: 'Benzene', CASnr: '71-43-2', EGnr: '200-753-7', RDT: 2.70, flamePoint: '-11', explosionLimit: { volume: { LFL: 1.2, UFL: 8.6 }, weight: { LFL: 39, UFL: 280 } }, autoIgnitionTemperature: 498, temperatureClass: 'T1', MESG: 0.99, explosionClass: 'IIA', gasDensity: 3.486, molarMass: 78.11 / 1000 }
+    { name: 'Hydrogen', CASnr: '1333-74-0', EGnr: '215-605-7', RDT: 0.07, flamePoint: 'gas', explosionLimit: { volume: { LFL: .040, UFL: 77.0 }, weight: { LFL: 3.4, UFL: 63 } }, autoIgnitionTemperature: 538, temperatureClass: 'T1', MESG: 0.29, explosionClass: 'IIC', gasDensity: 0.0899, molarMass: 2.014 / 1000 },
+    { name: 'Acetylene (ethyne)', CASnr: '74-86-2', EGnr: '200-816-9', RDT: 0.90, flamePoint: 'gas', explosionLimit: { volume: { LFL: .023, UFL: 100 }, weight: { LFL: 24, UFL: 1092 } }, autoIgnitionTemperature: 305, temperatureClass: 'T2', MESG: 0.37, explosionClass: 'IIC', gasDensity: 1.092, molarMass: 26.04 / 1000 },
+    { name: 'Ethanol', CASnr: '64-17-5', EGnr: '200-578-6', RDT: 1.59, flamePoint: '12', explosionLimit: { volume: { LFL: .031, UFL: 19.0 }, weight: { LFL: 59, UFL: 532 } }, autoIgnitionTemperature: 400, temperatureClass: 'T2', MESG: 0.89, explosionClass: 'IIB', gasDensity: 0, molarMass: 46.07 / 1000 },
+    { name: 'Benzene', CASnr: '71-43-2', EGnr: '200-753-7', RDT: 2.70, flamePoint: '-11', explosionLimit: { volume: { LFL: .012, UFL: 8.6 }, weight: { LFL: 39, UFL: 280 } }, autoIgnitionTemperature: 498, temperatureClass: 'T1', MESG: 0.99, explosionClass: 'IIA', gasDensity: 3.486, molarMass: 78.11 / 1000 }
 ]
 
 const initialReleaseRateState = {
