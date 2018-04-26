@@ -20,7 +20,7 @@ const ventilationVelocityStep = (handleChange, props) => {
                     name="obstructed"
                     className={classes.group}
                     value={_.get(props.fields, 'ventilationVelocityValues.obstructed')}
-                    onChange={handleChange('obstructed')}
+                    onChange={handleChange('ventilationVelocityValues.obstructed')}
                 >
                     <FormControlLabel value="Obstructed" control={<Radio />} label="Obstructed" />
                     <FormControlLabel value="Unobstructed" control={<Radio />} label="Unobstructed" />
@@ -30,7 +30,7 @@ const ventilationVelocityStep = (handleChange, props) => {
                 <FormLabel component="legend">Elevation from ground level</FormLabel>
                 <Select
                     value={_.get(props.fields, 'ventilationVelocityValues.elevation')}
-                    onChange={handleChange('elevation')}
+                    onChange={handleChange('ventilationVelocityValues.elevation')}
                     inputProps={{
                         name: 'elevation',
                         id: 'elevation',
