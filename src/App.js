@@ -19,8 +19,16 @@ import AtexStartPage from './js/pages/explosion/AtexStartPage'
 
 // Store.dispatch(loadProjectIndices())
 
+import ReactGA from 'react-ga'
 
 class App extends Component {
+
+    constructor() {
+        super()
+        ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+
     render() {
         return (
             <Provider store={Store}>

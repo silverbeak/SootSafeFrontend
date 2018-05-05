@@ -26,6 +26,8 @@ import Dialog, {
     withMobileDialog,
 } from 'material-ui/Dialog';
 
+import ReactGA from 'react-ga'
+
 import * as _ from '../../../../node_modules/lodash/lodash.min'
 
 class ReleaseRatePage extends React.Component {
@@ -98,8 +100,18 @@ class ReleaseRatePage extends React.Component {
             // We are finished. Send to backend...
             this.props.submitRequest(data)
             this.setState({ showReportDialog: true })
+            ReactGA.event({
+                category: 'atex',
+                action: 'submitted atex request'
+            })
         } else {
             this.setState({ activeStep: this.state.activeStep + 1 })
+            ReactGA.event({
+                category: 'atex',
+                action: 'done with step',
+                value: this.state.activeStep,
+                label: this.state.steps[this.state.activeStep]
+            })
         }
     }
 
