@@ -26,6 +26,8 @@ import Dialog, {
     withMobileDialog,
 } from 'material-ui/Dialog';
 
+import * as _ from '../../../../node_modules/lodash/lodash.min'
+
 class ReleaseRatePage extends React.Component {
 
     constructor(props) {
@@ -34,9 +36,9 @@ class ReleaseRatePage extends React.Component {
             steps: [
                 'Element',
                 'Primary state',
-                'Release rate',
                 'Source',
                 'Environment',
+                'Release rate',
                 'Parameters',
                 'Ventilation velocity',
                 'Ventilation availability',
@@ -49,9 +51,9 @@ class ReleaseRatePage extends React.Component {
             stepRenderers: [
                 ElementStep,
                 GasOrLiquidStep,
-                ReleaseRateStep,
                 PoolStep,
                 IndoorOutdoorStep,
+                ReleaseRateStep,
                 ParameterStep,
                 VentilationVelocityStep,
                 VentilationAvailabilityStep,
@@ -90,8 +92,11 @@ class ReleaseRatePage extends React.Component {
 
     handleNext = () => {
         if (this.state.activeStep === this.state.steps.length - 1) {
+            // Add author:
+            const atexMetadata = { authorName: this.props.author.displayName }
+            const data = _.assign({}, this.props.fields, { atexMetadata })
             // We are finished. Send to backend...
-            this.props.submitRequest(this.props.fields)
+            this.props.submitRequest(data)
             this.setState({ showReportDialog: true })
         } else {
             this.setState({ activeStep: this.state.activeStep + 1 })
@@ -212,7 +217,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         fields: state.releaseRate.fields,
         gasList: state.releaseRate.gasList,
-        reportUrl: state.releaseRate.report.url
+        reportUrl: state.releaseRate.report.url,
+        author: state.users.user
     }
 }
 
