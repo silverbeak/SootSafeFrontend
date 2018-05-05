@@ -6,7 +6,7 @@ const gasList = [
     { name: 'Ethanol', CASnr: '64-17-5', EGnr: '200-578-6', RDT: 1.59, flamePoint: '12', explosionLimit: { volume: { LFL: .031, UFL: .19 }, weight: { LFL: 59, UFL: 532 } }, autoIgnitionTemperature: 400, temperatureClass: 'T2', MESG: 0.89, explosionClass: 'IIB', gasDensity: 0, molarMass: 46.07 / 1000 },
     { name: 'Hydrogen', CASnr: '1333-74-0', EGnr: '215-605-7', RDT: 0.07, flamePoint: 'gas', explosionLimit: { volume: { LFL: .040, UFL: .77 }, weight: { LFL: 3.4, UFL: 63 } }, autoIgnitionTemperature: 538, temperatureClass: 'T1', MESG: 0.29, explosionClass: 'IIC', gasDensity: 0.0899, molarMass: 2.014 / 1000 },
     { name: 'Propane', CASnr: '74-98-6', EGnr: '200-827-9', RDT: 1.56, flamePoint: 'gas', explosionLimit: { volume: { LFL: .017, UFL: .109 }, weight: { LFL: 31, UFL: 200 } }, autoIgnitionTemperature: 450, temperatureClass: 'T2', MESG: 0.92, explosionClass: 'IIA', gasDensity: 2.01, molarMass: 44.1 / 1000 },
-    { name: 'Xylene', CASnr: '1330-20-7', EGnr: '215-535-7', RDT: 3.66, flamePoint: '30', explosionLimit: { volume: { LFL: .010, UFL: .076 }, weight: { LFL: 44, UFL: 335 } }, autoIgnitionTemperature: 464, temperatureClass: 'T1', MESG: 1.09, explosionClass: 'IIA', gasDensity: 0.864, molarMass: 106.16 / 1000 }
+    { name: 'p-Xylene', CASnr: '1330-20-7', EGnr: '215-535-7', RDT: 3.66, flamePoint: '30', explosionLimit: { volume: { LFL: .010, UFL: .076 }, weight: { LFL: 44, UFL: 335 } }, autoIgnitionTemperature: 464, temperatureClass: 'T1', MESG: 1.09, explosionClass: 'IIA', gasDensity: 0.864, molarMass: 106.16 / 1000 }
 ]
 
 const initialReleaseRateState = {

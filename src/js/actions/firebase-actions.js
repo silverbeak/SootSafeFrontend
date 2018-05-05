@@ -40,9 +40,13 @@ export const submitReleaseRateCalculation = calculationValues => {
                 return docRef
             }).then(docRef => {
                 console.log(`Listener created for document ${docRef.id}. Now sending request to releaseRateRequests collection`)
+                const userId = getState().users.user.uid
+                const timeStamp = new Date().getTime()
                 db.collection('releaseRateRequests')
-                    .doc('requests')
-                    .set({id: docRef.id})
+                    .add({
+                        id: docRef.id,
+                        timeStamp, userId
+                    })
             }).catch(error => {
                 console.error("Error adding document: ", error)
             })
