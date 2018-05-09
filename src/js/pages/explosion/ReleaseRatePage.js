@@ -10,7 +10,6 @@ import Typography from 'material-ui/Typography'
 import ElementStep from './ElementStep'
 import GasOrLiquidStep from './GasOrLiquidStep'
 import ReleaseRateStep from './ReleaseRateStep'
-import PoolStep from './PoolStep'
 import ParameterStep from './ParameterStep'
 import CalculateStep from './CalculateStep'
 import IndoorOutdoorStep from './IndoorOutdoorStep'
@@ -38,7 +37,6 @@ class ReleaseRatePage extends React.Component {
             steps: [
                 'Element',
                 'Primary state',
-                'Source',
                 'Environment',
                 'Release rate',
                 'Parameters',
@@ -53,7 +51,6 @@ class ReleaseRatePage extends React.Component {
             stepRenderers: [
                 ElementStep,
                 GasOrLiquidStep,
-                PoolStep,
                 IndoorOutdoorStep,
                 ReleaseRateStep,
                 ParameterStep,

@@ -2,8 +2,34 @@ import React from 'react'
 import Radio, { RadioGroup } from 'material-ui/Radio'
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
 
+const evaporationFromPoolQuery = (handleChange, props) => {
+    const { classes } = props
+    if (props.fields.calculateReleaseRate === 'yes' && props.fields.liquidOrGas === 'liquid') {
+        return (
+            <div>
+                <hr />
+                <FormControl component="fieldset" required className={classes.formControl}>
+                    <FormLabel component="legend">Is the evaporation from a pool?</FormLabel>
+                    <RadioGroup
+                        aria-label="poolLeakage"
+                        name="poolLeakage"
+                        className={classes.group}
+                        value={props.fields.poolLeakage}
+                        onChange={handleChange('poolLeakage')}
+                    >
+                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                    </RadioGroup>
+                </FormControl>
+            </div>
+        )
+    } else {
+        return <span></span>
+    }
+}
+
 const releaseRateStep = (handleChange, props) => {
-    const {classes} = props
+    const { classes } = props
     return (
         <div>
             <FormControl component="fieldset" required className={classes.formControl}>
@@ -15,9 +41,11 @@ const releaseRateStep = (handleChange, props) => {
                     value={props.fields.calculateReleaseRate}
                     onChange={handleChange('calculateReleaseRate')}
                 >
-                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes, I need to calculate the release rate" />
+                    <FormControlLabel value="no" control={<Radio />} label="No, I already have it" />
                 </RadioGroup>
+
+                {evaporationFromPoolQuery(handleChange, props)}
             </FormControl>
         </div>
     )
