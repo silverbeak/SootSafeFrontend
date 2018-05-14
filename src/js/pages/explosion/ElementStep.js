@@ -1,10 +1,12 @@
 import React from 'react'
-import Radio, { RadioGroup } from 'material-ui/Radio'
-import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
+import Radio, { RadioGroup } from '@material-ui/core/Radio'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-import { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import Select from 'material-ui/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const elementStep = (handleChange, props) => {
     const { classes } = props

@@ -1,12 +1,7 @@
 import React from 'react'
 import '../../../style/Rtable.css'
 import { connect } from 'react-redux'
-import { withStyles } from 'material-ui/styles'
 import * as actions from '../../actions/explosion/releaserate-actions'
-import Stepper, { Step, StepButton } from 'material-ui/Stepper'
-import Button from 'material-ui/Button'
-import { LinearProgress } from 'material-ui/Progress'
-import Typography from 'material-ui/Typography'
 import ElementStep from './ElementStep'
 import GasOrLiquidStep from './GasOrLiquidStep'
 import ReleaseRateStep from './ReleaseRateStep'
@@ -17,13 +12,19 @@ import VentilationVelocityStep from './VentilationVelocityStep'
 import ReleaseGradeStep from './ReleaseGradeStep'
 import ReleaseTypeStep from './ReleaseTypeStep'
 import VentilationAvailabilityStep from './VentilationAvailabilityStep'
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    withMobileDialog,
-} from 'material-ui/Dialog';
+
+import { withStyles } from '@material-ui/core/styles'
+import Stepper from '@material-ui/core/Stepper'
+import Step from '@material-ui/core/Step'
+import StepButton from '@material-ui/core/StepButton'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 import ReactGA from 'react-ga'
 

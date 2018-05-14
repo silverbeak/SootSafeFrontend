@@ -1,14 +1,15 @@
 import React from 'react'
-import Avatar from 'material-ui/Avatar'
-import Menu, { MenuItem } from 'material-ui/Menu'
 import { fbApp } from '../../firebase/firebase'
-import PermIdentity from 'material-ui-icons/PermIdentity'
 import { StatedProjectMenu } from '../../components/menus/project-menu'
 import logo from '../../../assets/images/logo.svg'
 
-import { withStyles } from 'material-ui/styles'
-import Button from 'material-ui/Button'
-import Send from 'material-ui-icons/Send'
+import PermIdentity from '@material-ui/icons/PermIdentity'
+import Avatar from '@material-ui/core/Avatar'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Send from '@material-ui/icons/Send'
 
 class Header extends React.Component {
 

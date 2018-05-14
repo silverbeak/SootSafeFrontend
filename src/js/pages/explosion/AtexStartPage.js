@@ -1,7 +1,7 @@
 import React from 'react'
-import Paper from 'material-ui/Paper'
-import Button from 'material-ui/Button'
-import { withStyles } from 'material-ui/styles'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 
 class AtexStartPage extends React.Component {

@@ -1,8 +1,8 @@
 import React from 'react'
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import Tooltip from 'material-ui/Tooltip'
-import ErrorIcon from 'material-ui-icons/Error'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import Tooltip from '@material-ui/core/Tooltip'
+import ErrorIcon from '@material-ui/icons/Error'
 
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 import * as _ from '../../../../node_modules/lodash/lodash.min'
