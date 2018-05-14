@@ -1,14 +1,26 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
 import { connect } from 'react-redux'
 import { submitUserFeedback, toggleFeedbackDialog } from '../../actions/feedback-actions'
-import Dialog from '@material-ui/core/Dialog'
-import { withStyles } from '@material-ui/core/styles'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
+// import Button from '@material-ui/core/Button'
+// import TextField from '@material-ui/core/TextField'
+// import Dialog from '@material-ui/core/Dialog'
+// import { withStyles } from '@material-ui/core/styles'
+// import DialogActions from '@material-ui/core/DialogActions'
+// import DialogContent from '@material-ui/core/DialogContent'
+// import DialogContentText from '@material-ui/core/DialogContentText'
+// import DialogTitle from '@material-ui/core/DialogTitle'
+
+import Button from 'material-ui/Button'
+import TextField from 'material-ui/TextField'
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    withMobileDialog,
+} from 'material-ui/Dialog'
+
+import { withStyles }from 'material-ui/styles'
 
 const styles = theme => ({
     container: {
@@ -82,7 +94,7 @@ class FeedbackDialog extends React.Component {
 
     render() {
         const { classes } = this.props;
-
+        
         return (
             <span>
                 <Dialog
