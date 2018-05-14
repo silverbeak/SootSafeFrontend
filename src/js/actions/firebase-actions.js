@@ -65,6 +65,19 @@ const saveData = (blob, fileName) => {
     window.URL.revokeObjectURL(url)
 }
 
+export const storeUserFeedback = (feedback, user) => {
+    return (dispatch, getState) => {
+        const db = getState().firebase.db
+        const feedbackData = {
+            feedback,
+            user,
+            timestamp: new Date().getTime(),
+            feedbackTyp: 'undefined'
+        }
+        db.collection('userFeedback').add(feedbackData)
+    }
+}
+
 // TODO: Probably remove. Don't think we want to do it this way
 // export const downloadStorageObject = path => {
 //     return (dispatch, getState) => {

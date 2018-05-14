@@ -9,6 +9,7 @@ import { fbApp } from '../../firebase/firebase'
 import PermIdentity from 'material-ui-icons/PermIdentity'
 import { StatedProjectMenu } from '../../components/menus/project-menu'
 import logo from '../../../assets/images/logo.svg'
+import FeedbackDialog from '../../components/dialogs/feedback-dialog'
 
 class Header extends React.Component {
 
@@ -26,7 +27,7 @@ class Header extends React.Component {
         }
 
         const closeUserMenu = event => {
-            this.setState({ userMenuOpen: false })
+            this.props.toggleFeedbackDialog(true)
         }
 
         const logout = () => {
@@ -42,7 +43,7 @@ class Header extends React.Component {
         }
 
         const openFeedbackDialog = () => {
-            console.log("Open feedback dialog");
+            this.props.toggleFeedbackDialog(true)
         }
 
         const menuItems = () => {
@@ -116,6 +117,8 @@ class Header extends React.Component {
                     </span>
                     {menuItems()}
                 </span>
+
+                <FeedbackDialog />
 
             </div>
         )
