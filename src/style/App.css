@@ -70,6 +70,7 @@ footer {
 }
 
 .stepper-page {
+  margin-top: 1em;
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -124,4 +125,14 @@ footer {
   size: 1em;
   color: rgba(255, 0, 0, 0.3);
   margin-left: .5em;
+}
+
+.information-bullet {
+  align-items: center;
+  align-self: center;
+  max-width: 30em;
+}
+
+.information-bullet a {
+  text-decoration: none;
 }
