@@ -11,12 +11,20 @@ const uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: 'redirect',
     // Redirect to this page after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-    signInSuccessUrl: '/releaserate/start',
+    signInSuccessUrl: '/atex/start',
     // We will display Google and Facebook as auth providers.
     signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ]
+        {
+            provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            customParameters: {
+                // Forces account selection even when one account
+                // is available.
+                prompt: 'select_account'
+            }
+        }
+    ],
+    tosUrl: 'https://sootsafe.com/app/tos'
 }
 
 class Account extends React.Component {
