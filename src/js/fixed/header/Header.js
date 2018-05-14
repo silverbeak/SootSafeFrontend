@@ -1,7 +1,9 @@
 import React from 'react'
-import Button from 'material-ui/Button'
-import IconButton from 'material-ui/IconButton'
+import Button from '@material-ui/core/Button'
 import Avatar from 'material-ui/Avatar'
+import { withStyles } from '@material-ui/core/styles'
+import Icon from '@material-ui/core/Icon'
+import Send from '@material-ui/icons/Send'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import { fbApp } from '../../firebase/firebase'
 import PermIdentity from 'material-ui-icons/PermIdentity'
@@ -39,6 +41,10 @@ class Header extends React.Component {
             this.props.pushHistory()(path)
         }
 
+        const openFeedbackDialog = () => {
+            console.log("Open feedback dialog");
+        }
+
         const menuItems = () => {
             const open = this.state.userMenuOpen || false
             if (this.props.user) {
@@ -50,7 +56,7 @@ class Header extends React.Component {
                         onClose={closeUserMenu}
                     >
                         <MenuItem onClick={logout}>Log out</MenuItem>
-                        <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem>
+                        {/* <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem> */}
                     </Menu>
                 )
             } else {
@@ -62,22 +68,24 @@ class Header extends React.Component {
                         onClose={closeUserMenu}
                     >
                         <MenuItem onClick={closeAndNavigate('/')}>Log in</MenuItem>
-                        <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem>
+                        {/* <MenuItem onClick={closeAndNavigate('/about')}>About SootSafe</MenuItem> */}
                     </Menu>
                 )
             }
         }
 
+        const { classes } = this.props
+
         return (
             <div className="App-header">
 
                 <div className="left-hand-menu-cluster">
-                {
-                    this.props.user ?
-                        // <div className="project-menu-launcher"><StatedProjectMenu /></div> :
-                        <span></span> : // Remove this line, uncomment above to enable project menu
-                        <span></span>
-                }
+                    {
+                        this.props.user ?
+                            // <div className="project-menu-launcher"><StatedProjectMenu /></div> :
+                            <span></span> : // Remove this line, uncomment above to enable project menu
+                            <span></span>
+                    }
                     <a href="/">
                         <img src={logo} className="header-logo" />
                     </a>
@@ -87,12 +95,25 @@ class Header extends React.Component {
 
                 <span className="right-user-menu">
                     <Button
-                        onClick={openUserMenu}>
-                        <Avatar>
-                            <PermIdentity />
-                        </Avatar>
+                        color="secondary"
+                        variant="raised"
+                        onClick={openFeedbackDialog}
+                        style={{color: "white", marginRight: "1em"}}>
+                        Feedback
+                        <Send className={classes.rightIcon}>send</Send>
                     </Button>
-                    {this.props.user ? this.props.user.email : ''}
+
+                    <Button
+                        onClick={openUserMenu}>
+                            {
+                                this.props.user && this.props.user.photoURL ?
+                                <Avatar src={this.props.user.photoURL} /> :
+                                <Avatar> <PermIdentity /> </Avatar>
+                            }
+                    </Button>
+                    <span>
+                        {this.props.user ? this.props.user.displayName : ''}
+                    </span>
                     {menuItems()}
                 </span>
 
@@ -101,4 +122,19 @@ class Header extends React.Component {
     }
 }
 
-export default Header
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    iconSmall: {
+        fontSize: 20,
+    },
+})
+
+export default withStyles(styles)(Header)

@@ -45,9 +45,12 @@
 }
 
 .right-user-menu {
+  display: flex;
+  flex-direction: row;
   margin-left: auto;
   padding-right: 1em;
   padding-top: .2em;
+  align-items: center;
 }
 
 .left-hand-menu-cluster {
