@@ -16,6 +16,7 @@ import { StatedNotifier } from './js/components/notifier'
 // import { StatedResultTable } from './js/components/result-table'
 import ReleaseRatePage from './js/pages/explosion/ReleaseRatePage'
 import AtexStartPage from './js/pages/explosion/AtexStartPage'
+import FeedbackDialog from './js/components/dialogs/feedback-dialog'
 
 // Store.dispatch(loadProjectIndices())
 
@@ -49,6 +50,7 @@ class App extends Component {
                     <Footer />
                     <UserComponent path={history.location.pathname} />
                     <StatedNotifier />
+                    <FeedbackDialog />
                 </div>
             </Provider>
         );
