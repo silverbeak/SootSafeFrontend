@@ -78,7 +78,9 @@ class ReleaseRatePage extends React.Component {
 
     handleStep(index) {
         console.log('Going to step', index)
-        this.state.completed[index] = true
+        const completed = _.clone(this.state.completed)
+        completed[index] = true
+        this.setState({ completed })
         this.setState({ activeStep: index + 1 })
     }
 

@@ -81,8 +81,6 @@ class FeedbackDialog extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <span>
                 <Dialog

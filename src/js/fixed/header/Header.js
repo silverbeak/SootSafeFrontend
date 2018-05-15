@@ -1,5 +1,4 @@
 import React from 'react'
-import { fbApp } from '../../firebase/firebase'
 import { StatedProjectMenu } from '../../components/menus/project-menu'
 import logo from '../../../assets/images/logo.svg'
 
@@ -117,7 +116,7 @@ class Header extends React.Component {
                             }
                     </Button>
                     <span>
-                        {this.props.user ? this.props.user.displayName : ''}
+                        {displayName}
                     </span>
                     {menuItems()}
                 </span>
