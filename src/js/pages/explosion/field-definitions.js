@@ -8,16 +8,18 @@ const greaterThanZero = (value) => {
     return value > 0 ? '' : 'Value must be greater than 0'
 }
 
+const adornmentClassNames = "MuiTypography-root-102 MuiTypography-body1-111 MuiTypography-colorTextSecondary-124"
+
 export const fieldDefinitions = [
     [
         names.VOLUMETRIC_GAS_FLOW_RATE,
         () => <span>Q<sub>g</sub></span>,
-        () => <span>m<sup>3</sup>/s</span>,
+        () => <span className={adornmentClassNames}>m<sup>3</sup>/s</span>,
         greaterThanZero
     ],[
         names.SAFETY_FACTOR,
         () => 'k',
-        () => <i>no unit</i>,
+        () => <i className={adornmentClassNames}>no unit</i>,
         greaterThanZero
     ],[
         names.LOWER_FLAMMABLE_LIMIT,
@@ -42,17 +44,17 @@ export const fieldDefinitions = [
     ],[
         names.GAS_DENSITY,
         () => <span>&rho;<sub>g</sub></span>,
-        () => <span>kg/m<sup>3</sup></span>,
+        () => <span className={adornmentClassNames}>kg/m<sup>3</sup></span>,
         greaterThanZero
     ],[
         names.DISCHARGE_COEFFICIENT,
         () => <span>C<sub>d</sub></span>,
-        () => <i>no unit</i>,
+        () => <i className={adornmentClassNames}>no unit</i>,
         greaterThanZero
     ],[
         names.CROSS_SECTION_AREA,
         () => 'S',
-        () => <span>m<sup>2</sup></span>,
+        () => <span className={adornmentClassNames}>m<sup>2</sup></span>,
         greaterThanZero
     ],[
         names.PRESSURE_DIFFERENCE,
@@ -62,7 +64,7 @@ export const fieldDefinitions = [
     ],[
         names.POOL_SURFACE_AREA,
         () => <span>A<sub>p</sub></span>,
-        () => <span>m<sup>2</sup></span>,
+        () => <span className={adornmentClassNames}>m<sup>2</sup></span>,
         greaterThanZero
     ],[
         names.WIND_SPEED,
@@ -77,7 +79,7 @@ export const fieldDefinitions = [
     ],[
         names.ADIABATIC_EXPANSION,
         () => <span>&gamma;</span>,
-        () => <i>no unit</i>,
+        () => <i className={adornmentClassNames}>no unit</i>,
         greaterThanZero
     ],[
         names.ATMOSPHERIC_PRESSURE,
@@ -102,35 +104,66 @@ export const fieldDefinitions = [
     ],[
         names.AIR_ENTERING_ROOM_FLOW_RATE,
         () => <span>Q<sub>1</sub></span>,
-        () => <span>m<sup>3</sup>/s</span>,
+        () => <span className={adornmentClassNames}>m<sup>3</sup>/s</span>,
         greaterThanZero
     ],[
         names.AIR_CHANGE_FREQUENCY,
         () => 'C',
-        () => <span>s<sup>-1</sup></span>,
+        () => <span className={adornmentClassNames}>s<sup>-1</sup></span>,
         greaterThanZero
     ],[
         names.ROOM_DIMENSION_DEPTH,
         () => <span>L</span>,
-        () => <span>m</span>,
+        () => 'm',
         greaterThanZero
     ],[
         names.ROOM_DIMENSION_HEIGHT,
         () => <span>H</span>,
-        () => <span>m</span>,
+        () => 'm',
         greaterThanZero
     ],[
         names.ROOM_DIMENSION_WIDTH,
         () => <span>B</span>,
-        () => <span>m</span>,
+        () => 'm',
         greaterThanZero
     ],[
         names.VENTILATION_EFFICIENCY_FACTOR,
         () => <i>f</i>,
-        () => <i>no unit</i>,
+        () => <i className={adornmentClassNames}>no unit</i>,
         greaterThanZero
     ]
 ]
+
+// export const filterReleaseRateFields = (definitions, fieldValues) => {
+//     const performReleaseCalculation = fieldValues.calculateReleaseRate === 'yes'
+//     const isGasCalculation = fieldValues.liquidOrGas === 'gas'
+//     const hasReleaseRateInKgPerSecond = fieldValues.releaseRateInKgPerSecond === 'yes'
+//     const isEvaporationFromPool = fieldValues.poolLeakage === 'yes'
+    
+//     const backgroundConcentration = fieldValues.indoorOutdoor === 'indoors' ? [names.AIR_ENTERING_ROOM_FLOW_RATE, /*names.AIR_CHANGE_FREQUENCY,*/ names.ROOM_DIMENSION_DEPTH, names.ROOM_DIMENSION_HEIGHT, names.ROOM_DIMENSION_WIDTH/*, names.MIXING_SAFETY_FACTOR*/] : []
+
+//     const namesForSelectedValues = () => {
+//         const baseAndB5 = [names.EVAPORATION_RATE, names.MOLAR_MASS, names.GAS_DENSITY]
+//         if (!performReleaseCalculation && isGasCalculation && !hasReleaseRateInKgPerSecond) {
+//             return base
+//         } else if (!performReleaseCalculation && !isGasCalculation && !hasReleaseRateInKgPerSecond) {
+//             return base
+//         } else if (!performReleaseCalculation && hasReleaseRateInKgPerSecond) {
+//             return baseAndB5
+//         } else if (performReleaseCalculation && !isGasCalculation && !isEvaporationFromPool) {
+//             return baseAndB5.concat([names.DISCHARGE_COEFFICIENT, names.CROSS_SECTION_AREA, names.PRESSURE_DIFFERENCE])
+//         } else if (performReleaseCalculation && !isGasCalculation && isEvaporationFromPool) {
+//             return baseAndB5.concat([names.WIND_SPEED, names.POOL_SURFACE_AREA, names.PRESSURE_DIFFERENCE, names.ABSOLUTE_TEMPERATURE])
+//         } else if (performReleaseCalculation && isGasCalculation) {
+//             return baseAndB5.concat([names.ADIABATIC_EXPANSION, names.ATMOSPHERIC_PRESSURE, names.ABSOLUTE_TEMPERATURE, names.DISCHARGE_COEFFICIENT, names.CROSS_SECTION_AREA, names.COMPRESSIBILITY_FACTOR, names.PRESSURE_DIFFERENCE])
+//         } else {
+//             // TODO: Show error and send to crash log
+//         }
+//     }
+
+//     const nameCollection = backgroundConcentration.concat(namesForSelectedValues())
+//     return _.intersectionWith(definitions, nameCollection, (def, name) => def[0] === name)
+// }
 
 export const filterFields = (definitions, fieldValues) => {
     const performReleaseCalculation = fieldValues.calculateReleaseRate === 'yes'

@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
 import ErrorIcon from '@material-ui/icons/Error'
+import InputAdornment from '@material-ui/core/InputAdornment'
 
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 import * as _ from '../../../../node_modules/lodash/lodash.min'
@@ -44,6 +45,8 @@ export const generateNumberField = (handleChange, props) => (fieldName) => {
     const myValue = _.get(props.fields, fieldName[0])
     const { errorClass, errorMessage } = validateFieldValue(fieldName, myValue)
     const className = errorClass ? errorClass : classes.textField
+
+    const unitAdornment = <InputAdornment position="end" className="unit-adornment">{fieldName[2]()}</InputAdornment>
     
     return (
         <Paper className={styles.root} elevation={4} key={fieldName[0]}>
@@ -62,8 +65,10 @@ export const generateNumberField = (handleChange, props) => (fieldName) => {
                         shrink: true,
                     }}
                     margin="normal"
+                    InputProps = {{
+                        endAdornment: unitAdornment
+                    }}
                 />
-                {fieldName[2]()}
                 {makeErrorMessage(errorMessage)}
             </div>
         </Paper>
