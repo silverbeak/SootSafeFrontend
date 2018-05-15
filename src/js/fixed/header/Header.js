@@ -76,14 +76,16 @@ class Header extends React.Component {
 
         const { classes } = this.props
 
+        const showMenu = !!this.props.user && process.env.REACT_APP_DISPLAY_PROJECT_MENU === 'true'
+        console.log('SHOW', process.env.REACT_APP_DISPLAY_PROJECT_MENU === 'true');
+
         return (
             <div className="App-header">
 
                 <div className="left-hand-menu-cluster">
                     {
-                        this.props.user ?
-                            // <div className="project-menu-launcher"><StatedProjectMenu /></div> :
-                            <span></span> : // Remove this line, uncomment above to enable project menu
+                        showMenu ?
+                            <div className="project-menu-launcher"><StatedProjectMenu /></div> :
                             <span></span>
                     }
                     <a href="/">
