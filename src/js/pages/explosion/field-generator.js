@@ -18,14 +18,7 @@ const styles = theme => ({
 })
 
 const validateFieldValue = (field, value) => {
-    if (field[3]) {
-        const errorMessage = field[3](value)
-        return {
-            errorMessage,
-            errorClass: errorMessage === '' ? '' : 'value-error'
-        }
-    }
-    return {}
+    return !!field[3] ? field[3](value) : ''
 }
 
 const makeErrorMessage = msg => {
@@ -43,11 +36,10 @@ const makeErrorMessage = msg => {
 export const generateNumberField = (handleChange, props) => (fieldName) => {
     const { classes } = props
     const myValue = _.get(props.fields, fieldName[0])
-    const { errorClass, errorMessage } = validateFieldValue(fieldName, myValue)
-    const className = errorClass ? errorClass : classes.textField
+    const errorMessage = validateFieldValue(fieldName, myValue)
 
     const unitAdornment = <InputAdornment position="end" className="unit-adornment">{fieldName[2]()}</InputAdornment>
-    
+
     return (
         <Paper className={styles.root} elevation={4} key={fieldName[0]}>
             <h4>
@@ -60,12 +52,12 @@ export const generateNumberField = (handleChange, props) => (fieldName) => {
                     value={myValue}
                     onChange={handleChange(fieldName[0])}
                     type="number"
-                    className={className}
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    error={!!errorMessage}
                     margin="normal"
-                    InputProps = {{
+                    InputProps={{
                         endAdornment: unitAdornment
                     }}
                 />
