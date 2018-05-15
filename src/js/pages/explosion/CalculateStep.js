@@ -15,12 +15,19 @@ const calculateStep = (handleChange, props) => {
         </div>
     ]
 
-    const listFieldsForVerification = (fields) => {
+    const listFieldGroup = (fields, name) => {
         return (
-            <div className="Rtable Rtable--2cols">
-                {filterFields(fieldDefinitions, fields).map(displayVerification)}
-            </div>
+            <span key={`${name}-table`}>
+                <h3>{ccToDisplayString(name)}</h3>
+                <div className="Rtable Rtable--2cols">
+                    {fields.map(displayVerification)}
+                </div>
+            </span>
         )
+    }
+
+    const listFieldsForVerification = fields => {
+        return _.map(filterFields(fieldDefinitions, fields), listFieldGroup)
     }
 
     return (

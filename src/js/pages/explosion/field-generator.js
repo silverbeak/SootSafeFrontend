@@ -17,6 +17,11 @@ const styles = theme => ({
     })
 })
 
+const valueCardStyle = {
+    marginLeft: "2em",
+    marginRight: "2em"
+}
+
 const validateFieldValue = (field, value) => {
     return !!field[3] ? field[3](value) : ''
 }
@@ -41,7 +46,7 @@ export const generateNumberField = (handleChange, props) => (fieldName) => {
     const unitAdornment = <InputAdornment position="end" className="unit-adornment">{fieldName[2]()}</InputAdornment>
 
     return (
-        <Paper className={styles.root} elevation={4} key={fieldName[0]}>
+        <Paper className={styles.root} style={valueCardStyle} elevation={4} key={fieldName[0]}>
             <h4>
                 {ccToDisplayString(fieldName[0])} ({fieldName[1]()})
             </h4>

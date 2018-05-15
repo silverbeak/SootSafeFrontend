@@ -17,7 +17,7 @@ const initialReleaseRateState = {
         poolLeakage: 'yes',
         releaseRateInKgPerSecond: 'yes',
 
-        releaseRateValues: {
+        releaseRate: {
             volumetricGasFlowRate: 0,
             safetyFactor: 0.25,
             lowerFlammableLimit: gasList[0].explosionLimit.volume.LFL,
@@ -38,7 +38,7 @@ const initialReleaseRateState = {
             compressibilityFactor: 0,
         },
 
-        bgConcentrationValues: {
+        backgroundConcentration: {
             ventilationEfficiencyFactor: 1, // f
             volumetricFlowAir: 0,           // Q_1
             volumetricFlowAirGas: 0,        // Q_2

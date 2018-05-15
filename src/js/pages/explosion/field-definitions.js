@@ -165,6 +165,10 @@ export const fieldDefinitions = [
 //     return _.intersectionWith(definitions, nameCollection, (def, name) => def[0] === name)
 // }
 
+const groupByFunc = (def) => {
+    return _.head(_.split(def[0], '.', 2))
+}
+
 export const filterFields = (definitions, fieldValues) => {
     const performReleaseCalculation = fieldValues.calculateReleaseRate === 'yes'
     const isGasCalculation = fieldValues.liquidOrGas === 'gas'
@@ -194,7 +198,9 @@ export const filterFields = (definitions, fieldValues) => {
     }
 
     const nameCollection = backgroundConcentration.concat(namesForSelectedValues())
-    return _.intersectionWith(definitions, nameCollection, (def, name) => def[0] === name)
+    const filtered = _.intersectionWith(definitions, nameCollection, (def, name) => def[0] === name)
+
+    return _.groupBy(filtered, groupByFunc)
 }
 
 export const ccToDisplayString = str => {
