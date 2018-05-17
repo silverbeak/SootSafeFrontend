@@ -19,9 +19,9 @@ const releaseGradeStep = (handleChange, props) => {
                     value={props.fields.gradeOfRelease}
                     onChange={handleChange('gradeOfRelease')}
                 >
+                    <FormControlLabel value='Continuous' control={<Radio />} label='Continuous' />
                     <FormControlLabel value='Primary' control={<Radio />} label='Primary' />
                     <FormControlLabel value='Secondary' control={<Radio />} label='Secondary' />
-                    <FormControlLabel value='Continuous' control={<Radio />} label='Continuous' />
                 </RadioGroup>
             </FormControl>
         </div>

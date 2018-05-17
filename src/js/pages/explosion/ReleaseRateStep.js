@@ -48,8 +48,9 @@ const releaseRateStep = (handleChange, props) => {
                     <FormControlLabel value="no" control={<Radio />} label="No, I already have it" />
                 </RadioGroup>
 
-                {evaporationFromPoolQuery(handleChange, props)}
             </FormControl>
+            
+            {evaporationFromPoolQuery(handleChange, props)}
         </div>
     )
 }

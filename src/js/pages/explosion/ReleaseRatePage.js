@@ -8,7 +8,6 @@ import ReleaseRateStep from './ReleaseRateStep'
 import ParameterStep from './ParameterStep'
 import CalculateStep from './CalculateStep'
 import IndoorOutdoorStep from './IndoorOutdoorStep'
-import VentilationVelocityStep from './VentilationVelocityStep'
 import ReleaseGradeStep from './ReleaseGradeStep'
 import ReleaseTypeStep from './ReleaseTypeStep'
 import VentilationAvailabilityStep from './VentilationAvailabilityStep'
@@ -41,7 +40,6 @@ class ReleaseRatePage extends React.Component {
                 'Environment',
                 'Release rate',
                 'Parameters',
-                'Ventilation velocity',
                 'Ventilation availability',
                 'Release grade',
                 'Release type',
@@ -55,7 +53,6 @@ class ReleaseRatePage extends React.Component {
                 IndoorOutdoorStep,
                 ReleaseRateStep,
                 ParameterStep,
-                VentilationVelocityStep,
                 VentilationAvailabilityStep,
                 ReleaseGradeStep,
                 ReleaseTypeStep,
