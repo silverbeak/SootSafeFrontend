@@ -96,6 +96,15 @@ const projects = (state = initialState, action) => {
         case 'PROJECT_INDICES_LOADED':
             return Object.assign({}, state, { projectIndices: action.projectIndices })
 
+        case 'SKETCH_METADATA_LOADED':
+            const smlStateCopy = _.merge({}, state)
+            _.each(action.sketchMetadata, md => {
+                const proj = _.find(smlStateCopy.projectIndices, p => p.name === md.projectId)
+                if (!proj.sketches) proj.sketches = []
+                proj.sketches.push(md.sketchMetadata)
+            })
+            return smlStateCopy
+
         default:
             return state
     }

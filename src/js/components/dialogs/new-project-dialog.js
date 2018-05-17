@@ -6,7 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
-import { createNewProject, createNewSketch } from '../../actions/backend-communicator-actions'
+import { createNewSketch } from '../../actions/backend-communicator-actions'
+import { createNewFidProject } from '../../actions/firebase-fid-actions'
 import * as dialogActions from '../../actions/dialog-actions'
 
 class NewProjectDialog extends React.Component {
@@ -27,33 +28,34 @@ class NewProjectDialog extends React.Component {
 
     render() {
         const open = this.props.open || false
-        return <Dialog
-            open={open}
-            onClose={this.handleRequestClose.bind(this)}
-        >
-            <DialogTitle>{this.props.title}</DialogTitle>
-            <DialogContent>
-                <TextField
-                    autoFocus
-                    margin='dense'
-                    id='name'
-                    label='Name'
-                    type='text'
-                    onChange={event => this.setState({ name: event.target.value })}
-                    value={this.state.name}
-                    fullWidth
-                />
-                <DialogActions>
-                    <Button onClick={this.handleRequestClose.bind(this)} color="primary">
-                        Cancel
-                </Button>
-                    <Button onClick={this.submitNew.bind(this)} color="primary">
-                        Create
-                </Button>
-                </DialogActions>
-            </DialogContent>
-
-        </Dialog>
+        return (
+            <Dialog
+                open={open}
+                onClose={this.handleRequestClose.bind(this)}
+            >
+                <DialogTitle>{this.props.title}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin='dense'
+                        id='name'
+                        label='Name'
+                        type='text'
+                        onChange={event => this.setState({ name: event.target.value })}
+                        value={this.state.name}
+                        fullWidth
+                    />
+                    <DialogActions>
+                        <Button onClick={this.handleRequestClose.bind(this)} color="primary">
+                            Cancel
+                    </Button>
+                        <Button onClick={this.submitNew.bind(this)} color="primary">
+                            Create
+                    </Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
+        )
     }
 }
 
@@ -67,7 +69,7 @@ const mapStateToPropsForProject = (state, ownProps) => {
 const mapDispatchToPropsForProject = (dispatch, ownProps) => {
     return {
         createNew: projectName => {
-            dispatch(createNewProject(projectName))
+            dispatch(createNewFidProject({name: projectName}))
         },
         dismiss: () => {
             dispatch(dialogActions.dismissNewProjectDialog())

@@ -1,4 +1,5 @@
 import { fbApp } from '../firebase/firebase'
+import { loadProjectIndices } from './firebase-fid-actions'
 import { push } from 'react-router-redux'
 
 export const userLoggedIn = (user, path = '/') => {
@@ -7,6 +8,7 @@ export const userLoggedIn = (user, path = '/') => {
         path = path === '/login' ? '/' : path
         dispatch(push(path))
         dispatch({ type: 'USER_LOGGED_IN', user })
+        dispatch(loadProjectIndices())
     }
 }
 

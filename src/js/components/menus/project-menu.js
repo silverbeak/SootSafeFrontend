@@ -71,8 +71,6 @@ class ProjectMenu extends React.Component {
     singleProject(project) {
         const sketches = _.map(project.sketches, this.generateSketchMenuItem(project.id))
 
-        if (typeof project.id === 'undefined') debugger
-
         return (
             <ListItem
                 button

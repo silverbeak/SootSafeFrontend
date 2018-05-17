@@ -53,18 +53,6 @@ export const submitReleaseRateCalculation = calculationValues => {
     }
 }
 
-const saveData = (blob, fileName) => {
-    const a = document.createElement('a')
-    document.body.appendChild(a)
-    a.style = 'display: none'
-
-    const url = window.URL.createObjectURL(blob)
-    a.href = url
-    a.download = fileName
-    a.click()
-    window.URL.revokeObjectURL(url)
-}
-
 export const storeUserFeedback = (feedback, user) => {
     return (dispatch, getState) => {
         const db = getState().firebase.db
@@ -77,6 +65,18 @@ export const storeUserFeedback = (feedback, user) => {
         db.collection('userFeedback').add(feedbackData)
     }
 }
+
+// const saveData = (blob, fileName) => {
+//     const a = document.createElement('a')
+//     document.body.appendChild(a)
+//     a.style = 'display: none'
+
+//     const url = window.URL.createObjectURL(blob)
+//     a.href = url
+//     a.download = fileName
+//     a.click()
+//     window.URL.revokeObjectURL(url)
+// }
 
 // TODO: Probably remove. Don't think we want to do it this way
 // export const downloadStorageObject = path => {
