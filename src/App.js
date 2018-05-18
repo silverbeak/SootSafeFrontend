@@ -7,7 +7,7 @@ import About from './js/pages/About'
 import { Provider } from 'react-redux'
 import { Store, history } from './js/reducers/store'
 import { loadProjectIndices } from './js/actions/firebase-fid-actions'
-// import DrawingBoard from './js/pages/DrawingBoardComponent.js'
+import DrawingBoard from './js/pages/DrawingBoardComponent.js'
 import MainPage from './js/pages/MainPage.js'
 import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
@@ -39,8 +39,8 @@ class App extends Component {
                     <ConnectedRouter history={history}>
                         <div className="Site-content">
                             <Route exact path="/" component={MainPage} />
-                            {/* <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
-                            <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} /> */}
+                            <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
+                            {/* <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} /> */}
                             <Route path="/atex/start" component={AtexStartPage} />
                             <Route path="/atex/new" component={ReleaseRatePage} />
                             <Route path="/about" component={About} />
