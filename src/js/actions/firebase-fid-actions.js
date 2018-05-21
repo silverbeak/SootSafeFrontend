@@ -147,7 +147,7 @@ export const loadFromBackend = (projectId, sketchId) => {
                 .then(([sketchData, linkData, nodeData]) => {
                     const sketch = sketchData.data()
                     sketch.linkDataArray = linkData.docs.map(d => d.data())
-                    const nodeDataArray = _.map(nodeData.docs, node => { 
+                    const nodeDataArray = _.map(nodeData.docs, node => {
                         return _.assign({}, node.data(), { fields: extendFieldsByName(node.data().fields) })
                     })
                     sketch.nodeDataArray = nodeDataArray
@@ -244,7 +244,7 @@ export const saveToBackend = (payload, projectId, sketchId) => {
 export const createNewSketch = (sketchName, projectId) => {
     return (dispatch, getState) => {
         getDocRef(getState, projectId).then(projRef => {
-            
+
             if (!projRef) {
                 console.log('Could not locate document', getState().users, projectId, sketchName)
                 return
@@ -260,7 +260,26 @@ export const createNewSketch = (sketchName, projectId) => {
     }
 }
 
-export const calculatePressureLoss = () => { }
+export const calculatePressureLoss = (payload, projectId, sketchId) => {
+    // The two lines below are basically to "flatten" the type from a function to a string. 
+    // Look into this later
+    const payloadCopy = _.merge({}, payload)
+    _.map(payloadCopy.nodeDataArray, convertNode)
+
+    return (dispatch, getState) => {
+        let user = getState().users.user
+        if (!user) return
+        user = user.toJSON()
+        delete user.providerData
+        delete user.stsTokenManager
+        getState().firebase.db
+            .collection('fidRequests')
+            .add(_.assign({}, payloadCopy, { targetFirePressure: 1000, user, projectId, sketchId }))
+            .then(result => {
+                console.log('FID response', result);
+            })
+    }
+}
 
 const model = {
     "model": {
