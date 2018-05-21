@@ -1,8 +1,9 @@
 import React from 'react'
 import go from 'gojs/release/go-debug'
-import Card, { CardContent } from 'material-ui/Card'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 import SnappingTool from '../gojs/snapping-tool'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
 import ResultBox from '../components/result-box'
@@ -129,7 +130,7 @@ class DrawingBoard extends React.Component {
                 incremental: 1,
                 nodeKeyProperty: "key",
                 linkKeyProperty: "key",
-                modifiedNodeData: Object.assign({}, nextProps.sketches[this.sketchId].model.nodeDataArray),
+                modifiedNodeData: _.assign({}, nextProps.sketches[this.sketchId].model.nodeDataArray),
                 modifiedLinkData: nextProps.sketches[this.sketchId].model.linkDataArray
             })
 
