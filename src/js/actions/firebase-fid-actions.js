@@ -1,4 +1,5 @@
 import * as _ from '../../../node_modules/lodash/lodash.min'
+import { extendFieldsByName } from '../reducers/component-field-index'
 
 export const saveProjectToDb = projectData => {
     return {
@@ -146,7 +147,10 @@ export const loadFromBackend = (projectId, sketchId) => {
                 .then(([sketchData, linkData, nodeData]) => {
                     const sketch = sketchData.data()
                     sketch.linkDataArray = linkData.docs.map(d => d.data())
-                    sketch.nodeDataArray = nodeData.docs.map(d => d.data())
+                    const nodeDataArray = _.map(nodeData.docs, node => { 
+                        return _.assign({}, node.data(), { fields: extendFieldsByName(node.data().fields) })
+                    })
+                    sketch.nodeDataArray = nodeDataArray
 
                     dispatch({
                         type: 'SKETCH_DATA_LOADED',
@@ -216,14 +220,19 @@ const getDocRef = (getState, projectId, sketchId) => {
 
 export const saveToBackend = (payload, projectId, sketchId) => {
     return (dispatch, getState) => {
-        getDocRef(getState, projectId, sketchId).then(sketchRef => {
-            sketchRef.set(payload.baseData)
 
-            _.forEach(payload.projectData.linkDataArray, link => {
+        getDocRef(getState, projectId, sketchId).then(sketchRef => {
+
+            _.forEach(payload.linkDataArray, link => {
                 sketchRef.collection('linkDataArray').doc(`${link.key}`).set(link)
             })
 
-            _.forEach(payload.projectData.nodeDataArray, node => {
+            // The two lines below are basically to "flatten" the type from a function to a string. 
+            // Look into this later
+            const payloadCopy = _.merge({}, payload.nodeDataArray)
+            _.map(payloadCopy, convertNode)
+
+            _.forEach(payloadCopy, node => {
                 sketchRef.collection('nodeDataArray').doc(`${node.key}`).set(node)
             })
         }).catch((reason) => {
@@ -262,4 +271,24 @@ const model = {
         "linkFromPortIdProperty": "fid",
         "linkToPortIdProperty": "tid",
     }
+}
+
+const convertSingleField = (field, name) => {
+    switch (field.type) {
+        case Object:
+            return {
+                type: field.type.name,
+                children: convertFields(field.children), name
+            }
+        default:
+            return { [name]: Object.assign({}, field, { type: field.type.name }) }
+    }
+}
+
+function convertFields(fields) {
+    return _.map(fields, convertSingleField)
+}
+
+function convertNode(node) {
+    if (node.fields) node.fields = convertFields(node.fields)
 }
