@@ -66,6 +66,23 @@ export const storeUserFeedback = (feedback, user) => {
     }
 }
 
+export const loadElements = () => {
+    return (dispatch, getState) => {
+        const db = getState().firebase.db
+        const elements = {}
+        db.collection('elements').get().then(snapShot => {
+            snapShot.docs.forEach(doc => {
+                elements[doc.id] = doc.data()
+            })
+    
+            dispatch({
+                type: 'ELEMENTS_FETCHED',
+                data: elements
+            })        
+        })
+    }
+}
+
 // const saveData = (blob, fileName) => {
 //     const a = document.createElement('a')
 //     document.body.appendChild(a)

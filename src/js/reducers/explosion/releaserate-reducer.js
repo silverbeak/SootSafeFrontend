@@ -1,5 +1,6 @@
 import * as _ from '../../../../node_modules/lodash/lodash.min'
 
+// TODO: Get rid of this. Use vales from database
 const gasList = [
     { name: 'Acetylene (ethyne)', CASnr: '74-86-2', EGnr: '200-816-9', RDT: 0.90, flamePoint: 'gas', explosionLimit: { volume: { LFL: .023, UFL: 1.00 }, weight: { LFL: 24, UFL: 1092 } }, autoIgnitionTemperature: 305, temperatureClass: 'T2', MESG: 0.37, explosionClass: 'IIC', gasDensity: 1.092, molarMass: 26.04 / 1000 },
     { name: 'Benzene', CASnr: '71-43-2', EGnr: '200-753-7', RDT: 2.70, flamePoint: '-11', explosionLimit: { volume: { LFL: .012, UFL: .086 }, weight: { LFL: 39, UFL: 280 } }, autoIgnitionTemperature: 498, temperatureClass: 'T1', MESG: 0.99, explosionClass: 'IIA', gasDensity: 3.486, molarMass: 78.11 / 1000 },
@@ -69,7 +70,7 @@ const initialReleaseRateState = {
 
         gradeOfRelease: 'Primary'
     },
-    gasList,
+    gasList: [],
     report: {}
 }
 
@@ -89,11 +90,11 @@ const releaseRate = (state = initialReleaseRateState, action) => {
 
         case 'RR_ELEMENT_VALUE_UPDATED':
             const elementStateCopy = _.merge({}, state)
-            const element = _.find(gasList, g => g.CASnr === action.value)
+            const element = _.find(state.gasList, g => g.CASnr === action.value)
             elementStateCopy.fields.casNumber = action.value
-            elementStateCopy.fields.releaseRateValues.lowerFlammableLimit = element.explosionLimit.volume.LFL
-            elementStateCopy.fields.releaseRateValues.gasDensity = element.gasDensity
-            elementStateCopy.fields.releaseRateValues.molarMass = element.molarMass
+            elementStateCopy.fields.releaseRate.lowerFlammableLimit = element.explosionLimit.volume.LFL
+            elementStateCopy.fields.releaseRate.gasDensity = element.gasDensity
+            elementStateCopy.fields.releaseRate.molarMass = element.molarMass
             
             return elementStateCopy
 
@@ -103,6 +104,8 @@ const releaseRate = (state = initialReleaseRateState, action) => {
         case 'RR_REPORT_LINK_RECEIVED':
             return setReportLink(state, action.url)
 
+        case 'ELEMENTS_FETCHED': 
+            return _.merge({}, state, { gasList: _.values(action.data) })
         default:
             return state
     }
