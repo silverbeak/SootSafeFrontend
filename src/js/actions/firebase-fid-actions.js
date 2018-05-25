@@ -82,54 +82,6 @@ export const loadProjectIndices = () => {
     }
 }
 
-export const submitReleaseRateCalculation = calculationValues => {
-    return (dispatch, getState) => {
-        const db = getState().firebase.db
-
-        db.collection('releaseRate')
-            .add(calculationValues)
-            .then(docRef => {
-
-                console.log('CREATED', docRef.id)
-
-                // Attach a listener to this document. When the calculation is done, the pdf will be uploaded there
-                const unsubscribe = db
-                    .collection('releaseRate')
-                    .doc(docRef.id)
-                    .collection('report')
-                    .doc('pdf')
-                    .onSnapshot(doc => {
-                        if (doc.exists) {
-                            // dispatch(downloadStorageObject(doc.data().reportPath))
-                            dispatch({
-                                type: 'RR_REPORT_LINK_RECEIVED',
-                                url: doc.data().reportPath
-                            })
-                            unsubscribe()
-                        }
-                    })
-
-                dispatch({
-                    type: 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED',
-                    id: docRef.id
-                })
-
-                return docRef
-            }).then(docRef => {
-                console.log(`Listener created for document ${docRef.id}. Now sending request to releaseRateRequests collection`)
-                const userId = getState().users.user.uid
-                const timeStamp = new Date().getTime()
-                db.collection('releaseRateRequests')
-                    .add({
-                        id: docRef.id,
-                        timeStamp, userId
-                    })
-            }).catch(error => {
-                console.error("Error adding document: ", error)
-            })
-    }
-}
-
 export const loadFromBackend = (projectId, sketchId) => {
     return (dispatch, getState) => {
         getDocRef(getState, projectId, sketchId).then(sketchRef => {

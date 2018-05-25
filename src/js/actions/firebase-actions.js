@@ -9,7 +9,7 @@ export const submitReleaseRateCalculation = calculationValues => {
     return (dispatch, getState) => {
         const db = getState().firebase.db
 
-        db.collection('releaseRate')
+        db.collection('atex')
             .add(calculationValues)
             .then(docRef => {
 
@@ -17,7 +17,7 @@ export const submitReleaseRateCalculation = calculationValues => {
 
                 // Attach a listener to this document. When the calculation is done, the pdf will be uploaded there
                 const unsubscribe = db
-                    .collection('releaseRate')
+                    .collection('atex')
                     .doc(docRef.id)
                     .collection('report')
                     .doc('pdf')
@@ -39,10 +39,10 @@ export const submitReleaseRateCalculation = calculationValues => {
 
                 return docRef
             }).then(docRef => {
-                console.log(`Listener created for document ${docRef.id}. Now sending request to releaseRateRequests collection`)
+                console.log(`Listener created for document ${docRef.id}. Now sending request to atexRequests collection`)
                 const userId = getState().users.user.uid
                 const timeStamp = new Date().getTime()
-                db.collection('releaseRateRequests')
+                db.collection('atexRequests')
                     .add({
                         id: docRef.id,
                         timeStamp, userId
