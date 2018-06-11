@@ -1,6 +1,6 @@
 import React from 'react'
 import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import * as actions from '../actions/project-actions'
 import List from '@material-ui/core/List'
