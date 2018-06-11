@@ -21,8 +21,8 @@ export const userLogoutRequested = () => {
 
 export const userLoggedOut = () => {
     return dispatch => { 
-        dispatch(push('/'))
         dispatch({type: 'USER_LOGGED_OUT' })
+        dispatch(push('/'))
     }
 }
 
