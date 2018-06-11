@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import { clearAllErrorMessages } from '../actions/error-message-actions'
 
 const errorMessageBoxStyle = {

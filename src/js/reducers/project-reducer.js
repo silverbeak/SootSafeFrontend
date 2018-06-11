@@ -52,7 +52,7 @@ const pressureCalculationResult = (state, action) => {
 const projects = (state = initialState, action) => {
     switch(action.type) {
         case 'LOAD_PROJECT_REQUEST':
-        return state
+            return state
         
         case 'SKETCH_DATA_LOADED':
             const projectStateCopy = Object.assign({}, state)

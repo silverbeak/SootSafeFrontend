@@ -1,4 +1,3 @@
-import ReduxThunk from 'redux-thunk'
 import { extendFieldsByName } from '../reducers/component-field-index'
 import * as _ from '../../../node_modules/lodash/lodash.min'
 import { showNotification } from './notification-actions'
@@ -132,12 +131,12 @@ export const saveToBackend = (payload, projectId, sketchId) => {
         }
     }
 
-    const dataSaveErrorReceived = (code, msg, trailer) => {
-        return {
-            type: 'DATA_SAVE_ERROR_RECEIVED',
-            code, msg, trailer
-        }
-    }
+    // const dataSaveErrorReceived = (code, msg, trailer) => {
+    //     return {
+    //         type: 'DATA_SAVE_ERROR_RECEIVED',
+    //         code, msg, trailer
+    //     }
+    // }
 
     const onResult = (res, dispatch) => {
         res.json().then(data => {
@@ -182,9 +181,9 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
     return sendToBackend(payload, `http://localhost:3001/project/${projectId}/sketch/${sketchId}/calculate`, onResult)
 }
 
-const convertIncomingFields = node => {
-    return Object.assign({}, node, _.map(node, extendFieldsByName))
-}
+// const convertIncomingFields = node => {
+//     return Object.assign({}, node, _.map(node, extendFieldsByName))
+// }
 
 export const loadFromBackend = (projectId, sketchId) => {
 
