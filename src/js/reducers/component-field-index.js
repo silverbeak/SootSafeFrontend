@@ -26,10 +26,10 @@ const base = {
         path: 'fields.comment',
         unit: ''
     },
-    name: {
+    label: {
         type: String,
         value: '',
-        path: 'fields.name',
+        path: 'fields.label',
         unit: ''
     },
     dimension: {
@@ -163,10 +163,9 @@ export const extendFieldsByName = fields => {
             aggregator[field.name] = {}
             aggregator[field.name].children = extendFieldsByName(field.children)
             aggregator[field.name].type = Object
+            aggregator[field.name].name = name
         } else {
-            _.mapValues(field, (f, name) => {
-                aggregator[name] = extendSingleFieldByType(f)
-             })
+            aggregator[name] = extendSingleFieldByType(field)
         }
         return aggregator
     }

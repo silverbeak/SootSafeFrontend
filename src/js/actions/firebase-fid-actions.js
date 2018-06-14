@@ -176,13 +176,14 @@ export const saveToBackend = (payload, projectId, sketchId) => {
         getDocRef(getState, projectId, sketchId).then(sketchRef => {
 
             _.forEach(payload.linkDataArray, link => {
-                sketchRef.collection('linkDataArray').doc(`${link.key}`).set(link)
+                // sketchRef.collection('linkDataArray').doc(`${link.key}`).set(link) This is what I want. Find out why 'link.key' has become undefined
+                sketchRef.collection('linkDataArray').doc(`${link.__gohashid}`).set(link)
             })
 
             // The two lines below are basically to "flatten" the type from a function to a string. 
             // Look into this later
             const payloadCopy = _.merge({}, payload.nodeDataArray)
-            _.map(payloadCopy, convertNode)
+            _.forEach(payloadCopy, flattenNodeFields)
 
             _.forEach(payloadCopy, node => {
                 sketchRef.collection('nodeDataArray').doc(`${node.key}`).set(node)
@@ -216,7 +217,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
     // The two lines below are basically to "flatten" the type from a function to a string. 
     // Look into this later
     const payloadCopy = _.merge({}, payload)
-    _.map(payloadCopy.nodeDataArray, convertNode)
+    _.forEach(payloadCopy.nodeDataArray, flattenNodeFields)
 
     return (dispatch, getState) => {
         let user = getState().users.user
@@ -244,22 +245,28 @@ const model = {
     }
 }
 
-const convertSingleField = (field, name) => {
+const flattenSingleField = (agg, field, name) => {
     switch (field.type) {
         case Object:
-            return {
+            agg[name] = {
                 type: field.type.name,
-                children: convertFields(field.children), name
+                children: flattenFields(field.children),
+                name
             }
+            break
         default:
-            return { [name]: Object.assign({}, field, { type: field.type.name }) }
+            agg[name] = _.assign({}, field, { type: field.type.name, name })
     }
+    return agg
 }
 
-function convertFields(fields) {
-    return _.map(fields, convertSingleField)
+function flattenFields(fields) {
+    return _.reduce(fields, flattenSingleField, {})
 }
 
-function convertNode(node) {
-    if (node.fields) node.fields = convertFields(node.fields)
+function flattenNodeFields(node) {
+    if (node.fields) {
+        const flattenedFields = flattenFields(node.fields)
+        node.fields = flattenedFields
+    }
 }

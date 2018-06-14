@@ -1,9 +1,9 @@
-import go from 'gojs/release/go-debug'
+import go from 'gojs'
 import SnappingTool from './snapping-tool'
 
-export const initDrawingBoard = (treeDefinition, nodeTemplate) => {
+export const initDrawingBoard = (treeDefinition, nodeTemplate) => diagramElementId => {
     const $ = treeDefinition
-    const myDiagram = $(go.Diagram, "myDiagramDiv", {
+    const myDiagram = $(go.Diagram, diagramElementId, {
         initialScale: 1.5,
         "commandHandler.defaultScale": 1.5,
         allowDrop: true,  // accept drops from palette

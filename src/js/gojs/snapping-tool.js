@@ -1,4 +1,4 @@
-import go from 'gojs/release/go-debug.js'
+import go from 'gojs'
 
 export default class SnappingTool extends go.DraggingTool {
     // Define a custom DraggingTool
@@ -145,8 +145,7 @@ export default class SnappingTool extends go.DraggingTool {
                     // maybe add a link -- see if the port is at another port that is compatible
                     var portPt = port.getDocumentPoint(go.Spot.Center);
                     if (!portPt.isReal()) continue;
-                    var nearbyports =
-                    this.diagram.findObjectsAt(portPt,
+                    var nearbyports = this.diagram.findObjectsAt(portPt,
                         function(x) {  // some GraphObject at portPt
                             var o = x;
                             // walk up the chain of panels
@@ -154,13 +153,14 @@ export default class SnappingTool extends go.DraggingTool {
                             return o;
                         },
                         function(p) {  // a "port" Panel
-                        // the parent Node must not be in the dragged collection, and
-                        // this port P must be compatible with the NODE's PORT
-                        if (coll.contains(p.part)) return false;
-                        var ppt = p.getDocumentPoint(go.Spot.Center);
-                        if (portPt.distanceSquaredPoint(ppt) >= 0.25) return false;
-                        return tool.compatiblePorts(port, p);
-                    });
+                            // the parent Node must not be in the dragged collection, and
+                            // this port P must be compatible with the NODE's PORT
+                            if (coll.contains(p.part)) return false;
+                            var ppt = p.getDocumentPoint(go.Spot.Center);
+                            if (portPt.distanceSquaredPoint(ppt) >= 0.25) return false;
+                            return tool.compatiblePorts(port, p);
+                        }
+                    );
                     // did we find a compatible port?
                     var np = nearbyports.first();
                     if (np !== null) {

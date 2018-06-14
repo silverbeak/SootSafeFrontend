@@ -24,8 +24,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         partDropped: (data, partKeys, sketchId) => {
             dispatch(projectActions.partDropped(data, partKeys, sketchId))
         },
-        modelUpdated: (incrementalUpdateJson, sketchId) => {
-            dispatch(projectActions.modelUpdated(incrementalUpdateJson, sketchId))
+        modelUpdated: (updateEvent) => {
+            switch(updateEvent.eventType) {
+                case 'Add':
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    break
+                case 'Remove':
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    break
+                default:
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    break
+            }
         },
         projectSaved: (projectData, projectId, sketchId) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))

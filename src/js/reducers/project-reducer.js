@@ -27,7 +27,7 @@ const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
 }
 
 const partTypeChanged = (state, action) => {
-    const stateCopy = Object.assign({}, state)
+    const stateCopy = _.merge({}, state)
     const targetSketch = stateCopy.sketches[action.sketchId]
     const nodePartsCopy = targetSketch.model.nodeDataArray
     const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
@@ -81,9 +81,8 @@ const projects = (state = initialState, action) => {
         
         case 'MODEL_UPDATED':
             if (state.sketches[action.sketchId]) {
-                const incrementalJson = JSON.parse(action.incrementalUpdateJson)
-                const incrementalUpdateState = Object.assign({}, state)
-                handleInserts(incrementalJson.insertedNodeKeys, incrementalJson.modifiedNodeData, incrementalUpdateState.sketches[action.sketchId].model.nodeDataArray)
+                const incrementalUpdateState = _.merge({}, state)
+                incrementalUpdateState.sketches[action.sketchId].model = action.incrementalUpdateJson
                 return incrementalUpdateState
             } else {
                 return state

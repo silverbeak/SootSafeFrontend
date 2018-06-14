@@ -1,4 +1,4 @@
-import go from 'gojs/release/go-debug'
+import go from 'gojs'
 
 export const initPalette = (treeDefinition, nodeTemplate, nodeDataArray) => {
     // Make sure the pipes are ordered by their key in the palette inventory

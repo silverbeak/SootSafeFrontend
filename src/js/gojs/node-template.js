@@ -1,4 +1,4 @@
-import go from 'gojs/release/go-debug'
+import go from 'gojs'
 
 export const createNodeTemplate = (treeDefinition, onSelectionChanged) => {
     const $ = treeDefinition

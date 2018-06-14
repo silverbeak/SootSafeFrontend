@@ -3320,9 +3320,9 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-gojs@^1.8.2:
-  version "1.8.16"
-  resolved "https://registry.yarnpkg.com/gojs/-/gojs-1.8.16.tgz#5ef5bfd086b9b362353e1d1a55cc5b145fb634a5"
+gojs@^1.8.21:
+  version "1.8.21"
+  resolved "https://registry.yarnpkg.com/gojs/-/gojs-1.8.21.tgz#2196f18be3ba07031690acf302c8c9990181ff15"
 
 got@^6.7.1:
   version "6.7.1"
@@ -6108,6 +6108,12 @@ react-ga@^2.5.0:
   optionalDependencies:
     prop-types "^15.6.0"
     react "^15.6.2 || ^16.0"
+
+react-gojs@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-gojs/-/react-gojs-1.3.1.tgz#db7314fd89934afd37263052f6336eb0fef7cf45"
+  dependencies:
+    gojs "^1.8.21"
 
 react-jss@^8.1.0:
   version "8.4.0"

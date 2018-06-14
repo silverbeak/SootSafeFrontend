@@ -1,8 +1,6 @@
 import React from 'react'
-import go from 'gojs/release/go-debug'
+import go from 'gojs'
 import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import SnappingTool from '../gojs/snapping-tool'
 import Button from '@material-ui/core/Button'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
@@ -10,6 +8,7 @@ import ResultBox from '../components/result-box'
 import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
+import { GojsDiagram } from 'react-gojs'
 
 const boardContainerStyle = {
     display: "flex",
@@ -78,64 +77,28 @@ class DrawingBoard extends React.Component {
             return
         }
         if (part.key) {
-            const partFromModel = _.find(this.sketch.model.nodeDataArray, n => n.key === part.key)
+            const partFromModel = _.find(this.props.sketches[this.sketchId].model.nodeDataArray, n => n.key === part.key)
             this.props.partSelected(partFromModel ? partFromModel : {})
         } else {
             console.log('Illegal select', part)
         }
     }
 
+    componentWillMount() {
+        this.treeDef = go.GraphObject.make;  // for more concise visual tree definitions
+        const nodeTemplate = createNodeTemplate(this.treeDef, this.onSelectionChanged.bind(this))
+        this.myDiagramCreator = initDrawingBoard(this.treeDef, nodeTemplate)
+    }
+
     componentDidMount() {
-        var $ = go.GraphObject.make;  // for more concise visual tree definitions
-        const nodeTemplate = createNodeTemplate($, this.onSelectionChanged.bind(this))
-        this.myDiagram = initDrawingBoard($, nodeTemplate)
-        const paletteNodeTemplate = createNodeTemplate($, () => { })
-
-        this.myPalette = initPalette($, paletteNodeTemplate, this.props.palette)
-
-        this.myDiagram.addModelChangedListener(e => {
-            if (e.isTransactionFinished) {
-                const json = e.model.toIncrementalJson(e)
-                this.props.modelUpdated(json, this.sketchId)
-            }
-        })
-
-        this.myDiagram.addDiagramListener('SelectionDeleted', () => { this.props.partSelected({}) })
-        this.myDiagram.addDiagramListener('BackgroundSingleClicked', () => { this.props.partSelected({}) })
+        const paletteNodeTemplate = createNodeTemplate(this.treeDef, () => { })
+        this.myPalette = initPalette(this.treeDef, paletteNodeTemplate, this.props.palette)
     }
 
     save() {
-        // document.getElementById("mySavedModel").value = this.myDiagram.model.toJson();
-        this.myDiagram.isModified = false;
-        const saveObject = Object.assign({}, { nodeDataArray: this.myDiagram.model.nodeDataArray, linkDataArray: this.myDiagram.model.linkDataArray })
+        const { nodeDataArray, linkDataArray } = this.props.sketches[this.sketchId].model
+        const saveObject = _.merge({}, { nodeDataArray, linkDataArray })
         this.props.projectSaved(saveObject, this.projectId, this.sketchId)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.state.initiated && (nextProps.projectId !== this.projectId || nextProps.sketchId !== this.sketchId)) {
-            const { projectId, sketchId } = nextProps
-            this.sketchId = sketchId
-            this.projectId = projectId
-            this.setState({ initiated: false })
-            this.props.requestProjectLoad(nextProps.projectId, nextProps.sketchId)
-        }
-
-        if (!this.state.initiated && nextProps.sketches[this.sketchId]) {
-            this.setState({ initiated: true })
-
-            this.sketch = nextProps.sketches[this.sketchId]
-
-            this.myDiagram.model.applyIncrementalJson({
-                class: "go.GraphLinksModel",
-                incremental: 1,
-                nodeKeyProperty: "key",
-                linkKeyProperty: "key",
-                modifiedNodeData: _.assign({}, nextProps.sketches[this.sketchId].model.nodeDataArray),
-                modifiedLinkData: nextProps.sketches[this.sketchId].model.linkDataArray
-            })
-
-            this.myDiagram.model = go.Model.fromJson(Object.assign({}, nextProps.sketches[this.sketchId].model))
-        }
     }
 
     render() {
@@ -143,7 +106,21 @@ class DrawingBoard extends React.Component {
             <div id="board-container" style={boardContainerStyle}>
                 <Card id="myPaletteDiv" style={paletteStyle}></Card>
                 <div id="board-and-infobox" style={boardAndInfoStyle}>
-                    <Card id="myDiagramDiv" style={boardStyle}></Card>
+                    <Card style={boardStyle}>
+                        {
+                            this.props.sketches[this.sketchId] ?
+                                <GojsDiagram
+                                    diagramId="myDiagramDiv"
+                                    model={this.props.sketches[this.sketchId].model}
+                                    createDiagram={this.myDiagramCreator}
+                                    className="myDiagram"
+                                    onModelChange={this.props.modelUpdated}
+                                    linkFromPortIdProperty="fid"
+                                    linkToPortIdProperty="tid"
+                                /> :
+                                <span>Loading sketch...</span>
+                        }
+                    </Card>
                     <div style={rightHandCards}>
                         <Card id="info-board" style={infoBoxStyle}>
                             <ResultBox partData={this.props.selectedPart} sketchId={this.sketchId} />
