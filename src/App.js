@@ -6,10 +6,8 @@ import Footer from './js/fixed/footer/Footer'
 import About from './js/pages/About'
 import { Provider } from 'react-redux'
 import { Store, history } from './js/reducers/store'
-import { loadProjectIndices } from './js/actions/firebase-fid-actions'
 import { loadElements } from './js/actions/firebase-actions'
 import DrawingBoard from './js/pages/DrawingBoardComponent.js'
-import MainPage from './js/pages/MainPage.js'
 import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
@@ -20,6 +18,7 @@ import AtexStartPage from './js/pages/explosion/AtexStartPage'
 import FeedbackDialog from './js/components/dialogs/feedback-dialog'
 
 import ReactGA from 'react-ga'
+import StatedLoginProxy from './js/pages/LoginProxy';
 // Store.dispatch(loadProjectIndices())
 Store.dispatch(loadElements())
 
@@ -39,7 +38,7 @@ class App extends Component {
 
                     <ConnectedRouter history={history}>
                         <div className="Site-content">
-                            <Route exact path="/" component={MainPage} />
+                            <Route exact path="/" component={StatedLoginProxy} />
                             <Route path="/project/:projectId/sketch/:sketchId/board" component={DrawingBoard} />
                             {/* <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} /> */}
                             <Route path="/atex/start" component={AtexStartPage} />
