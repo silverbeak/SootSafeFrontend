@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import * as _ from '../../../node_modules/lodash/lodash.min'
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
+import Table, { TableBody, TableCell, TableHead, TableRow } from '@material-ui/core/Table'
 
 class CalculatedResultsBox extends React.Component {
 

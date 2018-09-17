@@ -2,6 +2,8 @@ import React from 'react'
 import go from 'gojs'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
 import ResultBox from '../components/result-box'
@@ -9,6 +11,7 @@ import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
+import { Input, TextField } from '@material-ui/core';
 
 const boardContainerStyle = {
     display: "flex",
@@ -56,6 +59,12 @@ const rightHandCards = {
     paddingRight: ".4em"
 }
 
+const fullWidthFullHeight = {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column'
+}
+
 class DrawingBoard extends React.Component {
 
     constructor(props) {
@@ -63,7 +72,7 @@ class DrawingBoard extends React.Component {
         const { projectId, sketchId } = props
         this.sketchId = sketchId
         this.projectId = projectId
-        this.state = { initiated: false }
+        this.state = { initiated: false, displayTab: 0 }
         props.requestProjectLoad(projectId, sketchId)
     }
 
@@ -92,7 +101,7 @@ class DrawingBoard extends React.Component {
 
     componentDidMount() {
         const paletteNodeTemplate = createNodeTemplate(this.treeDef, () => { })
-        this.myPalette = initPalette(this.treeDef, paletteNodeTemplate, this.props.palette)
+        if (!this.myPalette) this.myPalette = initPalette(this.treeDef, paletteNodeTemplate, this.props.palette)
     }
 
     save() {
@@ -101,7 +110,7 @@ class DrawingBoard extends React.Component {
         this.props.projectSaved(saveObject, this.projectId, this.sketchId)
     }
 
-    render() {
+    renderDrawingBoard() {
         return (
             <div id="board-container" style={boardContainerStyle}>
                 <Card id="myPaletteDiv" style={paletteStyle}></Card>
@@ -131,6 +140,42 @@ class DrawingBoard extends React.Component {
                     </div>
                 </div>
                 <Button onClick={this.save.bind(this)}>Save</Button>
+            </div>
+        )
+    }
+
+    handleChange = fieldName => value => {
+        
+    }
+
+    renderValuesTabContent() {
+        return (
+            <TextField 
+                id="targetPressure"
+                label="Target Pressure"
+                value={this.props.targetPressureValue}
+                onChange={this.handleChange('targetPressure')}
+            />
+        )
+    }
+
+    displayTabChanged = (event, displayTab) => {
+        this.setState({ displayTab })
+    }
+
+    render() {
+        const { displayTab } = this.state
+        return (
+            <div style={fullWidthFullHeight}>
+                <Tabs value={displayTab} onChange={this.displayTabChanged}>
+                    <Tab label="sketch" />
+                    <Tab label="values" />
+                    <Tab label="resultTable" />
+
+                </Tabs>
+                    {displayTab === 0 && this.renderDrawingBoard.bind(this)()}
+                    {displayTab === 1 && <p>Values here</p>}
+                    {displayTab === 2 && <p>Result table here</p>}
             </div>
         )
     }
