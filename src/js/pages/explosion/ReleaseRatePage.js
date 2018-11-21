@@ -68,8 +68,9 @@ class ReleaseRatePage extends React.Component {
 
     handleChange(field) {
         return event => {
-            console.log(`Field ${field} updated, ${event.target.value}`)
-            this.props.valueUpdated(field, event.target.value)
+            const floatValue = parseFloat(event.target.value)
+            // console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue}`)
+            this.props.valueUpdated(field, floatValue)
         }
     }
 

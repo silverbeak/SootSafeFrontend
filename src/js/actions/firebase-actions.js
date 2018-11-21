@@ -41,7 +41,7 @@ export const submitReleaseRateCalculation = calculationValues => {
             }).then(docRef => {
                 console.log(`Listener created for document ${docRef.id}. Now sending request to atexRequests collection`)
                 const userId = getState().users.user.uid
-                const timeStamp = new Date().getTime()
+                const timeStamp = new Date().getTime() // May have to update this since firebase has introduced the Timestamp interface
                 db.collection('atexRequests')
                     .add({
                         id: docRef.id,
