@@ -1,6 +1,5 @@
 import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
-import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import { connect } from 'react-redux'

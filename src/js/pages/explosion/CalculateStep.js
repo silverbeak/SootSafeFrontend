@@ -4,7 +4,6 @@ import * as _ from '../../../../node_modules/lodash/lodash.min'
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 
 const calculateStep = (handleChange, props) => {
-    const { classes } = props
 
     const displayVerification = field => [
         <div className="Rtable-cell title" key={`${field[0]}-label`}>

@@ -11,7 +11,7 @@ import { StatedErrorMessageBox } from '../components/error-message-box'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
-import { Input, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 const boardContainerStyle = {
     display: "flex",

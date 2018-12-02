@@ -1,5 +1,4 @@
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
-import { initializeApp } from 'firebase';
 
 const initialNotificationState = {
     notifications: []

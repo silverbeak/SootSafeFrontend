@@ -11,26 +11,11 @@ const addSootSafeInfoToNodeByKey = (key, nodeDataArray) => {
     node.ssInfo = {}
 }
 
-const handleInserts = (nodeKeys, modifiedNodeData, nodeDataArray) => {
-    if (nodeKeys) {
-        nodeKeys.forEach(key => {
-            const newNode = _.find(nodeDataArray, n => n.key === key)
-            if (newNode) {
-                newNode.fields = _.merge({}, newNode.fields)
-                newNode.type = _.merge({}, newNode.type)
-                newNode.ssInfo = {}
-            } else {
-                console.warn('No matching node found. This will happen once for new sketches. Disregard warning.')
-            }
-        })
-    }
-}
-
 const partTypeChanged = (state, action) => {
     const stateCopy = _.merge({}, state)
     const targetSketch = stateCopy.sketches[action.sketchId]
     const nodePartsCopy = targetSketch.model.nodeDataArray
-    const nodeIndex = _.findIndex(nodePartsCopy, n => n.key == action.partKey)
+    const nodeIndex = _.findIndex(nodePartsCopy, n => n.key === action.partKey)
     _.set(nodePartsCopy[nodeIndex], action.infoKey, AVAILABLE_TYPES[action.value])
     nodePartsCopy[nodeIndex] = changeTypeByName(nodePartsCopy[nodeIndex])
     return stateCopy
@@ -44,7 +29,7 @@ const pressureCalculationError = (state, action) => {
 const pressureCalculationResult = (state, action) => {
     const stateCopy = Object.assign({}, state)
     const nodeDataCopy = stateCopy.sketches[action.sketchId].model.nodeDataArray
-    const currentNode = _.find(nodeDataCopy, n => n.key == action.entry.key)
+    const currentNode = _.find(nodeDataCopy, n => n.key === action.entry.key)
     _.set(currentNode, 'calculationResult', action.entry)
     return stateCopy
 }
@@ -71,7 +56,7 @@ const projects = (state = initialState, action) => {
         case 'PART_INFO_UPDATED':
             const piCopy = Object.assign({}, state)
             const nodeDataCopy = piCopy.sketches[action.sketchId].model.nodeDataArray
-            const currentNode = _.find(nodeDataCopy, n => n.key == action.partKey)
+            const currentNode = _.find(nodeDataCopy, n => n.key === action.partKey)
             _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy
 

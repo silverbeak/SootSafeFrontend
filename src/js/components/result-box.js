@@ -9,14 +9,6 @@ function TabContainer(props) {
     return <div style={{ padding: 8 * 3 }}>{props.children}</div>;
 }
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        marginTop: theme.spacing.unit * 3,
-        backgroundColor: theme.palette.background.paper,
-    }
-})
-
 class ResultBox extends React.Component {
 
     constructor(props) {

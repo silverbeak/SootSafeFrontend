@@ -1,6 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { loginFailed } from '../actions/login-actions';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase'
 import { fbApp } from '../firebase/firebase'

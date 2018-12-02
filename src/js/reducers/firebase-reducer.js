@@ -19,12 +19,14 @@ const firebaseReducer = (state = initialState, action) => {
             _.forEach(action.projectData.nodeDataArray, node => {
                 ref.collection('nodeDataArray').doc(`${node.key}`).set(node)
             })
+            break
 
         case 'RELEASE_RATE_CALCULATION_SUBMITTED':
+            break
 
         case 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED':
             console.log('Release rate submission successful', action)
-
+            break
     }
     return initialState
 }

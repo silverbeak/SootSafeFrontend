@@ -24,7 +24,7 @@ export const initDrawingBoard = (treeDefinition, nodeTemplate) => diagramElement
     //     )
     // );
     
-    myDiagram.nodeTemplate = nodeTemplate,
+    myDiagram.nodeTemplate = nodeTemplate
     
     myDiagram.nodeTemplate.contextMenu = $(go.Adornment, "Vertical",
         $("ContextMenuButton",

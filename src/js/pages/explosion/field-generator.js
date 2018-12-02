@@ -5,9 +5,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import ErrorIcon from '@material-ui/icons/Error'
 import InputAdornment from '@material-ui/core/InputAdornment'
 
-import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
+import { ccToDisplayString } from './field-definitions'
 import * as _ from '../../../../node_modules/lodash/lodash.min'
-import * as names from './field-names'
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -39,7 +38,6 @@ const makeErrorMessage = msg => {
 }
 
 export const generateNumberField = (handleChange, props) => (fieldName) => {
-    const { classes } = props
     const myValue = _.get(props.fields, fieldName[0])
     const errorMessage = validateFieldValue(fieldName, myValue)
 

@@ -1,15 +1,10 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField'
 import Checkbox from '@material-ui/core/Checkbox'
-import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import * as _ from '../../../node_modules/lodash/lodash'
 
 class SketchComponent extends React.Component {
-    
-    constructor(props) {
-        super(props)
-    }
 
     checkboxUpdate(callback, field) {
         return function(event, checked) {
