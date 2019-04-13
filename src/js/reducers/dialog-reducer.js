@@ -11,6 +11,7 @@ const dialogs = (state = {}, action) => {
 
         case 'DISMISS_NEW_SKETCH_DIALOG':
             return Object.assign({}, state, { newSketchDialog: false })
+        default:
     }
 
     return state

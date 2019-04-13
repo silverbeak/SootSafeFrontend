@@ -6,6 +6,8 @@ const errorMessages = (state = {}, action) => {
 
         case 'CLEAR_ALL_ERROR_MESSAGES':
             return {}
+
+        default:
     }
 
     return state

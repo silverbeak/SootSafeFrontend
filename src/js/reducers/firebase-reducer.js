@@ -27,6 +27,8 @@ const firebaseReducer = (state = initialState, action) => {
         case 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED':
             console.log('Release rate submission successful', action)
             break
+
+        default:
     }
     return initialState
 }

@@ -1,6 +1,6 @@
 import Header from './Header'
 import { connect } from 'react-redux'
-import { userLoggedIn, userLogoutRequested } from '../../actions/login-actions'
+import { userLogoutRequested } from '../../actions/login-actions'
 import { toggleFeedbackDialog } from '../../actions/feedback-actions'
 import { push } from 'react-router-redux'
 

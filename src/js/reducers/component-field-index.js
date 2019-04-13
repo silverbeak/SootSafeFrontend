@@ -153,6 +153,8 @@ const extendSingleFieldByType = (field, name) => {
         case 'Boolean':
         field.type = Boolean
         break
+        default:
+        field.type = Number
     }
     return field
 }

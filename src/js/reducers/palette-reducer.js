@@ -193,7 +193,7 @@ const initialPalette = [
 
 const palettes = function(state = initialPalette, action) {
     switch(action.type) {
-        case 'PALETTE_REQUESTED':
+        // case 'PALETTE_REQUESTED':
             // TODO: Return palette based on action.id
             // return state
         default: 

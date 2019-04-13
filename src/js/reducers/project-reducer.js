@@ -6,10 +6,10 @@ const initialState = {
     sketches: {}
 }
 
-const addSootSafeInfoToNodeByKey = (key, nodeDataArray) => {
-    const node = _.find(nodeDataArray, n => n.key === key)
-    node.ssInfo = {}
-}
+// const addSootSafeInfoToNodeByKey = (key, nodeDataArray) => {
+//     const node = _.find(nodeDataArray, n => n.key === key)
+//     node.ssInfo = {}
+// }
 
 const partTypeChanged = (state, action) => {
     const stateCopy = _.merge({}, state)

@@ -17,7 +17,7 @@ const notifications = (state = initialNotificationState, action) => {
             return Object.assign({}, state, { notifications: newNotificationCopy })
 
         case 'ACKNOWLEDGE_NOTIFICATION':
-        console.log('New notification', action.notificationId)
+            console.log('New notification', action.notificationId)
             const ackCopy = [...state.notifications]
             const thisNotification = _.find(ackCopy, notification => notification.id === action.notificationId && !notification.acknowledged)
 
@@ -26,6 +26,8 @@ const notifications = (state = initialNotificationState, action) => {
             thisNotification.acknowledged = true
 
             return Object.assign({}, state, { notifications: ackCopy })
+
+        default:
     }
 
     return state

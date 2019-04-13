@@ -15,11 +15,11 @@ const parameterGroup = {
 
 const parameterStep = (handleChange, props) => {
 
-    const needReleaseRateUnit = !props.fields.calculateReleaseRate
+    // const needReleaseRateUnit = !props.fields.calculateReleaseRate
 
-    const releaseRateUnitQuestion = needReleaseRateUnit
-        ? <h2>Release Rate Unit</h2>
-        : <h4>No Release Rate Unit Needed</h4>
+    // const releaseRateUnitQuestion = needReleaseRateUnit
+    //     ? <h2>Release Rate Unit</h2>
+    //     : <h4>No Release Rate Unit Needed</h4>
 
     const groupedFields = filterFields(fieldDefinitions, props.fields)
 
