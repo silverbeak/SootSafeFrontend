@@ -2,8 +2,6 @@ import React from 'react'
 import go from 'gojs'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
 import ResultBox from '../components/result-box'
@@ -18,7 +16,6 @@ const boardContainerStyle = {
     flex: 1,
     flexDirection: "column",
     alignContent: 'stretch'
-    // justifyContent: "flex-start"
 }
 
 const paletteStyle = {
@@ -57,12 +54,6 @@ const rightHandCards = {
     paddingLeft: ".4em",
     marginRight: ".4em",
     paddingRight: ".4em"
-}
-
-const fullWidthFullHeight = {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column'
 }
 
 class DrawingBoard extends React.Component {
@@ -110,7 +101,22 @@ class DrawingBoard extends React.Component {
         this.props.projectSaved(saveObject, this.projectId, this.sketchId)
     }
 
-    renderDrawingBoard() {
+    handleChange = fieldName => value => {
+
+    }
+
+    renderValuesTabContent() {
+        return (
+            <TextField
+                id="targetPressure"
+                label="Target Pressure"
+                value={this.props.targetPressureValue}
+                onChange={this.handleChange('targetPressure')}
+            />
+        )
+    }
+
+    render() {
         return (
             <div id="board-container" style={boardContainerStyle}>
                 <Card id="myPaletteDiv" style={paletteStyle}></Card>
@@ -140,42 +146,6 @@ class DrawingBoard extends React.Component {
                     </div>
                 </div>
                 <Button onClick={this.save.bind(this)}>Save</Button>
-            </div>
-        )
-    }
-
-    handleChange = fieldName => value => {
-        
-    }
-
-    renderValuesTabContent() {
-        return (
-            <TextField 
-                id="targetPressure"
-                label="Target Pressure"
-                value={this.props.targetPressureValue}
-                onChange={this.handleChange('targetPressure')}
-            />
-        )
-    }
-
-    displayTabChanged = (event, displayTab) => {
-        this.setState({ displayTab })
-    }
-
-    render() {
-        const { displayTab } = this.state
-        return (
-            <div style={fullWidthFullHeight}>
-                <Tabs value={displayTab} onChange={this.displayTabChanged}>
-                    <Tab label="sketch" />
-                    <Tab label="values" />
-                    <Tab label="resultTable" />
-
-                </Tabs>
-                    {displayTab === 0 && this.renderDrawingBoard.bind(this)()}
-                    {displayTab === 1 && <p>Values here</p>}
-                    {displayTab === 2 && <p>Result table here</p>}
             </div>
         )
     }

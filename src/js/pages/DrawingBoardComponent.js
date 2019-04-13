@@ -6,8 +6,8 @@ import * as backendActions from '../actions/firebase-fid-actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        sketchId: ownProps.match.params.sketchId,
-        projectId: ownProps.match.params.projectId,
+        sketchId: ownProps.sketchId,
+        projectId: ownProps.projectId,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
         projects: state.projects,
