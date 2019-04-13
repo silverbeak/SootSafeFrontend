@@ -99,7 +99,7 @@ class Header extends React.Component {
                         this.props.user ?
                         (<Button
                             color="secondary"
-                            variant="raised"
+                            variant="contained"
                             onClick={openFeedbackDialog}
                             style={{color: "white", marginRight: "1em"}}>
                             Feedback

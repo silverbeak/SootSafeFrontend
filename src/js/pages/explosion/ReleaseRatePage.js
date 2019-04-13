@@ -162,7 +162,7 @@ class ReleaseRatePage extends React.Component {
                         <DialogContentText>
                             Your report has been generated.
                             <br />
-                            <a href={this.props.reportUrl} target="_blank">Click here</a> to download your report. This link will be active for 24 hours.
+                            <a href={this.props.reportUrl} target="_blank" rel="noopener noreferrer">Click here</a> to download your report. This link will be active for 24 hours.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
