@@ -4,14 +4,27 @@ import * as actions from '../actions/drawing-board-actions'
 import * as projectActions from '../actions/project-actions'
 import * as backendActions from '../actions/firebase-fid-actions'
 
+class DrawingBoardComp extends DrawingBoard {
+    constructor(props) {
+        super(props)
+    }
+    componentWillReceiveProps(props) {
+        // When a new project/sketch has been requested, we should fetch the data from the backend
+        // TODO: Should probably reset selected parts and do a few more things to the DrawingBoard        
+        if (props.sketchId !== this.props.sketchId) {
+            this.props.requestProjectLoad(props.projectId, props.sketchId)
+            props.partSelected({})
+        }
+    }
+}
+
 const mapStateToProps = (state, ownProps) => {
     return {
         sketchId: ownProps.sketchId,
         projectId: ownProps.projectId,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
-        projects: state.projects,
-        sketches: state.projects.sketches,
+        sketch: state.projects.sketches[ownProps.sketchId]
     }
 }
 
@@ -47,6 +60,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-const StatedDrawingBoard = connect(mapStateToProps, mapDispatchToProps)(DrawingBoard)
+const StatedDrawingBoard = connect(mapStateToProps, mapDispatchToProps)(DrawingBoardComp)
 
 export default StatedDrawingBoard

@@ -22,10 +22,7 @@ class MainFID extends Component {
 
     constructor(props) {
         super(props)
-        const { projectId, sketchId } = props
-        this.sketchId = sketchId
-        this.projectId = projectId
-        this.state = { initiated: false, displayTab: 0 }
+        this.state = { displayTab: 0 }
     }
 
     displayTabChanged = (event, displayTab) => {
@@ -39,7 +36,7 @@ class MainFID extends Component {
                 <Tabs value={displayTab} onChange={this.displayTabChanged}>
                     <Tab label="sketch" />
                     <Tab label="values" />
-                    <Tab label="resultTable" />
+                    <Tab label="result Table" />
 
                 </Tabs>
                     {displayTab === 0 && <DrawingBoardComponent sketchId={this.props.sketchId} projectId={this.props.projectId} />}

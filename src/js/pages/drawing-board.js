@@ -61,9 +61,7 @@ class DrawingBoard extends React.Component {
     constructor(props) {
         super(props)
         const { projectId, sketchId } = props
-        this.sketchId = sketchId
         this.projectId = projectId
-        this.state = { initiated: false, displayTab: 0 }
         props.requestProjectLoad(projectId, sketchId)
     }
 
@@ -77,7 +75,7 @@ class DrawingBoard extends React.Component {
             return
         }
         if (part.key) {
-            const partFromModel = _.find(this.props.sketches[this.sketchId].model.nodeDataArray, n => n.key === part.key)
+            const partFromModel = _.find(this.props.sketch.model.nodeDataArray, n => n.key === part.key)
             this.props.partSelected(partFromModel ? partFromModel : {})
         } else {
             console.log('Illegal select', part)
@@ -96,9 +94,9 @@ class DrawingBoard extends React.Component {
     }
 
     save() {
-        const { nodeDataArray, linkDataArray } = this.props.sketches[this.sketchId].model
+        const { nodeDataArray, linkDataArray } = this.props.sketch.model
         const saveObject = _.merge({}, { nodeDataArray, linkDataArray })
-        this.props.projectSaved(saveObject, this.projectId, this.sketchId)
+        this.props.projectSaved(saveObject, this.projectId, this.props.sketchId)
     }
 
     handleChange = fieldName => value => {
@@ -123,10 +121,10 @@ class DrawingBoard extends React.Component {
                 <div id="board-and-infobox" style={boardAndInfoStyle}>
                     <Card style={boardStyle}>
                         {
-                            this.props.sketches[this.sketchId] ?
+                            this.props.sketch ?
                                 <GojsDiagram
                                     diagramId="myDiagramDiv"
-                                    model={this.props.sketches[this.sketchId].model}
+                                    model={this.props.sketch.model}
                                     createDiagram={this.myDiagramCreator}
                                     className="myDiagram"
                                     onModelChange={this.props.modelUpdated}
@@ -138,7 +136,7 @@ class DrawingBoard extends React.Component {
                     </Card>
                     <div style={rightHandCards}>
                         <Card id="info-board" style={infoBoxStyle}>
-                            <ResultBox partData={this.props.selectedPart} sketchId={this.sketchId} />
+                            <ResultBox partData={this.props.selectedPart} sketchId={this.props.sketchId} />
                         </Card>
                         <Card style={errorBoxStyle}>
                             <StatedErrorMessageBox />
