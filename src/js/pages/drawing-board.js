@@ -6,7 +6,6 @@ import { initDrawingBoard } from '../gojs/board-tool'
 import { initPalette } from '../gojs/palette-tool'
 import ResultBox from '../components/result-box'
 import { StatedErrorMessageBox } from '../components/error-message-box'
-import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { createNodeTemplate } from '../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
 import { TextField } from '@material-ui/core';
@@ -65,26 +64,9 @@ class DrawingBoard extends React.Component {
         props.requestProjectLoad(projectId, sketchId)
     }
 
-    onSelectionChanged(part) {
-        if (part.diagram.selection.count > 1) {
-            this.props.partSelected({ info: 'More than one part selected' })
-            return
-        }
-        if (part.diagram.selection.count < 1) {
-            this.props.partSelected({ info: 'No parts selected' })
-            return
-        }
-        if (part.key) {
-            const partFromModel = _.find(this.props.sketch.model.nodeDataArray, n => n.key === part.key)
-            this.props.partSelected(partFromModel ? partFromModel : {})
-        } else {
-            console.log('Illegal select', part)
-        }
-    }
-
     componentWillMount() {
         this.treeDef = go.GraphObject.make;  // for more concise visual tree definitions
-        const nodeTemplate = createNodeTemplate(this.treeDef, this.onSelectionChanged.bind(this))
+        const nodeTemplate = createNodeTemplate(this.treeDef, this.props.partSelected.bind(this))
         this.myDiagramCreator = initDrawingBoard(this.treeDef, nodeTemplate)
     }
 
@@ -95,7 +77,7 @@ class DrawingBoard extends React.Component {
 
     save() {
         const { nodeDataArray, linkDataArray } = this.props.sketch.model
-        const saveObject = _.merge({}, { nodeDataArray, linkDataArray })
+        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray })
         this.props.projectSaved(saveObject, this.projectId, this.props.sketchId)
     }
 

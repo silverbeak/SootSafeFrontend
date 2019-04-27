@@ -4,10 +4,14 @@ import * as actions from '../actions/drawing-board-actions'
 import * as projectActions from '../actions/project-actions'
 import * as backendActions from '../actions/firebase-fid-actions'
 
+import * as _ from '../../../node_modules/lodash/lodash.min.js'
+import { getPositivePatterns } from 'fast-glob/out/managers/tasks';
+
 class DrawingBoardComp extends DrawingBoard {
     constructor(props) {
         super(props)
     }
+
     componentWillReceiveProps(props) {
         // When a new project/sketch has been requested, we should fetch the data from the backend
         // TODO: Should probably reset selected parts and do a few more things to the DrawingBoard        
@@ -28,10 +32,33 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
+const onSelectionChanged = (part, sketchId) => {
+    return (dispatch, getState) => {
+        if (!part.diagram) return
+
+        if (part.diagram.selection.count > 1) {
+            // props.partSelected({ info: 'More than one part selected' })
+            return
+        }
+        if (part.diagram.selection.count < 1) {
+            // props.partSelected({ info: 'No parts selected' })
+            return
+        }
+        if (part.key) {
+            const sketch = getState().projects.sketches[sketchId]
+            const partFromModel = _.find(sketch.model.nodeDataArray, n => n.key === part.key)
+            // props.partSelected(partFromModel ? partFromModel : {})
+            dispatch(actions.partSelected(partFromModel))
+        } else {
+            console.log('Illegal select', part)
+        }
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         partSelected: part => {
-            dispatch(actions.partSelected(part))
+            dispatch(onSelectionChanged(part, ownProps.sketchId))
         },
         partDropped: (data, partKeys, sketchId) => {
             dispatch(projectActions.partDropped(data, partKeys, sketchId))
