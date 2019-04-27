@@ -1,9 +1,10 @@
 import * as _ from '../../../node_modules/lodash/lodash.min'
 import { extendFieldsByName } from '../reducers/component-field-index'
+import * as actions from './action-types'
 
 export const saveProjectToDb = projectData => {
     return {
-        type: 'SAVE_PROJECT',
+        type: actions.SAVE_PROJECT,
         projectData
     }
 }
@@ -33,14 +34,14 @@ export const loadProjectIndices = () => {
 
         const projectIndicesLoaded = projectIndices => {
             return {
-                type: 'PROJECT_INDICES_LOADED',
+                type: actions.PROJECT_INDICES_LOADED,
                 projectIndices
             }
         }
 
         const sketchMetadataLoaded = sketchMetadata => {
             return {
-                type: 'SKETCH_METADATA_LOADED',
+                type: actions.SKETCH_METADATA_LOADED,
                 sketchMetadata
             }
         }
@@ -105,7 +106,7 @@ export const loadFromBackend = (projectId, sketchId) => {
                     sketch.nodeDataArray = nodeDataArray
 
                     dispatch({
-                        type: 'SKETCH_DATA_LOADED',
+                        type: actions.SKETCH_DATA_LOADED,
                         sketchData: { model: sketch },
                         sketchId,
                         projectId

@@ -1,6 +1,8 @@
+import * as actions from './action-types'
+
 export const partDropped = function(data, partKeys, sketchId) {
     return {
-        type: 'PART_DROPPED',
+        type: actions.PART_DROPPED,
         sketchId,
         partKeys,
         data
@@ -9,21 +11,21 @@ export const partDropped = function(data, partKeys, sketchId) {
 
 export const partInfoUpdated = (partKey, infoKey, value, sketchId) => {
     return {
-        type: 'PART_INFO_UPDATED',
+        type: actions.PART_INFO_UPDATED,
         partKey, infoKey, value, sketchId
     }
 }
 
 export const partTypeChanged = (partKey, infoKey, value, sketchId) => {
     return {
-        type: 'PART_TYPE_CHANGED',
+        type: actions.PART_TYPE_CHANGED,
         partKey, infoKey, value, sketchId
     }
 }
 
 export const modelUpdated = (incrementalUpdateJson, sketchId) => {
     return {
-        type: 'MODEL_UPDATED',
+        type: actions.MODEL_UPDATED,
         incrementalUpdateJson, sketchId
     }
 }

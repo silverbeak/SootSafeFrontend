@@ -1,5 +1,6 @@
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { changeTypeByName, AVAILABLE_TYPES } from './component-field-index'
+import * as actions from '../actions/action-types'
 
 const initialState = {
     projectIndices: { },
@@ -36,35 +37,35 @@ const pressureCalculationResult = (state, action) => {
 
 const projects = (state = initialState, action) => {
     switch(action.type) {
-        case 'LOAD_PROJECT_REQUEST':
+        case actions.LOAD_PROJECT_REQUEST:
             return state
         
-        case 'SKETCH_DATA_LOADED':
+        case actions.SKETCH_DATA_LOADED:
             const projectStateCopy = Object.assign({}, state)
             projectStateCopy.sketches[action.sketchId] = action.sketchData
             return projectStateCopy
         
-        case 'PROJECT_LOADED':
+        case actions.PROJECT_LOADED:
             return state
-        // case 'PART_DROPPED':
+        // case actions.PART_DROPPED:
         //     const updatedCopy = Object.assign({}, state)
         //     action.partKeys.each(key => addSootSafeInfoToNodeByKey(key, action.data.nodeDataArray))
         //     updatedCopy.sketches[action.sketchId].model = action.data
         //     return updatedCopy
-        case 'PART_TYPE_CHANGED': return partTypeChanged(state, action)
+        case actions.PART_TYPE_CHANGED: return partTypeChanged(state, action)
 
-        case 'PART_INFO_UPDATED':
+        case actions.PART_INFO_UPDATED:
             const piCopy = Object.assign({}, state)
             const nodeDataCopy = piCopy.sketches[action.sketchId].model.nodeDataArray
             const currentNode = _.find(nodeDataCopy, n => n.key === action.partKey)
             _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy
 
-        case 'PRESSURE_CALCULATION_ENTRY_RESULT': return pressureCalculationResult(state, action)
+        case actions.PRESSURE_CALCULATION_ENTRY_RESULT: return pressureCalculationResult(state, action)
 
-        case 'PRESSURE_CALCULATION_ERROR_RECEIVED': return pressureCalculationError(state, action)
+        case actions.PRESSURE_CALCULATION_ERROR_RECEIVED: return pressureCalculationError(state, action)
         
-        case 'MODEL_UPDATED':
+        case actions.MODEL_UPDATED:
             if (state.sketches[action.sketchId]) {
                 const incrementalUpdateState = _.merge({}, state)
                 incrementalUpdateState.sketches[action.sketchId].model = action.incrementalUpdateJson
@@ -73,14 +74,14 @@ const projects = (state = initialState, action) => {
                 return state
             }
         
-        case 'PROJECT_SAVED': 
+        case actions.PROJECT_SAVED: 
             console.log('Project has been saved locally')
             return state
         
-        case 'PROJECT_INDICES_LOADED':
+        case actions.PROJECT_INDICES_LOADED:
             return Object.assign({}, state, { projectIndices: action.projectIndices })
 
-        case 'SKETCH_METADATA_LOADED':
+        case actions.SKETCH_METADATA_LOADED:
             const smlStateCopy = _.merge({}, state)
             _.each(action.sketchMetadata, md => {
                 const proj = _.find(smlStateCopy.projectIndices, p => p.name === md.projectId)

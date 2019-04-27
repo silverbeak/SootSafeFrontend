@@ -1,24 +1,25 @@
 import * as firebaseActions from '../firebase-actions'
 import * as _ from '../../../../node_modules/lodash/lodash.min'
+import * as actions from '../action-types'
 
 
 export const fieldValueUpdated = (fieldName, value) => {
     return {
-        type: 'RR_FIELD_VALUE_UPDATED',
+        type: actions.ATEX_FIELD_VALUE_UPDATED,
         fieldName, value
     }
 }
 
 export const elementUpdated = value => {
     return {
-        type: 'RR_ELEMENT_VALUE_UPDATED',
+        type: actions.ATEX_ELEMENT_VALUE_UPDATED,
         value
     }
 }
 
 export const resetReportLink = () => {
     return {
-        type: 'RR_RESET_REPORT_LINK'
+        type: actions.ATEX_REPORT_LINK
     }
 }
 

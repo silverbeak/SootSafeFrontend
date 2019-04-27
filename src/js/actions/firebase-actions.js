@@ -1,6 +1,8 @@
+import * as actions from './action-types'
+
 export const saveProjectToDb = projectData => {
     return {
-        type: 'SAVE_PROJECT',
+        type: actions.SAVE_PROJECT,
         projectData
     }
 }
@@ -25,7 +27,7 @@ export const submitReleaseRateCalculation = calculationValues => {
                         if (doc.exists) {
                             // dispatch(downloadStorageObject(doc.data().reportPath))
                             dispatch({
-                                type: 'RR_REPORT_LINK_RECEIVED',
+                                type: actions.ATEX_REPORT_LINK_RECEIVED,
                                 url: doc.data().reportPath
                             })
                             unsubscribe()
@@ -33,7 +35,7 @@ export const submitReleaseRateCalculation = calculationValues => {
                     })
 
                 dispatch({
-                    type: 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED',
+                    type: actions.ATEX_CALCULATION_RESULT_RECEIVED,
                     id: docRef.id
                 })
 
@@ -76,7 +78,7 @@ export const loadElements = () => {
             })
     
             dispatch({
-                type: 'ELEMENTS_FETCHED',
+                type: actions.ELEMENTS_FETCHED,
                 data: elements
             })        
         })

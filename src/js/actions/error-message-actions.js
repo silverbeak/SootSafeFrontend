@@ -1,3 +1,5 @@
+import * as actions from './action-types'
+
 export const clearAllErrorMessages = () => {
-    return { type: 'CLEAR_ALL_ERROR_MESSAGES' }
+    return { type: actions.CLEAR_ALL_ERROR_MESSAGES }
 }

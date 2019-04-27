@@ -1,6 +1,8 @@
+import * as actions from './action-types'
+
 export const partSelected = part => {
     return {
-        type: 'PART_SELECTED',
+        type: actions.PART_SELECTED,
         part
     }
 }

@@ -1,11 +1,12 @@
 import { fbApp, db, storage } from '../firebase/firebase'
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
+import * as actions  from '../actions/action-types'
 
 const initialState = { fbApp, db, storage }
 
 const firebaseReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SAVE_PROJECT':
+        case action.SAVE_PROJECT:
             const baseData = extractPath(action.projectData)
 
             const ref = db.collection('projects').doc('myProject2')
@@ -21,10 +22,10 @@ const firebaseReducer = (state = initialState, action) => {
             })
             break
 
-        case 'RELEASE_RATE_CALCULATION_SUBMITTED':
+        case actions.ATEX_CALCULATION_SUBMITTED:
             break
 
-        case 'RELEASE_RATE_CALCULATION_RESULT_RECEIVED':
+        case actions.ATEX_CALCULATION_RESULT_RECEIVED:
             console.log('Release rate submission successful', action)
             break
 

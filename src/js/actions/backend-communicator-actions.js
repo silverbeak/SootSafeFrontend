@@ -1,6 +1,7 @@
 import { extendFieldsByName } from '../reducers/component-field-index'
 import * as _ from '../../../node_modules/lodash/lodash.min'
 import { showNotification } from './notification-actions'
+import * as actions from './action-types'
 
 const convertSingleField = (field, name) => {
     switch (field.type) {
@@ -26,7 +27,7 @@ const sendToBackend = (payload, path, onResult) => {
 
     const sendingDataToBackend = (data) => {
         return {
-            type: 'SENDING_DATA_TO_BACKEND',
+            type: actions.SENDING_DATA_TO_BACKEND,
             data
         }
     }
@@ -62,12 +63,12 @@ export const createNewProject = projectName => {
             if (response.status === 200 || response.status === 201) {
                 dispatch(loadProjectIndices())
                 dispatch({
-                    type: 'NEW_PROJECT_CREATED',
+                    type: actions.NEW_PROJECT_CREATED,
                     project: { projectName }
                 })
             } else {
                 dispatch({
-                    type: 'PROJECT_CREATE_ERROR'
+                    type: actions.PROJECT_CREATE_ERROR
                     // TODO: Some error message
                 })
             }
@@ -84,7 +85,7 @@ export const createNewProject = projectName => {
             handleResponse(res)
         })
     
-        return { type: 'CREATE_NEW_PROJECT_REQUEST_SENT_TO_SERVER' }
+        return { type: actions.CREATE_NEW_PROJECT_REQUEST_SENT_TO_SERVER }
     }
 
 }
@@ -97,12 +98,12 @@ export const createNewSketch = (sketchName, projectId) => {
             if (res.status === 200 || res.status === 201) {
                 dispatch(loadProjectIndices())
                 dispatch({
-                    type: 'NEW_SKETCH_CREATED',
+                    type: actions.NEW_SKETCH_CREATED,
                     projectId, sketchName
                 })
             } else {
                 dispatch({
-                    type: 'SKETCH_CREATE_ERROR'
+                    type: actions.SKETCH_CREATE_ERROR
                     // TODO: Some error message
                 })
             }
@@ -119,14 +120,14 @@ export const createNewSketch = (sketchName, projectId) => {
             handleResponse(res)
         })
     
-        return { type: 'CREATE_NEW_SKETCH_REQUEST_SENT_TO_SERVER' }
+        return { type: actions.CREATE_NEW_SKETCH_REQUEST_SENT_TO_SERVER }
     }
 }
 
 export const saveToBackend = (payload, projectId, sketchId) => {
     const dataSaveResponseReceived = data => {
         return {
-            type: 'DATA_SAVE_RESPONSE_RECEIVED',
+            type: actions.DATA_SAVE_RESPONSE_RECEIVED,
             data
         }
     }
@@ -152,11 +153,11 @@ export const saveToBackend = (payload, projectId, sketchId) => {
 export const calculatePressureLoss = (payload, projectId, sketchId) => {
 
     const handleCalculationResult = (dispatch, data) => {
-        dispatch({ type: 'PRESSURE_RESULT_RECEIVED', projectId, sketchId })
+        dispatch({ type: actions.PRESSURE_RESULT_RECEIVED, projectId, sketchId })
         if (data.errorMessage) {
             dispatch(showNotification('Calculation could not be performed'))
             dispatch({
-                type: 'SHOW_GENERIC_ERROR_MESSAGE',
+                type: actions.SHOW_GENERIC_ERROR_MESSAGE,
                 title: 'Calculation unsuccessful',
                 message: data.errorMessage
             })
@@ -164,7 +165,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
             dispatch(showNotification('Calculation performed successfully'))
             _.forEach(data.entries, entry => {
                 dispatch({
-                    type: 'PRESSURE_CALCULATION_ENTRY_RESULT',
+                    type: actions.PRESSURE_CALCULATION_ENTRY_RESULT,
                     entry, projectId, sketchId
                 })
             })
@@ -189,7 +190,7 @@ export const loadFromBackend = (projectId, sketchId) => {
 
     const sketchLoaded = sketchData => {
         return {
-            type: 'SKETCH_DATA_LOADED',
+            type: actions.SKETCH_DATA_LOADED,
             sketchData,
             sketchId
         }
@@ -228,7 +229,7 @@ export const loadProjectIndices = () => {
 
     const projectIndicesLoaded = projectIndices => {
         return {
-            type: 'PROJECT_INDICES_LOADED',
+            type: actions.PROJECT_INDICES_LOADED,
             projectIndices
         }
     }

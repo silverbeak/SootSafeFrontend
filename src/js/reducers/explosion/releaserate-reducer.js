@@ -1,4 +1,5 @@
 import * as _ from '../../../../node_modules/lodash/lodash.min'
+import * as actions from '../../actions/action-types'
 
 // TODO: Get rid of this. Use vales from database
 const gasList = [
@@ -82,13 +83,13 @@ const setReportLink = (originalState, url) => {
 
 const releaseRate = (state = initialReleaseRateState, action) => {
     switch (action.type) {
-        case 'RR_FIELD_VALUE_UPDATED':
+        case actions.ATEX_FIELD_VALUE_UPDATED:
             // console.log('Field value updated', action)
             const stateCopy = _.merge({}, state)
             _.set(stateCopy.fields, action.fieldName, action.value)
             return stateCopy
 
-        case 'RR_ELEMENT_VALUE_UPDATED':
+        case actions.ATEX_ELEMENT_VALUE_UPDATED:
             const elementStateCopy = _.merge({}, state)
             const element = _.find(state.gasList, g => g.CASnr === action.value)
             elementStateCopy.fields.casNumber = action.value
@@ -98,13 +99,13 @@ const releaseRate = (state = initialReleaseRateState, action) => {
             
             return elementStateCopy
 
-        case 'RR_RESET_REPORT_LINK':
+        case actions.ATEX_REPORT_LINK:
             return setReportLink(state, null)
 
-        case 'RR_REPORT_LINK_RECEIVED':
+        case actions.ATEX_REPORT_LINK_RECEIVED:
             return setReportLink(state, action.url)
 
-        case 'ELEMENTS_FETCHED': 
+        case actions.ELEMENTS_FETCHED: 
             return _.merge({}, state, { gasList: _.values(action.data) })
         default:
             return state
