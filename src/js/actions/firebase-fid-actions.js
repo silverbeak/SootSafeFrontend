@@ -256,7 +256,7 @@ const flattenSingleField = (agg, field, name) => {
             }
             break
         default:
-            agg[name] = _.assign({}, field, { type: field.type.name, name })
+            agg[name] = _.assign({}, field, { type: field.type.name, name, value: new String(field.value).toString() })
     }
     return agg
 }
