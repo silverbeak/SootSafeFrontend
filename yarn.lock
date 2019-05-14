@@ -7487,6 +7487,7 @@ react-ga@^2.5.6:
 react-gojs@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-gojs/-/react-gojs-1.4.1.tgz#f7b0ea1d15896aae89cbf958a646550f543109d0"
+  integrity sha512-4OkKdlEdqoSqsm4ngmsNJ5q1LnIVypsCwSOYYwx++mJGlpv+3nKE+XFKMF66xASnmdsuyUiNrkYqkBl1O1cqeA==
   dependencies:
     gojs "^1.8.35"
 
