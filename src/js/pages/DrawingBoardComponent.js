@@ -66,13 +66,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         modelUpdated: (updateEvent) => {
             switch(updateEvent.eventType) {
                 case 'Add':
-                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.sketchId))
                     break
                 case 'Remove':
-                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.sketchId))
                     break
                 default:
-                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.match.params.sketchId))
+                    dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.sketchId))
                     break
             }
         },

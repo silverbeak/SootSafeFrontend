@@ -63,7 +63,7 @@ const capacity = {
     }
 }
 
-const pressureLoss = {
+ const pressureLoss = {
     pressureLoss: {
         type: Number,
         value: 0,
@@ -130,7 +130,7 @@ export const changeTypeByName = component => {
         break
         case 'areaIncrement':
         newComponent.type = AVAILABLE_TYPES.areaIncrement
-        newComponent.fields = _.merge({}, base, capacity)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
         break
         case 'box':
         newComponent.type = AVAILABLE_TYPES.box
