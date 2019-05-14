@@ -2,7 +2,7 @@ import Header from './Header'
 import { connect } from 'react-redux'
 import { userLogoutRequested } from '../../actions/login-actions'
 import { toggleFeedbackDialog } from '../../actions/feedback-actions'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 const mapStateToProps = state => {
     return {

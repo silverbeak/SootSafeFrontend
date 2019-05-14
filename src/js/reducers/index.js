@@ -10,8 +10,10 @@ import dialogs from './dialog-reducer'
 import errorMessages from './error-message-reducer'
 import releaseRate from './explosion/releaserate-reducer'
 import feedbacks from './feedback-reducer'
+import { connectRouter } from 'connected-react-router';
 
-export default combineReducers({
+export default (history) => combineReducers({
+    router: connectRouter(history),
     firebase,
     users,
     toolbox,
@@ -24,3 +26,12 @@ export default combineReducers({
     releaseRate,
     feedbacks
 })
+
+// // reducers.js
+// import { combineReducers } from 'redux'
+// import { connectRouter } from 'connected-react-router'
+
+// export default (history) => combineReducers({
+//   router: connectRouter(history),
+//   ... // rest of your reducers
+// })

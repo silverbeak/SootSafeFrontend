@@ -1,6 +1,6 @@
 import { fbApp } from '../firebase/firebase'
 import { loadProjectIndices } from './firebase-fid-actions'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 export const userLoggedIn = (user, path = '/') => {
     return dispatch => {
