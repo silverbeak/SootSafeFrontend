@@ -19,19 +19,7 @@ export const defaultMerge = palette => {
     return _.map(palette, mergeSingle)
 }
 
-const base = {
-    comment: {
-        type: String,
-        value: '',
-        path: 'fields.comment',
-        unit: ''
-    },
-    label: {
-        type: String,
-        value: '',
-        path: 'fields.label',
-        unit: ''
-    },
+const dimension = {
     dimension: {
         type: Object,
         children: {
@@ -50,6 +38,21 @@ const base = {
                 unit: 'mm'
             }
         }
+    }
+}
+
+const base = {
+    comment: {
+        type: String,
+        value: '',
+        path: 'fields.comment',
+        unit: ''
+    },
+    label: {
+        type: String,
+        value: '',
+        path: 'fields.label',
+        unit: ''
     }
 }
 
@@ -84,22 +87,22 @@ const targetCell = {
 const mergeSingle = component => {
     switch(component.key) {
         case 1: 
-        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, dimension, pressureLoss) })
         case 3:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, pressureLoss, targetCell) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, base, pressureLoss, capacity, targetCell) })
         case 5: 
         case 7:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         case 11:
         case 12:
         case 13:
         case 14:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         case 21:
         case 22:
         case 23:
         case 24:
-        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe }, { fields: _.merge({}, base, capacity, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         default:
         return component
     }
@@ -110,31 +113,31 @@ export const changeTypeByName = component => {
     switch(component.type.name) {
         case 'outlet': 
         newComponent.type = AVAILABLE_TYPES.outlet
-        newComponent.fields = {}
+        newComponent.fields = _.merge({}, base)
         break
         case 'fireCell':
         newComponent.type = AVAILABLE_TYPES.fireCell
-        newComponent.fields = _.merge({}, pressureLoss, targetCell)
+        newComponent.fields = _.merge({}, base, pressureLoss, capacity, targetCell)
         break
         case 'pipe':
         newComponent.type = AVAILABLE_TYPES.pipe
-        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
         break
         case 'bend':
         newComponent.type = AVAILABLE_TYPES.bend
-        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
         break
         case 'tpipe':
         newComponent.type = AVAILABLE_TYPES.tpipe
-        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
         break
         case 'areaIncrement':
         newComponent.type = AVAILABLE_TYPES.areaIncrement
-        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
         break
         case 'box':
         newComponent.type = AVAILABLE_TYPES.box
-        newComponent.fields = _.merge({}, base, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
         break
         default:
         throw new Error("Bad component: " + component.type.name)

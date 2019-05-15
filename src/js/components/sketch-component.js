@@ -36,7 +36,6 @@ class SketchComponent extends React.Component {
                     <br />
                 </span>
             )
-            default:
             case Number: 
             return (
                 <span key={name}>
@@ -76,6 +75,7 @@ class SketchComponent extends React.Component {
                         }
                     </span>
                 )
+            default: return ''
             
         }
     }
