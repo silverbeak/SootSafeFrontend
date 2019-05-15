@@ -22,7 +22,6 @@ class InfoBox extends React.Component {
         const key = event.target.id
         const value = event.target.value
         this.props.partInfoUpdated(this.props.selectedPart.key, key, value)
-        // debugger
     }
 
     typeSelector() {

@@ -47,11 +47,6 @@ const projects = (state = initialState, action) => {
         
         case actions.PROJECT_LOADED:
             return state
-        // case actions.PART_DROPPED:
-        //     const updatedCopy = Object.assign({}, state)
-        //     action.partKeys.each(key => addSootSafeInfoToNodeByKey(key, action.data.nodeDataArray))
-        //     updatedCopy.sketches[action.sketchId].model = action.data
-        //     return updatedCopy
         case actions.PART_TYPE_CHANGED: return partTypeChanged(state, action)
 
         case actions.PART_INFO_UPDATED:
@@ -68,6 +63,17 @@ const projects = (state = initialState, action) => {
         case actions.MODEL_UPDATED:
             if (state.sketches[action.sketchId]) {
                 const incrementalUpdateState = _.merge({}, state)
+                
+                if (action.droppedNodeData) {
+                    // Some tricks here:
+                    // If this is a new part, we need to merge the info from the incrementalUpdateJson (which contains the new key etc)
+                    // with the action.droppedNodeData, which is enriched with the value fields.
+                    // I'm not necessarily happy with this, but I don't know where I want the fields to be added...
+                    const droppedNodeIndex = _.findIndex(action.incrementalUpdateJson.nodeDataArray, n => n.key === action.droppedNodeData.key)
+                    const droppedNode = action.incrementalUpdateJson.nodeDataArray[droppedNodeIndex]
+                    action.incrementalUpdateJson.nodeDataArray[droppedNodeIndex] = _.assign({}, action.droppedNodeData, droppedNode)
+                }
+
                 incrementalUpdateState.sketches[action.sketchId].model = action.incrementalUpdateJson
                 return incrementalUpdateState
             } else {

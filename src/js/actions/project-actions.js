@@ -1,12 +1,5 @@
 import * as actions from './action-types'
-
-export const partDropped = function(nodeData, sketchId) {
-    return {
-        type: actions.PART_DROPPED,
-        sketchId,
-        nodeData
-    }
-}
+import { mergeSingle } from '../reducers/component-field-index';
 
 export const partInfoUpdated = (partKey, infoKey, value, sketchId) => {
     return {
@@ -22,9 +15,21 @@ export const partTypeChanged = (partKey, infoKey, value, sketchId) => {
     }
 }
 
-export const modelUpdated = (incrementalUpdateJson, sketchId) => {
-    return {
-        type: actions.MODEL_UPDATED,
-        incrementalUpdateJson, sketchId
+export const modelUpdated = (incrementalUpdateJson, sketchId, droppedNodeData) => dispatch => {
+    const node = !!droppedNodeData ? mergeSingle(droppedNodeData) : false
+
+    if (!!droppedNodeData) {
+        dispatch({
+            type: actions.PART_DROPPED,
+            sketchId,
+            node
+        })
     }
+
+    dispatch({
+        type: actions.MODEL_UPDATED,
+        incrementalUpdateJson,
+        sketchId,
+        droppedNodeData: node
+    })
 }

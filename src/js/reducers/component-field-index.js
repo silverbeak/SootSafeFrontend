@@ -84,24 +84,17 @@ const targetCell = {
     }
 }
 
-const mergeSingle = component => {
-    switch(component.key) {
-        case 1: 
+export const mergeSingle = component => {
+    switch(component.ssPartName) {
+        case 'outlet':
         return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
-        case 3:
+        case 'fireCell':
         return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, base, pressureLoss, capacity, targetCell) })
-        case 5: 
-        case 7:
+        case 'pipe':
         return _.merge({}, component, { type: AVAILABLE_TYPES.pipe }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
-        case 11:
-        case 12:
-        case 13:
-        case 14:
+        case 'bend':
         return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
-        case 21:
-        case 22:
-        case 23:
-        case 24:
+        case 'tpipe':
         return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         default:
         return component

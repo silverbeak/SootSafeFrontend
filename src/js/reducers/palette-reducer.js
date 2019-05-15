@@ -1,3 +1,4 @@
+import * as _ from '../../../node_modules/lodash/lodash.min.js'
 import { defaultMerge } from './component-field-index'
 
 const initialPalette = [
@@ -16,6 +17,7 @@ const initialPalette = [
     // The following offsets assume the strokeWidth == 1.
     [
         {
+            ssPartName: 'outlet',
             key: 1,
             geo: "F1 M0 0 L20 0 20 20 0 20z",
             ports: [
@@ -25,6 +27,7 @@ const initialPalette = [
             fill: "rgba(128, 0, 128, 0.5)"
         },
         {
+            ssPartName: 'fireCell',
             key: 3,
             angle: 90,
             geo: "F1 M0 0 L20 0 20 20 0 20z",
@@ -34,6 +37,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'pipe',
             key: 5,
             geo: "F1 M0 0 L20 0 20 60 0 60z",
             ports: [
@@ -42,6 +46,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'pipe',
             key: 7,
             angle: 90,
             geo: "F1 M0 0 L20 0 20 60 0 60z",
@@ -51,6 +56,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'bend',
             key: 11,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
             ports: [
@@ -59,6 +65,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'bend',
             key: 12,
             angle: 90,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
@@ -68,6 +75,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'bend',
             key: 13,
             angle: 180,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
@@ -77,6 +85,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'bend',
             key: 14,
             angle: 270,
             geo: "F1 M0 40 L0 30 Q0 0 30 0 L40 0 40 20 30 20 Q20 20 20 30 L20 40z",
@@ -86,6 +95,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'tpipe',
             key: 21,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
             ports: [
@@ -95,6 +105,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'tpipe',
             key: 22,
             angle: 90,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
@@ -105,6 +116,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'tpipe',
             key: 23,
             angle: 180,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
@@ -115,6 +127,7 @@ const initialPalette = [
             ]
         },
         {
+            ssPartName: 'tpipe',
             key: 24,
             angle: 270,
             geo: "F1 M0 0 L60 0 60 20 50 20 Q40 20 40 30 L40 40 20 40 20 30 Q20 20 10 20 L0 20z",
@@ -198,9 +211,9 @@ const palettes = function(state = initialPalette, action) {
             // return state
         default: 
         if (state[0]) {
-            const copy = Object.assign({}, state)
-            const merged = defaultMerge(state[0].data)
-            copy[0].data = merged
+            const copy = _.merge({}, state)
+            // const merged = defaultMerge(state[0].data)
+            // copy[0].data = merged
             return copy
         } else {
             return state

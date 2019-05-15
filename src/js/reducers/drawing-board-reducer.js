@@ -7,7 +7,7 @@ const initialState = {
 const parts = (state = initialState, action) => {
     switch(action.type) {
         case actions.PART_DROPPED:            
-            return Object.assign({}, state, { selectedPart: action.nodeData })
+            return Object.assign({}, state, { selectedPart: action.node })
         case actions.PART_SELECTED:
             return Object.assign({}, state, { selectedPart: action.part })
         case actions.PART_INFO_UPDATED:
