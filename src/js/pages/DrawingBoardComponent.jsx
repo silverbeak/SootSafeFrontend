@@ -4,7 +4,7 @@ import * as actions from '../actions/drawing-board-actions'
 import * as projectActions from '../actions/project-actions'
 import * as backendActions from '../actions/firebase-fid-actions'
 
-import * as _ from '../../../node_modules/lodash/lodash.min.js'
+import * as _ from 'lodash/lodash.min'
 
 class DrawingBoardComp extends DrawingBoard {
     constructor(props) {
