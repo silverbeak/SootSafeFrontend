@@ -47,7 +47,7 @@ export const initDrawingBoard = (treeDefinition, nodeTemplate) => diagramElement
     function rotate(node, angle) {
         var tool = myDiagram.toolManager.draggingTool;  // should be a SnappingTool
         myDiagram.startTransaction("rotate " + angle.toString());
-        var sel = new go.Set(go.Node);
+        var sel = new go.Set();
         sel.add(node);
         var coll = tool.computeEffectiveCollection(sel).toKeySet();
         var bounds = myDiagram.computePartsBounds(coll);
@@ -60,7 +60,7 @@ export const initDrawingBoard = (treeDefinition, nodeTemplate) => diagramElement
     }
     function detachSelection() {
         myDiagram.startTransaction("detach");
-        var coll = new go.Set(go.Link);
+        var coll = new go.Set();
         myDiagram.selection.each(function(node) {
             if (!(node instanceof go.Node)) return;
             node.linksConnected.each(function(link) {

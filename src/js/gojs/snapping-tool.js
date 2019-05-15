@@ -89,7 +89,7 @@ export default class SnappingTool extends go.DraggingTool {
                         function(p) { return !parts.contains(p); },
                         true);
                         // gather a collection of GraphObjects that are stationary "ports" for this NODE
-                        nearbyports = new go.Set(go.GraphObject);
+                        nearbyports = new go.Set();
                         nearbyparts.each(function(n) {
                             if (n instanceof go.Node) {
                                 nearbyports.addAll(n.ports);
@@ -176,7 +176,7 @@ export default class SnappingTool extends go.DraggingTool {
         /** @override */
         computeEffectiveCollection(parts) {
             if (this.diagram.lastInput.shift) {
-                var links = new go.Set(go.Link);
+                var links = new go.Set();
                 var coll = go.DraggingTool.prototype.computeEffectiveCollection.call(this, parts);
                 coll.iteratorKeys.each(function(node) {
                     // disconnect all links of this node that connect with stationary node
