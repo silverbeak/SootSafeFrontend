@@ -60,12 +60,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         partSelected: part => {
             dispatch(onSelectionChanged(part, ownProps.sketchId))
         },
-        partDropped: (data, partKeys, sketchId) => {
-            dispatch(projectActions.partDropped(data, partKeys, sketchId))
-        },
-        modelUpdated: (updateEvent) => {
+        modelUpdated: updateEvent => {
             switch(updateEvent.eventType) {
                 case 'Add':
+                    if (updateEvent.nodeData) {
+                        // We get two events when dropping a new node. One contains the node data, the other linkData
+                        // In this part, we're only interested in the dropped part, since that updates the selectedPart props
+                        dispatch(projectActions.partDropped(updateEvent.nodeData, ownProps.sketchId))
+                    }
                     dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.sketchId))
                     break
                 case 'Remove':

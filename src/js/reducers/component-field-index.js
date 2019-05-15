@@ -87,7 +87,7 @@ const targetCell = {
 const mergeSingle = component => {
     switch(component.key) {
         case 1: 
-        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, dimension, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
         case 3:
         return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, base, pressureLoss, capacity, targetCell) })
         case 5: 

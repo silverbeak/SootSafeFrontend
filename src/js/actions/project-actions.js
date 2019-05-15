@@ -1,11 +1,10 @@
 import * as actions from './action-types'
 
-export const partDropped = function(data, partKeys, sketchId) {
+export const partDropped = function(nodeData, sketchId) {
     return {
         type: actions.PART_DROPPED,
         sketchId,
-        partKeys,
-        data
+        nodeData
     }
 }
 

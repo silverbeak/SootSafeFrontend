@@ -15,18 +15,12 @@ class InfoBox extends React.Component {
 
     handleTypeChange(event) {
         const value = event.target.value
-        const state = Object.assign({}, this.state)
-        _.set(state, 'type', value)
-        this.setState(state)
         this.props.partTypeChanged(this.props.selectedPart.key, 'type', value)
     }
 
     handleStateUpdate(event) {
         const key = event.target.id
         const value = event.target.value
-        const state = Object.assign({}, this.state)
-        _.set(state, key, value)
-        this.setState(state)
         this.props.partInfoUpdated(this.props.selectedPart.key, key, value)
         // debugger
     }
