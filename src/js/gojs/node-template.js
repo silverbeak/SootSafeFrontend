@@ -27,7 +27,8 @@ export const createNodeTemplate = (treeDefinition, onSelectionChanged) => {
                 $(go.Shape, "XLine",
                     { width: 6, height: 6, background: "transparent", fill: null, stroke: "gray" },
                     new go.Binding("figure", "id", portFigure),  // portFigure converter is defined below
-                    new go.Binding("angle", "angle"))
+                    new go.Binding("angle", "angle")
+                )
             ),
             // hide a port when it is connected
             linkConnected: function (node, link, port) {
@@ -50,11 +51,16 @@ export const createNodeTemplate = (treeDefinition, onSelectionChanged) => {
             // the following are default values;
             // actual values may come from the node data object via data binding
             geometryString: "F1 M0 0 L40 0 20 20 0 20 z",
+            strokeDashArray: null,
             fill: "rgba(128, 128, 128, 0.5)"
         },
             // this determines the actual shape of the Shape
             new go.Binding("geometryString", "geo"),
             // selection causes the stroke to be blue instead of black
-            new go.Binding("stroke", "isSelected", function (s) { return s ? "#ee4b28" : "black"; }).ofObject())
-    );
+            new go.Binding("stroke", "isSelected", function (s) { return s ? "#ee4b28" : "black"; }).ofObject(),
+            new go.Binding("strokeDashArray", "strokeDashArray")
+        )
+    )
+
+
 }
