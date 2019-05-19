@@ -43,6 +43,20 @@ const initialPalette = [
                     ]
                 },
                 {
+                    ssPartName: 'areaIncrement',
+                    key: 43,
+                    angle: 0,
+                    geo: "F1 M0 0 L20 0 20 20 0 20z " + // Rectangle
+                        "X M 0,0" +                       // Left bezier start
+                        "c 0 6, 5 10, 5 20" +           // Left bezier curve
+                        "M 20,0" +                      // Right bezier start
+                        "c 0 6, -5 10, -5 20 M 0 0",    // Right bezier curve
+                    ports: [
+                        { id: "U6", spot: "0.5 0 0 0.5" },
+                        { id: "U2", spot: "0.5 1 0 -0.5" }
+                    ]
+                },
+                {
                     ssPartName: 'pipe',
                     key: 5,
                     geo: "F1 M0 0 L20 0 20 60 0 60z",

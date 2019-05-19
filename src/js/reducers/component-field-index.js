@@ -96,6 +96,8 @@ export const mergeSingle = component => {
         return _.merge({}, component, { type: AVAILABLE_TYPES.bend }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         case 'tpipe':
         return _.merge({}, component, { type: AVAILABLE_TYPES.tpipe }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
+        case 'areaIncrement':
+        return _.merge({}, component, { type: AVAILABLE_TYPES.areaIncrement }, { fields: _.merge({}, base, dimension, capacity, pressureLoss) })
         default:
         return component
     }
