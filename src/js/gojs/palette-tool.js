@@ -17,8 +17,11 @@ export const initPalette = (treeDefinition, nodeTemplate, nodeDataArray) => {
         nodeTemplate: nodeTemplate,  // shared with the main Diagram
         "contextMenuTool.isEnabled": false,
         layout: $(go.GridLayout, {
-            cellSize: new go.Size(1, 1), spacing: new go.Size(5, 5),
-            wrappingColumn: 12, comparer: keyCompare
+            cellSize: new go.Size(1, 1),
+            spacing: new go.Size(5, 5),
+            wrappingColumn: 12,
+            wrappingWidth: 1,
+            comparer: keyCompare
         }),
         // initialize the Palette with a few "pipe" nodes
         model: $(go.GraphLinksModel, {

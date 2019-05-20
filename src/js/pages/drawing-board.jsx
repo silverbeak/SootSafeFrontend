@@ -10,10 +10,17 @@ import { createNodeTemplate } from '../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
 import { TextField } from '@material-ui/core';
 
-const boardContainerStyle = {
+const columnStyle = {
     display: "flex",
     flex: 1,
     flexDirection: "column",
+    alignContent: 'stretch'
+}
+
+const boardContainerStyle = {
+    display: "flex",
+    flex: 1,
+    flexDirection: "row",
     alignContent: 'stretch'
 }
 
@@ -98,31 +105,33 @@ class DrawingBoard extends React.Component {
 
     render() {
         return (
-            <div id="board-container" style={boardContainerStyle}>
-                <Card id="myPaletteDiv" style={paletteStyle}></Card>
-                <div id="board-and-infobox" style={boardAndInfoStyle}>
-                    <Card style={boardStyle}>
-                        {
-                            this.props.sketch ?
-                                <GojsDiagram
-                                    diagramId="myDiagramDiv"
-                                    model={this.props.sketch.model}
-                                    createDiagram={this.myDiagramCreator}
-                                    className="myDiagram"
-                                    onModelChange={this.props.modelUpdated}
-                                    linkFromPortIdProperty="fid"
-                                    linkToPortIdProperty="tid"
-                                /> :
-                                <span>Loading sketch...</span>
-                        }
-                    </Card>
-                    <div style={rightHandCards}>
-                        <Card id="info-board" style={infoBoxStyle}>
-                            <ResultBox partData={this.props.selectedPart} sketchId={this.props.sketchId} />
+            <div style={columnStyle}>
+                <div id="board-container" style={boardContainerStyle}>
+                    <Card id="myPaletteDiv" style={paletteStyle}></Card>
+                    <div id="board-and-infobox" style={boardAndInfoStyle}>
+                        <Card style={boardStyle}>
+                            {
+                                this.props.sketch ?
+                                    <GojsDiagram
+                                        diagramId="myDiagramDiv"
+                                        model={this.props.sketch.model}
+                                        createDiagram={this.myDiagramCreator}
+                                        className="myDiagram"
+                                        onModelChange={this.props.modelUpdated}
+                                        linkFromPortIdProperty="fid"
+                                        linkToPortIdProperty="tid"
+                                    /> :
+                                    <span>Loading sketch...</span>
+                            }
                         </Card>
-                        <Card style={errorBoxStyle}>
-                            <StatedErrorMessageBox />
-                        </Card>
+                        <div style={rightHandCards}>
+                            <Card id="info-board" style={infoBoxStyle}>
+                                <ResultBox partData={this.props.selectedPart} sketchId={this.props.sketchId} />
+                            </Card>
+                            <Card style={errorBoxStyle}>
+                                <StatedErrorMessageBox />
+                            </Card>
+                        </div>
                     </div>
                 </div>
                 <Button onClick={this.save.bind(this)}>Save</Button>
