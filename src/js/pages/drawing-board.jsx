@@ -64,13 +64,6 @@ const rightHandCards = {
 
 class DrawingBoard extends React.Component {
 
-    constructor(props) {
-        super(props)
-        const { projectId, sketchId } = props
-        this.projectId = projectId
-        props.requestProjectLoad(projectId, sketchId)
-    }
-
     componentWillMount() {
         this.treeDef = go.GraphObject.make;  // for more concise visual tree definitions
         const nodeTemplate = createNodeTemplate(this.treeDef, this.props.partSelected.bind(this))
@@ -83,9 +76,9 @@ class DrawingBoard extends React.Component {
     }
 
     save() {
-        const { nodeDataArray, linkDataArray } = this.props.sketch.model
-        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray })
-        this.props.projectSaved(saveObject, this.projectId, this.props.sketchId)
+        const { nodeDataArray, linkDataArray, sketchData } = this.props.sketch.model
+        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray, sketchData })
+        this.props.projectSaved(saveObject, this.props.projectId, this.props.sketchId)
     }
 
     handleChange = fieldName => value => {

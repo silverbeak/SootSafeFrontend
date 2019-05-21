@@ -100,10 +100,15 @@ export const loadFromBackend = (projectId, sketchId) => {
                 .then(([sketchData, linkData, nodeData]) => {
                     const sketch = sketchData.data()
                     sketch.linkDataArray = linkData.docs.map(d => d.data())
+                    const sketchSettingsArray = _.reduce(sketch.sketchData, (agg, f, name) => {
+                        agg[name] = extendFieldsByName(f)
+                        return agg
+                    }, {})
                     const nodeDataArray = _.map(nodeData.docs, node => {
                         return _.assign({}, node.data(), { fields: extendFieldsByName(node.data().fields) })
                     })
                     sketch.nodeDataArray = nodeDataArray
+                    sketch.sketchData = sketchSettingsArray
 
                     dispatch({
                         type: actions.SKETCH_DATA_LOADED,
@@ -189,6 +194,9 @@ export const saveToBackend = (payload, projectId, sketchId) => {
             _.forEach(payloadCopy, node => {
                 sketchRef.collection('nodeDataArray').doc(`${node.key}`).set(node)
             })
+            
+            const flattenedSketchData = _.map(payload.sketchData, flattenFields)[0]
+            sketchRef.update({ "sketchData.fields": flattenedSketchData })
         }).catch((reason) => {
             console.log('Could not locate document', getState().users, projectId, sketchId, reason)
         })
@@ -219,6 +227,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
     // Look into this later
     const payloadCopy = _.merge({}, payload)
     _.forEach(payloadCopy.nodeDataArray, flattenNodeFields)
+    payloadCopy.sketchData = _.map(payloadCopy.sketchData, flattenFields)
 
     return (dispatch, getState) => {
         let user = getState().users.user
@@ -236,13 +245,25 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
 }
 
 const model = {
-    "model": {
-        "class": "go.GraphLinksModel",
-        "copiesArrays": true,
-        "copiesArrayObjects": true,
-        "linkKeyProperty": "key",
-        "linkFromPortIdProperty": "fid",
-        "linkToPortIdProperty": "tid",
+    model: {
+        class: "go.GraphLinksModel",
+        copiesArrays: true,
+        copiesArrayObjects: true,
+        linkKeyProperty: "key",
+        linkFromPortIdProperty: "fid",
+        linkToPortIdProperty: "tid",
+        sketchData: {
+            fields: {
+                targetFirePressure: {
+                    min: 100,
+                    name: "Target Fire Pressure",
+                    type: "Number",
+                    unit: "Pa",
+                    value: 1500,
+                    path: "fields.targetFirePressure"
+                }
+            }
+        }
     }
 }
 
@@ -256,7 +277,7 @@ const flattenSingleField = (agg, field, name) => {
             }
             break
         default:
-            agg[name] = _.assign({}, field, { type: field.type.name, name, value: new String(field.value).toString() })
+            agg[name] = _.assign({}, field, { type: field.type.name, value: new String(field.value).toString() })
     }
     return agg
 }

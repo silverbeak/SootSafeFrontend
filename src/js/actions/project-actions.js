@@ -33,3 +33,10 @@ export const modelUpdated = (incrementalUpdateJson, sketchId, droppedNodeData) =
         droppedNodeData: node
     })
 }
+
+export const sketchDataUpdated = (projectId, sketchId, fieldPath, value) => dispatch => {
+    dispatch({
+        type: actions.SKETCH_DATA_UPDATED,
+        projectId, sketchId, fieldPath, value
+    })
+}

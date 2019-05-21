@@ -6,20 +6,7 @@ import * as backendActions from '../actions/firebase-fid-actions'
 
 import * as _ from 'lodash/lodash.min'
 
-class DrawingBoardComp extends DrawingBoard {
-    constructor(props) {
-        super(props)
-    }
-
-    componentWillReceiveProps(props) {
-        // When a new project/sketch has been requested, we should fetch the data from the backend
-        // TODO: Should probably reset selected parts and do a few more things to the DrawingBoard        
-        if (props.sketchId !== this.props.sketchId) {
-            this.props.requestProjectLoad(props.projectId, props.sketchId)
-            props.partSelected({})
-        }
-    }
-}
+class DrawingBoardComp extends DrawingBoard {}
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -27,7 +14,6 @@ const mapStateToProps = (state, ownProps) => {
         projectId: ownProps.projectId,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
-        sketch: state.projects.sketches[ownProps.sketchId]
     }
 }
 
@@ -82,9 +68,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))
             dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
             dispatch(backendActions.calculatePressureLoss(projectData, projectId, sketchId))
-        },
-        requestProjectLoad: (projectId, sketchId) => {
-            dispatch(backendActions.loadFromBackend(projectId, sketchId))
         },
     }
 }

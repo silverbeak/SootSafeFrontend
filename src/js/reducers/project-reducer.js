@@ -96,6 +96,12 @@ const projects = (state = initialState, action) => {
             })
             return smlStateCopy
 
+        case actions.SKETCH_DATA_UPDATED:
+                const sduStateCopy = _.merge({}, state)
+                const sduSketchDataCopy = sduStateCopy.sketches[action.sketchId].model.sketchData
+                _.set(sduSketchDataCopy, `${action.fieldPath}.value`, action.value)
+                return sduStateCopy
+
         default:
             return state
     }
