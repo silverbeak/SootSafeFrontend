@@ -12,9 +12,11 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
-import { StatedNewProjectDialog, StatedNewSketchDialog } from '../dialogs/NewProjectDialog'
+import NewProjectDialog from '../dialogs/NewProjectDialog'
+import NewSketchDialog from '../dialogs/NewSketchDialog'
+import { createNewSketch } from '../../actions/firebase-fid-actions'
+import { createNewFidProject } from '../../actions/firebase-fid-actions'
 import * as _ from 'lodash'
-import * as dialogActions from '../../actions/dialog-actions';
 
 class ProjectMenu extends React.Component {
 
@@ -22,7 +24,9 @@ class ProjectMenu extends React.Component {
         super(props)
         this.state = {
             projectDrawerOpen: false,
-            projectsExpanded: []
+            projectsExpanded: [],
+            newSketchDialogOpen: false,
+            newProjectDialogOpen: false
         }
     }
 
@@ -49,18 +53,15 @@ class ProjectMenu extends React.Component {
         this.setState({ projectsExpanded })
     }
 
-    createNewSketch(projectId) {
-        return () => {
-            this.props.createNewSketch(projectId)
-        }
-    }
-
     createNewSketchItem(projectId) {
         return (
             <ListItem
                 button
                 key='newSketch'
-                onClick={this.createNewSketch(projectId)}
+                onClick={() => this.setState({
+                    newSketchDialogOpen: true,
+                    projectId
+                })}
             >
                 <ListItemText inset primary='Create new sketch' />
             </ListItem>
@@ -93,10 +94,6 @@ class ProjectMenu extends React.Component {
         this.setState({ projectDrawerOpen: !this.state.projectDrawerOpen })
     }
 
-    newProject() {
-        this.props.createNewProject()
-    }
-
     render() {
 
         const items = _.map(this.props.projects, this.singleProject.bind(this))
@@ -117,7 +114,7 @@ class ProjectMenu extends React.Component {
                         <ListItem
                             button
                             key="new-project"
-                            onClick={this.newProject.bind(this)}
+                            onClick={() => this.setState({ newProjectDialogOpen: true })}
                         >
                             <ListItemText inset primary="New project" />
                         </ListItem>
@@ -128,8 +125,17 @@ class ProjectMenu extends React.Component {
                     </List>
                 </Drawer>
 
-                <StatedNewProjectDialog />
-                <StatedNewSketchDialog />
+                <NewProjectDialog
+                    submitNew={this.props.submitNewProject}
+                    open={this.state.newProjectDialogOpen}
+                    onClose={() => this.setState({ newProjectDialogOpen: false})}
+                />
+                
+                <NewSketchDialog
+                    submitNew={this.props.submitNewSketch(this.state.projectId)}
+                    open={this.state.newSketchDialogOpen}
+                    onClose={() => this.setState({ newSketchDialogOpen: false })}
+                />
             </span>
         )
     }
@@ -147,11 +153,11 @@ const mapDispatchToPros = (dispatch, ownState) => {
         pushHistory: path => {
             dispatch(push(path))
         },
-        createNewSketch: projectId => {
-            dispatch(dialogActions.createNewSketchDialog(projectId))
+        submitNewSketch: projectId => sketchData  => {            
+            dispatch(createNewSketch(sketchData, projectId))
         },
-        createNewProject: projectName => {
-            dispatch(dialogActions.createNewProjectDialog())
+        submitNewProject: projectName => {
+            dispatch(createNewFidProject(projectName))
         }
     }
 }

@@ -203,19 +203,19 @@ export const saveToBackend = (payload, projectId, sketchId) => {
     }
 }
 
-export const createNewSketch = (sketchName, projectId) => {
+export const createNewSketch = (sketchData, projectId) => {
     return (dispatch, getState) => {
         getDocRef(getState, projectId).then(projRef => {
 
             if (!projRef) {
-                console.log('Could not locate document', getState().users, projectId, sketchName)
+                console.log('Could not locate document', getState().users, projectId, sketchData.name)
                 return
             }
 
             projRef
                 .collection('sketches')
-                .doc(sketchName)
-                .set(_.assign({}, { ...model.model }, { name: sketchName }))
+                .doc(sketchData.name)
+                .set(_.assign({}, { ...model.model }, sketchData))
         }).catch(reason => {
             console.log('Could not create new sketch. Reason', reason)
         })

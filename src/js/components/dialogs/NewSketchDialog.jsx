@@ -7,28 +7,30 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 
-class NewProjectDialog extends React.Component {
+class NewSketchDialog extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            name: ''
+        this.state = { 
+            name: '',
+            targetFirePressure: 1500
         }
     }
 
     submitNew() {
         this.props.createNew(this.state.name, this.props.projectId)
-        this.props.onClose()
+        this.props.dismiss()
     }
 
     render() {
         const { open, onClose } = this.props
+
         return (
             <Dialog
                 open={open}
                 onClose={onClose}
             >
-                <DialogTitle>New project</DialogTitle>
+                <DialogTitle>New sketch</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -38,6 +40,17 @@ class NewProjectDialog extends React.Component {
                         type='text'
                         onChange={event => this.setState({ name: event.target.value })}
                         value={this.state.name}
+                        fullWidth
+                    />
+
+                    <TextField
+                        autoFocus
+                        margin='dense'
+                        id='targetFirePressure'
+                        label='Target fire pressure'
+                        type='number'
+                        onChange={event => this.setState({ targetFirePressure: event.target.value })}
+                        value={this.state.targetFirePressure}
                         fullWidth
                     />
                     <DialogActions>
@@ -54,4 +67,4 @@ class NewProjectDialog extends React.Component {
     }
 }
 
-export default NewProjectDialog
+export default NewSketchDialog
