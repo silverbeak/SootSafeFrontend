@@ -12,7 +12,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
-import { StatedNewProjectDialog, StatedNewSketchDialog } from '../dialogs/new-project-dialog'
+import { StatedNewProjectDialog, StatedNewSketchDialog } from '../dialogs/NewProjectDialog'
 import * as _ from 'lodash'
 import * as dialogActions from '../../actions/dialog-actions';
 

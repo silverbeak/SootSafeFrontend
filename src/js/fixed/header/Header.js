@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatedProjectMenu } from '../../components/menus/project-menu'
+import { StatedProjectMenu } from '../../components/menus/ProjectMenu'
 import logo from '../../../assets/images/logo.svg'
 
 import PermIdentity from '@material-ui/icons/PermIdentity'
