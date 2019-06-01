@@ -12,13 +12,16 @@ export const saveProjectToDb = projectData => {
 export const createNewFidProject = project => {
     return (dispatch, getState) => {
         getDocRef(getState, project.name).then(projRef => {
-            projRef.set(project).then(docRef => {
-                console.log('Wrote project to firebase. Ref:', docRef)
-            })
+            projRef
+                .set(project)
+                .then(docRef => {
+                    console.log('Wrote project to firebase. Ref:', docRef)
+                    dispatch(loadProjectIndices())
+                    // Show indicator, project created
+                })
                 .catch(reason => {
                     console.log('Could not create project in database', reason);
                 })
-            // Show indicator, project created
         })
     }
 }
@@ -205,20 +208,24 @@ export const saveToBackend = (payload, projectId, sketchId) => {
 
 export const createNewSketch = (sketchData, projectId) => {
     return (dispatch, getState) => {
-        getDocRef(getState, projectId).then(projRef => {
-
-            if (!projRef) {
-                console.log('Could not locate document', getState().users, projectId, sketchData.name)
-                return
-            }
-
-            projRef
-                .collection('sketches')
-                .doc(sketchData.name)
-                .set(_.assign({}, { ...model.model }, sketchData))
-        }).catch(reason => {
-            console.log('Could not create new sketch. Reason', reason)
-        })
+        getDocRef(getState, projectId)
+            .then(projRef => {
+                if (!projRef) {
+                    console.log('Could not locate document', getState().users, projectId, sketchData.name)
+                    return
+                }
+                projRef
+                    .collection('sketches')
+                    .doc(sketchData.name)
+                    .set(_.assign({}, { ...model.model }, sketchData))
+                    .then(result => {
+                        dispatch(loadProjectIndices())
+                        console.log('Sketch created', result);
+                        
+                    })
+            }).catch(reason => {
+                console.log('Could not create new sketch. Reason', reason)
+            })
     }
 }
 
