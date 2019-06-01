@@ -156,8 +156,8 @@ const mapDispatchToPros = (dispatch, ownState) => {
         submitNewSketch: projectId => sketchData  => {            
             dispatch(createNewSketch(sketchData, projectId))
         },
-        submitNewProject: projectName => {
-            dispatch(createNewFidProject(projectName))
+        submitNewProject: projectData => {
+            dispatch(createNewFidProject(projectData))
         }
     }
 }

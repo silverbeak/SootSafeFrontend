@@ -11,9 +11,13 @@ export const saveProjectToDb = projectData => {
 
 export const createNewFidProject = project => {
     return (dispatch, getState) => {
-        getDocRef(getState, project.name).then(projRef => {
+
+        const projectCopy = _.merge({}, project)
+        projectCopy.metadata = flattenFields(project.metadata)        
+
+        getDocRef(getState, project.metadata.name.value).then(projRef => {
             projRef
-                .set(project)
+                .set(projectCopy)
                 .then(docRef => {
                     console.log('Wrote project to firebase. Ref:', docRef)
                     dispatch(loadProjectIndices())
