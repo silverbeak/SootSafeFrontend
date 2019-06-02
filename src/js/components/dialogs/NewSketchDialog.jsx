@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import * as _ from 'lodash'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -7,19 +7,37 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 
+const newSketchTemplate = {
+    metadata: {
+        name: {
+            type: String,
+            path: 'metadata.name',
+            value: '',
+        },
+        targetFirePressure: {
+            type: Number,
+            path: 'metadata.targetFirePressure',
+            value: 1500
+        }
+    }
+}
+
 class NewSketchDialog extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = { 
-            name: '',
-            targetFirePressure: 1500
-        }
+        this.state = _.merge({}, newSketchTemplate)
     }
 
     submitNew() {
-        this.props.createNew(this.state.name, this.props.projectId)
+        this.props.createNew(this.state)
         this.props.dismiss()
+    }
+
+    updateMetadata = fieldName => event => {
+        const stateCopy = _.merge({}, this.state)
+        _.set(stateCopy, fieldName, event.target.value)
+        this.setState(stateCopy)
     }
 
     render() {
@@ -38,19 +56,18 @@ class NewSketchDialog extends React.Component {
                         id='name'
                         label='Name'
                         type='text'
-                        onChange={event => this.setState({ name: event.target.value })}
-                        value={this.state.name}
+                        onChange={this.updateMetadata('metadata.name.value')}
+                        value={this.state.metadata.name.value}
                         fullWidth
                     />
 
                     <TextField
-                        autoFocus
                         margin='dense'
                         id='targetFirePressure'
                         label='Target fire pressure'
                         type='number'
-                        onChange={event => this.setState({ targetFirePressure: event.target.value })}
-                        value={this.state.targetFirePressure}
+                        onChange={this.updateMetadata('metadata.targetFirePressure.value')}
+                        value={this.state.metadata.targetFirePressure.value}
                         fullWidth
                     />
                     <DialogActions>

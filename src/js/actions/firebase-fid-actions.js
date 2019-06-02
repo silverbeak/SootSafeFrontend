@@ -66,7 +66,7 @@ export const loadProjectIndices = () => {
                                 projectId: i.id,
                                 sketchMetadata: {
                                     id: d.id,
-                                    name: d.id
+                                    name: d.data().metadata.name.value
                                 }
                             }
                         })
@@ -78,10 +78,10 @@ export const loadProjectIndices = () => {
         fidProjects
             .get()
             .then(querySnapshot => {
-                const documentIdList = _.map(querySnapshot.docs, (d) => {
+                const documentIdList = _.map(querySnapshot.docs, d => {
                     return {
                         id: d.id,
-                        name: d.id
+                        name: d.data().metadata.name.value
                     }
                 })
                 dispatch(projectIndicesLoaded(documentIdList))
@@ -218,10 +218,14 @@ export const createNewSketch = (sketchData, projectId) => {
                     console.log('Could not locate document', getState().users, projectId, sketchData.name)
                     return
                 }
+
+                const sketchDataCopy = _.merge({}, sketchData)
+                sketchDataCopy.metadata = flattenFields(sketchData.metadata)
+
                 projRef
                     .collection('sketches')
-                    .doc(sketchData.name)
-                    .set(_.assign({}, { ...model.model }, sketchData))
+                    .doc(_.kebabCase(sketchData.metadata.name.value))
+                    .set(_.assign({}, { ...model.model }, sketchDataCopy))
                     .then(result => {
                         dispatch(loadProjectIndices())
                         console.log('Sketch created', result);
@@ -263,18 +267,6 @@ const model = {
         linkKeyProperty: "key",
         linkFromPortIdProperty: "fid",
         linkToPortIdProperty: "tid",
-        sketchData: {
-            fields: {
-                targetFirePressure: {
-                    min: 100,
-                    name: "Target Fire Pressure",
-                    type: "Number",
-                    unit: "Pa",
-                    value: 1500,
-                    path: "fields.targetFirePressure"
-                }
-            }
-        }
     }
 }
 
