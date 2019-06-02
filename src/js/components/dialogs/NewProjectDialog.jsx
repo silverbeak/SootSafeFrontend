@@ -58,7 +58,11 @@ class NewProjectDialog extends React.Component {
                         <Button onClick={onClose} color="primary">
                             Cancel
                         </Button>
-                        <Button color="primary" onClick={() => this.props.submitNew(this.state)}>
+                        <Button color="primary" onClick={() => {
+                                    this.props.submitNew(this.state)
+                                    this.props.onClose()
+                                }}
+                        >
                             Create
                         </Button>
                     </DialogActions>

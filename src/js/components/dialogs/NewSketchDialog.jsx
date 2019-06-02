@@ -74,7 +74,13 @@ class NewSketchDialog extends React.Component {
                         <Button onClick={onClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={() => this.props.submitNew(this.state)} color="primary">
+                        <Button 
+                            color="primary"
+                            onClick={() => {
+                                this.props.onClose()
+                                this.props.submitNew(this.state)
+                            }}
+                        >
                             Create
                         </Button>
                     </DialogActions>
