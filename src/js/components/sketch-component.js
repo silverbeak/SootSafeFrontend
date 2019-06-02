@@ -21,53 +21,57 @@ class SketchComponent extends React.Component {
     
     singleField(field, name) {
         switch(field.type) {
-            case String: 
-            return (
-                <span key={name}>
-                    <TextField 
-                        id={field.path}
-                        label={name}
-                        className="classes.textField"
-                        margin="normal"
-                        onChange={this.props.onChange}
-                        value={field.value}
-                        />
-                        {field.unit}
-                    <br />
-                </span>
-            )
-            case Number: 
-            return (
-                <span key={name}>
-                    <TextField 
-                        id={field.path}
-                        type="number"
-                        label={name}
-                        className="classes.textField"
-                        margin="normal"
-                        onChange={this.props.onChange}
-                        value={field.value}
-                        />
-                        {field.unit}
-                    <br />
-                </span>
-            )
-            case Boolean:
-            return (
-                <span key={name}>
-                    <FormControlLabel
-                        control = {
-                            <Checkbox
-                                checked={field.value}
-                                onChange={this.checkboxUpdate(this.props.onChange, field)}
-                                value={name}
+            case String:
+            case 'String':
+                return (
+                    <span key={name}>
+                        <TextField 
+                            id={field.path}
+                            label={name}
+                            className="classes.textField"
+                            margin="normal"
+                            onChange={this.props.onChange}
+                            value={field.value}
                             />
-                        }
-                        label={name}
-                  />
-                </span>
-            )
+                            {field.unit}
+                        <br />
+                    </span>
+                )
+            case Number:
+            case 'Number':
+                return (
+                    <span key={name}>
+                        <TextField 
+                            id={field.path}
+                            type="number"
+                            label={name}
+                            className="classes.textField"
+                            margin="normal"
+                            onChange={this.props.onChange}
+                            value={field.value}
+                            />
+                            {field.unit}
+                        <br />
+                    </span>
+                )
+            case Boolean:
+            case 'Boolean':
+                return (
+                    <span key={name}>
+                        <FormControlLabel
+                            control = {
+                                <Checkbox
+                                    checked={field.value}
+                                    onChange={this.checkboxUpdate(this.props.onChange, field)}
+                                    value={name}
+                                />
+                            }
+                            label={name}
+                    />
+                    </span>
+                )
             case Object:
+            case 'Object':
                 return (
                     <span key={name}>
                         { 
@@ -83,7 +87,7 @@ class SketchComponent extends React.Component {
     render() {
         return (
             <span>
-            { this.singleField(this.props.field, this.props.name) }
+                { this.singleField(this.props.field, this.props.name) }
             </span>
         )
     }

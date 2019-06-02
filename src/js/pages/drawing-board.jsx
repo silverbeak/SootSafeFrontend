@@ -76,8 +76,8 @@ class DrawingBoard extends React.Component {
     }
 
     save() {
-        const { nodeDataArray, linkDataArray, sketchData } = this.props.sketch.model
-        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray, sketchData })
+        const { nodeDataArray, linkDataArray, metadata } = this.props.sketch.model
+        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray, metadata })
         this.props.projectSaved(saveObject, this.props.projectId, this.props.sketchId)
     }
 

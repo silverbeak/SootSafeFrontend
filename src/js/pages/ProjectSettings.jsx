@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { List, ListItem } from '@material-ui/core'
 import SketchComponent from '../components/sketch-component'
 import * as _ from '../../../node_modules/lodash/lodash'
@@ -19,11 +18,16 @@ class ProjectSettings extends Component {
         this.props.sketchDataUpdated(projectId, sketchId, key, value)
     }
 
-    mapElementFields(field) {
+    mapElementFields(field) {        
         if (field) {
             return (
                 <ListItem key={field.name}>
-                    <SketchComponent key={`${field.path}-${field.name}`} field={field} name={field.name} onChange={this.handleStateUpdate.bind(this)} />
+                    <SketchComponent
+                        key={`${field.path}-${field.name}`}
+                        field={field}
+                        name={field.name}
+                        onChange={this.handleStateUpdate.bind(this)}
+                    />
                 </ListItem>
             )
         }
@@ -33,7 +37,7 @@ class ProjectSettings extends Component {
         return this.props.sketch ?
             <div style={valueTableStyle}>
                 <List>
-                    {_.map(this.props.sketch.model.sketchData.fields, this.mapElementFields.bind(this))}
+                    {_.map(this.props.sketch.model.metadata, this.mapElementFields.bind(this))}
                 </List>
             </div>
             :

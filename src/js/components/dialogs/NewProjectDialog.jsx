@@ -10,6 +10,7 @@ import * as _ from 'lodash'
 const newProjectTemplate = {
     metadata: {
         name: {
+            name: 'Project name',
             type: String,
             path: 'metadata.name',
             value: '',

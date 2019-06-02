@@ -10,11 +10,13 @@ import TextField from '@material-ui/core/TextField'
 const newSketchTemplate = {
     metadata: {
         name: {
+            name: 'Sketch name',
             type: String,
             path: 'metadata.name',
             value: '',
         },
         targetFirePressure: {
+            name: 'Target fire pressure',
             type: Number,
             path: 'metadata.targetFirePressure',
             value: 1500

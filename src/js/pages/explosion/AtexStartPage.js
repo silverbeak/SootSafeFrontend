@@ -29,7 +29,7 @@ class AtexStartPage extends React.Component {
                     </p>
 
                     <p className="information-bullet">
-                        <Link to="/atex/new"><Button variant="raised">Start a new ATEX calculation</Button></Link>
+                        <Link to="/atex/new"><Button variant="contained">Start a new ATEX calculation</Button></Link>
                     </p>
                 </Paper>
             </div>

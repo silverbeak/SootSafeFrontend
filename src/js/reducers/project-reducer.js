@@ -92,13 +92,13 @@ const projects = (state = initialState, action) => {
             _.each(action.sketchMetadata, md => {
                 const proj = _.find(smlStateCopy.projectIndices, p => p.id === md.projectId)
                 if (!proj.sketches) proj.sketches = []
-                proj.sketches.push(md.sketchMetadata)
+                proj.sketches.push(_.merge({}, md.sketchMetadata, { id: md.sketchId }))
             })
             return smlStateCopy
 
         case actions.SKETCH_DATA_UPDATED:
                 const sduStateCopy = _.merge({}, state)
-                const sduSketchDataCopy = sduStateCopy.sketches[action.sketchId].model.sketchData
+                const sduSketchDataCopy = sduStateCopy.sketches[action.sketchId].model
                 _.set(sduSketchDataCopy, `${action.fieldPath}.value`, action.value)
                 return sduStateCopy
 

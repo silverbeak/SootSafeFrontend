@@ -30,7 +30,7 @@ class ProjectMenu extends React.Component {
         }
     }
 
-    generateSketchMenuItem = projectId => (sketch) => {
+    generateSketchMenuItem = projectId => sketch => {
 
         const openSketch = () => {
             this.setState({ projectDrawerOpen: false })
@@ -42,7 +42,7 @@ class ProjectMenu extends React.Component {
                 button
                 key={sketch.id}
                 onClick={openSketch}>
-                <ListItemText inset primary={sketch.name} />
+                <ListItemText inset primary={sketch.name.value} />
             </ListItem>
         )
     }

@@ -15,7 +15,7 @@ export const createNewFidProject = project => {
         const projectCopy = _.merge({}, project)
         projectCopy.metadata = flattenFields(project.metadata)        
 
-        getDocRef(getState, project.metadata.name.value).then(projRef => {
+        getDocRef(getState, _.kebabCase(project.metadata.name.value)).then(projRef => {
             projRef
                 .set(projectCopy)
                 .then(docRef => {
@@ -61,13 +61,11 @@ export const loadProjectIndices = () => {
                     .collection('sketches')
                     .get()
                     .then(querySnapshot => {
-                        const sketchMetadataList = _.map(querySnapshot.docs, d => {
+                        const sketchMetadataList = _.map(querySnapshot.docs, d => {                            
                             return {
                                 projectId: i.id,
-                                sketchMetadata: {
-                                    id: d.id,
-                                    name: d.data().metadata.name.value
-                                }
+                                sketchId: d.id,
+                                sketchMetadata: d.data().metadata
                             }
                         })
                         dispatch(sketchMetadataLoaded(sketchMetadataList))
@@ -201,9 +199,9 @@ export const saveToBackend = (payload, projectId, sketchId) => {
             _.forEach(payloadCopy, node => {
                 sketchRef.collection('nodeDataArray').doc(`${node.key}`).set(node)
             })
-            
-            const flattenedSketchData = _.map(payload.sketchData, flattenFields)[0]
-            sketchRef.update({ "sketchData.fields": flattenedSketchData })
+            const flattenedSketchData = payload.metadata
+            sketchRef.update({ "metadata": flattenedSketchData })
+            dispatch(loadProjectIndices())
         }).catch((reason) => {
             console.log('Could not locate document', getState().users, projectId, sketchId, reason)
         })
