@@ -61,7 +61,7 @@ class SketchComponent extends React.Component {
                         <FormControlLabel
                             control = {
                                 <Checkbox
-                                    checked={field.value}
+                                    checked={field.value === 'true' || field.value === true}
                                     onChange={this.checkboxUpdate(this.props.onChange, field)}
                                     value={name}
                                 />
