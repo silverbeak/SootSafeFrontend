@@ -8,10 +8,8 @@ import * as _ from 'lodash/lodash.min'
 
 class DrawingBoardComp extends DrawingBoard {}
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
     return {
-        sketchId: ownProps.sketchId,
-        projectId: ownProps.projectId,
         selectedPart: state.parts.selectedPart,
         palette: state.palettes[0].data,
     }

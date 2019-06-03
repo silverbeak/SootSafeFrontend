@@ -64,10 +64,29 @@ const rightHandCards = {
 
 class DrawingBoard extends React.Component {
 
-    componentWillMount() {
+    constructor(props) {
+        super(props)
+        const { projectId, sketchId } = this.props
+        this.state = { projectId, sketchId}
+    }
+
+    initiateDiagramCreator = () => {
         this.treeDef = go.GraphObject.make;  // for more concise visual tree definitions
-        const nodeTemplate = createNodeTemplate(this.treeDef, this.props.partSelected.bind(this))
+        const nodeTemplate = createNodeTemplate(this.treeDef, this.props.partSelected)
         this.myDiagramCreator = initDrawingBoard(this.treeDef, nodeTemplate)
+    }
+
+    componentWillMount() {        
+        this.initiateDiagramCreator()
+    }
+
+    componentDidUpdate() {
+        const { sketchId, projectId } = this.props
+
+        if (sketchId !== this.state.sketchId || projectId !== this.state.projectId) {
+            this.setState({ projectId, sketchId})
+            this.initiateDiagramCreator()
+        }
     }
 
     componentDidMount() {
@@ -79,10 +98,6 @@ class DrawingBoard extends React.Component {
         const { nodeDataArray, linkDataArray, metadata } = this.props.sketch.model
         const saveObject = Object.assign({}, { nodeDataArray, linkDataArray, metadata })
         this.props.projectSaved(saveObject, this.props.projectId, this.props.sketchId)
-    }
-
-    handleChange = fieldName => value => {
-
     }
 
     renderValuesTabContent() {
