@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import DrawingBoard from './drawing-board'
+import DrawingBoard from './DrawingBoard'
 import * as actions from '../actions/drawing-board-actions'
 import * as projectActions from '../actions/project-actions'
 import * as backendActions from '../actions/firebase-fid-actions'
