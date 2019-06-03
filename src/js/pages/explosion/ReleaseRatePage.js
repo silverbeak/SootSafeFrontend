@@ -63,6 +63,7 @@ class ReleaseRatePage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.loadElements()
         this.props.resetReportLink()
     }
 
@@ -245,6 +246,9 @@ const mapDispatchToProps = dispatch => {
         },
         resetReportLink: () => {
             dispatch(actions.resetReportLink())
+        },
+        loadElements: () => {
+            dispatch(actions.loadElements())
         }
     }
 }

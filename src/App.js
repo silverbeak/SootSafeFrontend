@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import logo from './logo.svg'
 import './style/App.css'
 import Header from './js/fixed/header/HeaderComponent'
 import Footer from './js/fixed/footer/Footer'
@@ -12,15 +11,12 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
 import { StatedNotifier } from './js/components/notifier'
-// import { StatedResultTable } from './js/components/result-table'
 import ReleaseRatePage from './js/pages/explosion/ReleaseRatePage'
 import AtexStartPage from './js/pages/explosion/AtexStartPage'
 import FeedbackDialog from './js/components/dialogs/feedback-dialog'
 
 import ReactGA from 'react-ga'
 import StatedLoginProxy from './js/pages/LoginProxy';
-// Store.dispatch(loadProjectIndices())
-Store.dispatch(loadElements())
 
 class App extends Component {
 
@@ -40,7 +36,6 @@ class App extends Component {
                         <div className="Site-content">
                             <Route exact path="/" component={StatedLoginProxy} />
                             <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
-                            {/* <Route path="/project/:projectId/sketch/:sketchId/table" component={StatedResultTable} /> */}
                             <Route path="/atex/start" component={AtexStartPage} />
                             <Route path="/atex/new" component={ReleaseRatePage} />
                             <Route path="/about" component={About} />

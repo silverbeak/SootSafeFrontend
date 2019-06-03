@@ -44,3 +44,5 @@ export const submitReleaseRateCalculationRequest = fieldValues => {
         dispatch(firebaseActions.submitReleaseRateCalculation(properData))
     }
 }
+
+export const loadElements = firebaseActions.loadElements
