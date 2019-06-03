@@ -69,8 +69,9 @@ class ReleaseRatePage extends React.Component {
 
     handleChange(field) {
         return event => {
-            const floatValue = parseFloat(event.target.value)
-            // console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue}`)
+            // const floatValue = parseFloat(event.target.value) // Don't know why I did this. It only makes sense for float values, but this is used for everything
+            const floatValue = event.target.value
+            console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue} (${event.target.value})`)
             this.props.valueUpdated(field, floatValue)
         }
     }
@@ -131,7 +132,7 @@ class ReleaseRatePage extends React.Component {
                     <div>
                         <Typography className={classes.instructions}>
                             All steps completed
-                    </Typography>
+                        </Typography>
                         <Button onClick={this.handleReset}>Reset</Button>
                     </div>
                 ) : (
