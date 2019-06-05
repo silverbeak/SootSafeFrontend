@@ -15,7 +15,7 @@ import UserComponent from './js/components/UserComponent'
 import { StatedNotifier } from './js/components/notifier'
 import ReleaseRatePage from './js/pages/explosion/ReleaseRatePage'
 import AtexStartPage from './js/pages/explosion/AtexStartPage'
-import FeedbackDialog from './js/components/dialogs/feedback-dialog'
+import FeedbackDialog from './js/components/dialogs/FeedbackDialog'
 
 import ReactGA from 'react-ga'
 import StatedLoginProxy from './js/pages/LoginProxy';
@@ -34,9 +34,9 @@ class App extends Component {
             <Provider store={Store}>
                 <ThemeProvider theme={PaperbaseTheme} >
                     <div className="App Site">
-                        <Header />
 
                         <ConnectedRouter history={history}>
+                            <Header {...this.props} />
                             <div className="Site-content">
                                 <Route exact path="/" component={StatedLoginProxy} />
                                 <Route exact path="/dashboard" component={() => <StatedUserDashboard {...this.props} />} />

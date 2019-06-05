@@ -1,12 +1,11 @@
 import React from 'react'
-import { StatedProjectMenu } from '../../components/menus/ProjectMenu'
+import ProjectMenu from '../../components/menus/ProjectMenu'
 import logo from '../../../assets/images/logo.svg'
 
 import PermIdentity from '@material-ui/icons/PermIdentity'
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Send from '@material-ui/icons/Send'
 
@@ -84,7 +83,7 @@ class Header extends React.Component {
                 <div className="left-hand-menu-cluster">
                     {
                         showMenu ?
-                            <div className="project-menu-launcher"><StatedProjectMenu /></div> :
+                            <div className="project-menu-launcher"><ProjectMenu {...this.props} /></div> :
                             <span></span>
                     }
                     <a href="/">
@@ -126,19 +125,5 @@ class Header extends React.Component {
     }
 }
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
-    leftIcon: {
-        marginRight: theme.spacing.unit,
-    },
-    rightIcon: {
-        marginLeft: theme.spacing.unit,
-    },
-    iconSmall: {
-        fontSize: 20,
-    },
-})
 
-export default withStyles(styles)(Header)
+export default Header
