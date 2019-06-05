@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-import * as _ from '../../../../node_modules/lodash/lodash.min'
+import * as _ from 'lodash/lodash.min'
 
 const ventilationVelocity = (props, handleChange) => {
     const { classes } = props

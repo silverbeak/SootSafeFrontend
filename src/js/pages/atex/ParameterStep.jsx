@@ -1,5 +1,5 @@
 import React from 'react'
-import * as _ from '../../../../node_modules/lodash/lodash.min'
+import * as _ from 'lodash/lodash.min'
 
 import { generateNumberField } from './field-generator'
 

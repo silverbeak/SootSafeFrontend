@@ -27,7 +27,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 import ReactGA from 'react-ga'
 
-import * as _ from '../../../../node_modules/lodash/lodash.min'
+import * as _ from 'lodash/lodash.min'
 
 class ReleaseRatePage extends React.Component {
 
