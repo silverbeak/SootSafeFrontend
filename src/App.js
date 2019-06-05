@@ -19,7 +19,7 @@ import FeedbackDialog from './js/components/dialogs/FeedbackDialog'
 
 import ReactGA from 'react-ga'
 import StatedLoginProxy from './js/pages/LoginProxy';
-import { StatedUserDashboard } from './js/pages/UserDashboard';
+import UserDashboard from './js/pages/dashboard/UserDashboard';
 import UserSettings from './js/pages/user/UserSettings';
 import Projects from './js/pages/Projects';
 
@@ -41,7 +41,7 @@ class App extends Component {
                             <Header {...this.props} />
                             <div className="Site-content">
                                 <Route exact path="/" component={() => <StatedLoginProxy {...this.props} />} />
-                                <Route exact path="/dashboard" component={() => <StatedUserDashboard {...this.props} />} />
+                                <Route exact path="/dashboard" component={() => <UserDashboard {...this.props} />} />
                                 <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
                                 <Route path="/atex/start" component={AtexStartPage} />
                                 <Route path="/atex/new" component={ReleaseRatePage} />

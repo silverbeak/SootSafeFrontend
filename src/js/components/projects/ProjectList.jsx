@@ -11,13 +11,13 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
-import NewProjectDialog from '../components/dialogs/NewProjectDialog'
-import NewSketchDialog from '../components/dialogs/NewSketchDialog'
-import { createNewSketch } from '../actions/firebase-fid-actions'
-import { createNewFidProject } from '../actions/firebase-fid-actions'
+import NewProjectDialog from '../../components/dialogs/NewProjectDialog'
+import NewSketchDialog from '../../components/dialogs/NewSketchDialog'
+import { createNewSketch } from '../../actions/firebase-fid-actions'
+import { createNewFidProject } from '../../actions/firebase-fid-actions'
 import * as _ from 'lodash'
 
-class UserDashboard extends React.Component {
+class ProjectList extends React.Component {
 
     constructor(props) {
         super(props)
@@ -156,6 +156,6 @@ const mapDispatchToPros = (dispatch, ownState) => {
     }
 }
 
-export const StatedUserDashboard = connect(mapStateToProps, mapDispatchToPros)(UserDashboard)
+export const StatedProjectList = connect(mapStateToProps, mapDispatchToPros)(ProjectList)
 
-export default (UserDashboard)
+export default (ProjectList)
