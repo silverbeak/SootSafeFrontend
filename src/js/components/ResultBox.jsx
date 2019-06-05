@@ -3,7 +3,7 @@ import StatedInfoBox from './info-box'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import { StatedCalculatedResultsBox } from './calculated-results-box'
+import { StatedCalculatedResultsBox } from './CalculatedResultsBox'
 
 function TabContainer(props) {
     return <div style={{ padding: 8 * 3 }}>{props.children}</div>;
