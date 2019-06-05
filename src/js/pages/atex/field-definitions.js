@@ -15,122 +15,146 @@ export const fieldDefinitions = [
         names.VOLUMETRIC_GAS_FLOW_RATE,
         () => <span>Q<sub>g</sub></span>,
         () => <span className={adornmentClassNames}>m<sup>3</sup>/s</span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.SAFETY_FACTOR,
         () => 'k',
         () => <i className={adornmentClassNames}>no unit</i>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.LOWER_FLAMMABLE_LIMIT,
         () => 'LFL',
         () => 'vol/vol',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.MASS_RELEASE_RATE,
         () => <span>W<sub>g</sub></span>,
         () => 'kg/s',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.EVAPORATION_RATE,
         () => <span>W<sub>e</sub></span>,
         () => 'kg/s',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.MOLAR_MASS,
         () => 'M',
         () => 'kg/mol',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.GAS_DENSITY,
         () => <span>&rho;<sub>g</sub></span>,
         () => <span className={adornmentClassNames}>kg/m<sup>3</sup></span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.DISCHARGE_COEFFICIENT,
         () => <span>C<sub>d</sub></span>,
         () => <i className={adornmentClassNames}>no unit</i>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.CROSS_SECTION_AREA,
         () => 'S',
         () => <span className={adornmentClassNames}>m<sup>2</sup></span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.PRESSURE_DIFFERENCE,
         () => 'p',
         () => 'Pa',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.POOL_SURFACE_AREA,
         () => <span>A<sub>p</sub></span>,
         () => <span className={adornmentClassNames}>m<sup>2</sup></span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.WIND_SPEED,
         () => <span>u<sub>w</sub></span>,
         () => 'm/s',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ABSOLUTE_TEMPERATURE,
         () => 'T',
         () => 'K',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ADIABATIC_EXPANSION,
         () => <span>&gamma;</span>,
         () => <i className={adornmentClassNames}>no unit</i>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ATMOSPHERIC_PRESSURE,
         () => 'pa',
         () => 'Pa',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.CONTAINER_PRESSURE,
         () => 'p',
         () => 'Pa',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.CRITICAL_GAS_PRESSURE,
         () => <span>p<sub>c</sub></span>,
         () => 'Pa',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.COMPRESSIBILITY_FACTOR,
         () => 'Z',
         () => <i>no unit</i>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.AIR_ENTERING_ROOM_FLOW_RATE,
         () => <span>Q<sub>1</sub></span>,
         () => <span className={adornmentClassNames}>m<sup>3</sup>/s</span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.AIR_CHANGE_FREQUENCY,
         () => 'C',
         () => <span className={adornmentClassNames}>s<sup>-1</sup></span>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ROOM_DIMENSION_DEPTH,
         () => <span>L</span>,
         () => 'm',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ROOM_DIMENSION_HEIGHT,
         () => <span>H</span>,
         () => 'm',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.ROOM_DIMENSION_WIDTH,
         () => <span>B</span>,
         () => 'm',
-        greaterThanZero
+        greaterThanZero,
+        Number
     ],[
         names.VENTILATION_EFFICIENCY_FACTOR,
         () => <i>f</i>,
         () => <i className={adornmentClassNames}>no unit</i>,
-        greaterThanZero
+        greaterThanZero,
+        Number
     ]
 ]
 

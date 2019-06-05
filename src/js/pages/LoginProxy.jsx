@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import StatedMainPage from './MainPage';
-import AtexStartPage from './explosion/AtexStartPage'
+import AtexStartPage from './atex/AtexStartPage'
 
 class LoginProxy extends React.Component {
     render() {

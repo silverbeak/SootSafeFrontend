@@ -13,8 +13,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Route } from 'react-router'
 import UserComponent from './js/components/UserComponent'
 import { StatedNotifier } from './js/components/notifier'
-import ReleaseRatePage from './js/pages/explosion/ReleaseRatePage'
-import AtexStartPage from './js/pages/explosion/AtexStartPage'
+import ReleaseRatePage from './js/pages/atex/ReleaseRatePage'
+import AtexStartPage from './js/pages/atex/AtexStartPage'
 import FeedbackDialog from './js/components/dialogs/FeedbackDialog'
 
 import ReactGA from 'react-ga'
@@ -38,7 +38,7 @@ class App extends Component {
                         <ConnectedRouter history={history}>
                             <Header {...this.props} />
                             <div className="Site-content">
-                                <Route exact path="/" component={StatedLoginProxy} />
+                                <Route exact path="/" component={() => <StatedLoginProxy {...this.props} />} />
                                 <Route exact path="/dashboard" component={() => <StatedUserDashboard {...this.props} />} />
                                 <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
                                 <Route path="/atex/start" component={AtexStartPage} />
