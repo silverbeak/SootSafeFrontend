@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import DrawingBoardComponent from './DrawingBoardComponent'
-import ProjectSettings from './ProjectSettings';
-import * as backendActions from '../actions/firebase-fid-actions'
-import { sketchDataUpdated } from '../actions/project-actions';
+import ProjectSettings from '../ProjectSettings';
+import * as backendActions from '../../actions/firebase-fid-actions'
+import { sketchDataUpdated } from '../../actions/project-actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
