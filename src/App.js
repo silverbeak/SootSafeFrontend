@@ -20,6 +20,8 @@ import FeedbackDialog from './js/components/dialogs/FeedbackDialog'
 import ReactGA from 'react-ga'
 import StatedLoginProxy from './js/pages/LoginProxy';
 import { StatedUserDashboard } from './js/pages/UserDashboard';
+import UserSettings from './js/pages/user/UserSettings';
+import Projects from './js/pages/Projects';
 
 class App extends Component {
 
@@ -43,6 +45,8 @@ class App extends Component {
                                 <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
                                 <Route path="/atex/start" component={AtexStartPage} />
                                 <Route path="/atex/new" component={ReleaseRatePage} />
+                                <Route path="/settings" component={UserSettings} />
+                                <Route path="/projects" component={Projects} />
                                 <Route path="/about" component={About} />
                             </div>
                         </ConnectedRouter>
