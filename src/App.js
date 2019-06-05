@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import './style/App.css'
+import { mainStyle } from './js/MainStyle'
+import { PaperbaseTheme } from './style/themes/paperbase/Paperbase'
+import { withStyles, ThemeProvider } from '@material-ui/styles'
 import Header from './js/fixed/header/HeaderComponent'
 import Footer from './js/fixed/footer/Footer'
 import About from './js/pages/About'
 import { Provider } from 'react-redux'
 import { Store, history } from './js/reducers/store'
-import { loadElements } from './js/actions/firebase-actions'
 import MainFID from './js/pages/MainFID'
 import { ConnectedRouter } from 'connected-react-router'
 import { Route } from 'react-router'
@@ -17,11 +19,12 @@ import FeedbackDialog from './js/components/dialogs/feedback-dialog'
 
 import ReactGA from 'react-ga'
 import StatedLoginProxy from './js/pages/LoginProxy';
+import { StatedUserDashboard } from './js/pages/UserDashboard';
 
 class App extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
         ReactGA.pageview(window.location.pathname + window.location.search);
     }
@@ -29,27 +32,31 @@ class App extends Component {
     render() {
         return (
             <Provider store={Store}>
-                <div className="App Site">
-                    <Header />
+                <ThemeProvider theme={PaperbaseTheme} >
+                    <div className="App Site">
+                        <Header />
 
-                    <ConnectedRouter history={history}>
-                        <div className="Site-content">
-                            <Route exact path="/" component={StatedLoginProxy} />
-                            <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
-                            <Route path="/atex/start" component={AtexStartPage} />
-                            <Route path="/atex/new" component={ReleaseRatePage} />
-                            <Route path="/about" component={About} />
-                        </div>
-                    </ConnectedRouter>
+                        <ConnectedRouter history={history}>
+                            <div className="Site-content">
+                                <Route exact path="/" component={StatedLoginProxy} />
+                                <Route exact path="/dashboard" component={() => <StatedUserDashboard {...this.props} />} />
+                                <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
+                                <Route path="/atex/start" component={AtexStartPage} />
+                                <Route path="/atex/new" component={ReleaseRatePage} />
+                                <Route path="/about" component={About} />
+                            </div>
+                        </ConnectedRouter>
 
-                    <Footer />
-                    <UserComponent path={history.location.pathname} />
-                    <StatedNotifier />
-                    <FeedbackDialog />
-                </div>
+                        <Footer />
+                        <UserComponent path={history.location.pathname} />
+                        <StatedNotifier />
+                        <FeedbackDialog />
+                    </div>
+                </ThemeProvider>
             </Provider>
         );
     }
+
 }
 
-export default App;
+export default withStyles(mainStyle(PaperbaseTheme))(App)
