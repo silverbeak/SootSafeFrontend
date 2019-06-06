@@ -1,5 +1,6 @@
 import { fbApp } from '../firebase/firebase'
 import { loadProjectIndices } from './firebase-fid-actions'
+import { loadUserDetails } from './firebase-actions'
 import { push } from 'connected-react-router'
 
 export const userLoggedIn = (user, path = '/') => {
@@ -9,6 +10,7 @@ export const userLoggedIn = (user, path = '/') => {
         dispatch(push(path))
         dispatch({ type: 'USER_LOGGED_IN', user })
         dispatch(loadProjectIndices())
+        dispatch(loadUserDetails(user))
     }
 }
 

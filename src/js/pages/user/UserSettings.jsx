@@ -5,7 +5,8 @@ import * as _ from 'lodash'
 
 function mapStateToProps(state) {
     return {
-        user: state.users.user
+        user: state.users.user,
+        userDetails: state.users.userDetails
     };
 }
 
@@ -42,9 +43,9 @@ class UserSettings extends Component {
     }
 
     render() {
-        const { user, classes } = this.props
+        const { user, userDetails, classes } = this.props
 
-        if (!user) return <div>Loading user data...</div>
+        if (!user || !userDetails) return <div>Loading user data...</div>
 
         // console.log('User', user);
         
@@ -52,6 +53,8 @@ class UserSettings extends Component {
         const photoUrl = this.findProviderDataField(user, 'photoURL')
         const displayName = this.findProviderDataField(user, 'displayName')
         const email = this.findProviderDataField(user, 'email')
+
+        const lastLogin = userDetails.lastLogin ? userDetails.lastLogin.toDate().toLocaleDateString() : 'Not known'
         
         return (
             <div className={classes.profile}>
@@ -69,7 +72,7 @@ class UserSettings extends Component {
                 </div>
 
                 <div className={classes.rightBar}>
-                    <p>User info coming here...</p>
+                    <p>Last login: {lastLogin}</p>
                 </div>
 
             </div>

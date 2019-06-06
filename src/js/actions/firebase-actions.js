@@ -1,5 +1,7 @@
 import * as actions from './action-types'
 
+export const USER_DETAILS_FETCHED = 'USER_DETAILS_FETCHED'
+
 export const saveProjectToDb = projectData => {
     return {
         type: actions.SAVE_PROJECT,
@@ -76,11 +78,11 @@ export const loadElements = () => {
             snapShot.docs.forEach(doc => {
                 elements[doc.id] = doc.data()
             })
-    
+
             dispatch({
                 type: actions.ELEMENTS_FETCHED,
                 data: elements
-            })        
+            })
         })
     }
 }
@@ -119,3 +121,19 @@ export const loadElements = () => {
 //         })
 //     }
 // }
+
+export const loadUserDetails = user => {
+    return (dispatch, getState) => {
+        const db = getState().firebase.db
+        db
+            .collection('users')
+            .doc(user.uid)
+            .get()
+            .then(doc => {
+                dispatch({
+                    type: USER_DETAILS_FETCHED,
+                    userDetails: doc.data()
+                })
+            })
+    }
+}
