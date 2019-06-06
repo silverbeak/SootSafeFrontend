@@ -1,6 +1,8 @@
 import * as actions from './action-types'
+import * as _ from 'lodash'
 
 export const USER_DETAILS_FETCHED = 'USER_DETAILS_FETCHED'
+export const COMPANY_DETAILS_FETCHED = 'COMPANY_DETAILS_FETCHED'
 
 export const saveProjectToDb = projectData => {
     return {
@@ -133,6 +135,23 @@ export const loadUserDetails = user => {
                 dispatch({
                     type: USER_DETAILS_FETCHED,
                     userDetails: doc.data()
+                })
+            })
+    }
+}
+
+export const loadCompaniesForUser = user => {
+    return (dispatch, getState) => {
+        const db = getState().firebase.db
+        console.log('User fc', user.uid)
+        db
+            .collection('customers')
+            .where(`users`, "array-contains", user.uid)
+            .get()
+            .then(snapShot => {
+                dispatch({
+                    type: COMPANY_DETAILS_FETCHED,
+                    companies: _.map(snapShot.docs, company => company.data())
                 })
             })
     }

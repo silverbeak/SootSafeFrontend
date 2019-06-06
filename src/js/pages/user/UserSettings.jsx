@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
+import { List, ListItem, ListItemIcon, Divider } from '@material-ui/core'
 import * as _ from 'lodash'
 
 function mapStateToProps(state) {
     return {
         user: state.users.user,
-        userDetails: state.users.userDetails
+        userDetails: state.users.userDetails,
+        companies: state.users.companies,
     };
 }
 
@@ -24,6 +26,7 @@ const styles = {
     rightBar: {
         display: 'flex',
         flex: 1,
+        flexDirection: 'column',
         padding: '1.5em',
         marginLeft: '2em',
     },
@@ -33,6 +36,14 @@ const styles = {
     profilePhoto: {
         borderRadius: '10px'
     },
+    sectionHeader: {
+        color: 'gray',
+        textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    listEntry: {
+        marginTop: '.4em'
+    }
 }
 
 class UserSettings extends Component {
@@ -43,24 +54,24 @@ class UserSettings extends Component {
     }
 
     render() {
-        const { user, userDetails, classes } = this.props
+        const { user, userDetails, companies, classes } = this.props
 
         if (!user || !userDetails) return <div>Loading user data...</div>
 
-        // console.log('User', user);
-        
+        console.log('company', companies);
+
 
         const photoUrl = this.findProviderDataField(user, 'photoURL')
         const displayName = this.findProviderDataField(user, 'displayName')
         const email = this.findProviderDataField(user, 'email')
 
         const lastLogin = userDetails.lastLogin ? userDetails.lastLogin.toDate().toLocaleDateString() : 'Not known'
-        
+
         return (
             <div className={classes.profile}>
                 <div className={classes.leftBar}>
                     {
-                        photoUrl ? 
+                        photoUrl ?
                             <img src={photoUrl} style={{ height: '10em' }} className={classes.profilePhoto} />
                             :
                             <div>No photo to display</div>
@@ -72,7 +83,39 @@ class UserSettings extends Component {
                 </div>
 
                 <div className={classes.rightBar}>
-                    <p>Last login: {lastLogin}</p>
+                    <div>
+                        <div className={classes.sectionHeader}>
+                            Last login:
+                        </div>
+                        <p>{lastLogin}</p>
+                    </div>
+
+                    <div>
+                        <div className={classes.sectionHeader}>
+                            Member of:
+                        </div>
+                        <List>
+                            {
+                                _.map(companies, (cd, index) => {
+                                    return (
+                                        <ListItem key={index} className={classes.listEntry}>
+                                            <ListItemIcon>
+                                                {
+                                                    cd.public.logo ?
+                                                        <img src={cd.public.logo} />
+                                                        :
+                                                        <></>
+
+                                                }
+                                            </ListItemIcon>
+                                            {cd.public.name}
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </List>
+
+                    </div>
                 </div>
 
             </div>

@@ -1,4 +1,4 @@
-import { USER_DETAILS_FETCHED } from "../actions/firebase-actions";
+import { USER_DETAILS_FETCHED, COMPANY_DETAILS_FETCHED } from "../actions/firebase-actions";
 
 const initialState = {}
 
@@ -10,10 +10,16 @@ const users = (state = initialState, action) => {
         case 'USER_LOGGED_OUT':
             const loggedOutState = Object.assign({}, state)
             delete loggedOutState.user
+            delete loggedOutState.companies
+            delete loggedOutState.userDetails
             return loggedOutState
 
         case USER_DETAILS_FETCHED:
             return Object.assign({}, state, { userDetails: action.userDetails })
+
+        case COMPANY_DETAILS_FETCHED:            
+            return Object.assign({}, state, { companies: action.companies })
+
         default: 
     }
     return state
