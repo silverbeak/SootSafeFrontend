@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-const elementStep = (handleChange, props) => {
+const elementStep = (handleChange, props, fields) => {
     const { classes } = props
 
     return (
@@ -14,8 +14,8 @@ const elementStep = (handleChange, props) => {
                 <FormLabel component="legend">Element</FormLabel>
                 <br />
                 <Select
-                    value={props.fields.casNumber}
-                    onChange={props.elementUpdated}
+                    value={fields.casNumber}
+                    onChange={props.elementUpdated(props.projectId)}
                     inputProps={{
                         name: 'element',
                         id: 'element',

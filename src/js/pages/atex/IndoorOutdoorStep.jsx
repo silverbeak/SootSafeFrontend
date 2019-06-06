@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 
 import * as _ from 'lodash/lodash.min'
 
-const ventilationVelocity = (props, handleChange) => {
+const ventilationVelocity = (props, handleChange, fields) => {
     const { classes } = props
     return (
         <div>
@@ -21,7 +21,7 @@ const ventilationVelocity = (props, handleChange) => {
                     aria-label="obstructed"
                     name="obstructed"
                     className={classes.group}
-                    value={_.get(props.fields, 'ventilationVelocityValues.obstructed')}
+                    value={_.get(fields, 'ventilationVelocityValues.obstructed')}
                     onChange={handleChange('ventilationVelocityValues.obstructed')}
                 >
                     <FormControlLabel value="Obstructed" control={<Radio />} label="Obstructed" />
@@ -31,7 +31,7 @@ const ventilationVelocity = (props, handleChange) => {
         
                 <FormLabel component="legend">Elevation from ground level</FormLabel>
                 <Select
-                    value={_.get(props.fields, 'ventilationVelocityValues.elevation')}
+                    value={_.get(fields, 'ventilationVelocityValues.elevation')}
                     onChange={handleChange('ventilationVelocityValues.elevation')}
                     inputProps={{
                         name: 'elevation',
@@ -55,7 +55,7 @@ const ventilationVelocity = (props, handleChange) => {
     )
 } 
 
-const indoorOutdoorStep = (handleChange, props) => {
+const indoorOutdoorStep = (handleChange, props, fields) => {
     const { classes } = props
     return (
         <div>
@@ -65,7 +65,7 @@ const indoorOutdoorStep = (handleChange, props) => {
                     aria-label="indooroutdoor"
                     name="indooroutdoor"
                     className={classes.group}
-                    value={props.fields.indoorOutdoor}
+                    value={fields.indoorOutdoor}
                     onChange={handleChange('indoorOutdoor')}
                 >
                     <FormControlLabel value="indoors" control={<Radio />} label="Indoors" />
@@ -74,8 +74,8 @@ const indoorOutdoorStep = (handleChange, props) => {
             </FormControl>
 
             {
-                props.fields.indoorOutdoor === 'outdoors' ?
-                    ventilationVelocity(props, handleChange) :
+                fields.indoorOutdoor === 'outdoors' ?
+                    ventilationVelocity(props, handleChange, fields) :
                     <span></span>
             }
         </div>

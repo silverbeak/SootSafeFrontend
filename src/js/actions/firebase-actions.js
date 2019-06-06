@@ -1,14 +1,49 @@
 import * as actions from './action-types'
 import * as _ from 'lodash'
+import { push } from 'connected-react-router'
 
+export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
 export const USER_DETAILS_FETCHED = 'USER_DETAILS_FETCHED'
 export const COMPANY_DETAILS_FETCHED = 'COMPANY_DETAILS_FETCHED'
 
-export const saveProjectToDb = projectData => {
-    return {
-        type: actions.SAVE_PROJECT,
-        projectData
-    }
+export const saveNewProjectToDb = (projectData, navigateWhenDone = true) => (dispatch, getState) => {
+    const db = getState().firebase.db
+
+    db.collection(projectData.projectType)
+        .add(projectData)
+        .then(docRef => {
+            console.log(`Created new ${projectData.projectType} project at ${docRef.id}`)
+            dispatch({
+                type: NEW_PROJECT_CREATED,
+                projectData: projectData,
+                projectId: docRef.id
+            })
+
+
+            if (navigateWhenDone) dispatch(push(`/${projectData.projectType}/${docRef.id}`))
+        })
+}
+
+export const fetchAtexProjectData = projectId => (dispatch, getState) => {
+    const db = getState().firebase.db
+
+    db.collection('atex')
+        .doc(projectId)
+        .get()
+        .then(doc => {
+            if (doc.exists) {
+                dispatch({
+                    type: actions.ATEX_PROJECT_DATA_FETCHED,
+                    projectData: doc.data(),
+                    projectId: projectId,
+                })
+            } else {
+                dispatch({
+                    type: actions.ATEX_PROJECT_NOT_FOUND,
+                    projectId: projectId
+                })
+            }
+        })
 }
 
 export const submitReleaseRateCalculation = calculationValues => {

@@ -9,9 +9,7 @@ const articles = [
 
 const style = {
     article: {
-        ":hover": {
-            background: 'lightgray'
-        }
+        
     }
 }
 
@@ -22,7 +20,7 @@ class NewsPage extends Component {
 
         const singleArticle = article => {
             return (
-                <div className={classes.article}>
+                <div key={article[0]} className={classes.article}>
                     <h5>{article[0]}</h5>
                     <p style={{ color: 'gray' }}>
                         {article[1]}

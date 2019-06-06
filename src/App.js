@@ -41,10 +41,11 @@ class App extends Component {
                             <Header {...this.props} />
                             <div className="Site-content">
                                 <Route exact path="/" component={() => <StatedLoginProxy {...this.props} />} />
-                                <Route exact path="/dashboard" component={() => <UserDashboard {...this.props} />} />
+                                <Route exact path="/dashboard" component={() => <UserDashboard />} />
                                 <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
-                                <Route path="/atex/start" component={AtexStartPage} />
-                                <Route path="/atex/new" component={ReleaseRatePage} />
+                                <Route exact path="/atex/start" component={AtexStartPage} />
+                                {/* <Route exact path="/atex/new" component={ReleaseRatePage} /> */}
+                                <Route path="/atex/:projectId" component={ReleaseRatePage} />
                                 <Route path="/settings" component={UserSettings} />
                                 <Route path="/projects" component={Projects} />
                                 <Route path="/about" component={About} />

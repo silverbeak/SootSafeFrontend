@@ -13,7 +13,7 @@ const parameterGroup = {
     marginBottom: '1em'
 }
 
-const parameterStep = (handleChange, props) => {
+const parameterStep = (handleChange, props, fields) => {
 
     // const needReleaseRateUnit = !props.fields.calculateReleaseRate
 
@@ -21,14 +21,14 @@ const parameterStep = (handleChange, props) => {
     //     ? <h2>Release Rate Unit</h2>
     //     : <h4>No Release Rate Unit Needed</h4>
 
-    const groupedFields = filterFields(fieldDefinitions, props.fields)
+    const groupedFields = filterFields(fieldDefinitions, fields)
 
     
     const singleGroup = (group, name) => {
         return (
             <div style={parameterGroup} key={name}>
                 <h3>{ccToDisplayString(name)}</h3>
-                {_.values(group).map((generateNumberField(handleChange, props)))}
+                {_.values(group).map((generateNumberField(handleChange, fields)))}
             </div>
         )
     }

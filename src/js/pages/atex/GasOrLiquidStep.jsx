@@ -5,7 +5,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-const gasOrLiquidStep = (handleChange, props) => {
+const gasOrLiquidStep = (handleChange, props, fields) => {
     const {classes} = props
     return (
         <div>
@@ -15,7 +15,7 @@ const gasOrLiquidStep = (handleChange, props) => {
                     aria-label="gasorliquid"
                     name="gasorliquid"
                     className={classes.group}
-                    value={props.fields.liquidOrGas}
+                    value={fields.liquidOrGas}
                     onChange={handleChange('liquidOrGas')}
                 >
                     <FormControlLabel value="liquid" control={<Radio />} label="Liquid" />

@@ -5,7 +5,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-const releaseGradeStep = (handleChange, props) => {
+const releaseGradeStep = (handleChange, props, fields) => {
     const {classes} = props
 
     return (
@@ -16,7 +16,7 @@ const releaseGradeStep = (handleChange, props) => {
                     aria-label="gradeOfRelease"
                     name="gradeOfRelease"
                     className={classes.group}
-                    value={props.fields.gradeOfRelease}
+                    value={fields.gradeOfRelease}
                     onChange={handleChange('gradeOfRelease')}
                 >
                     <FormControlLabel value='Continuous' control={<Radio />} label='Continuous' />

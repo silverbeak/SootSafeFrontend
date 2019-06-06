@@ -5,7 +5,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-const releaseTypeStep = (handleChange, props) => {
+const releaseTypeStep = (handleChange, props, fields) => {
     const {classes} = props
     return (
         <div>
@@ -15,7 +15,7 @@ const releaseTypeStep = (handleChange, props) => {
                     aria-label="releaseType"
                     name="releaseType"
                     className={classes.group}
-                    value={props.fields.releaseType}
+                    value={fields.releaseType}
                     onChange={handleChange('releaseType')}
                 >
                     <FormControlLabel value="Jet" control={<Radio />} label="Unimpeded jet with high velocity" />

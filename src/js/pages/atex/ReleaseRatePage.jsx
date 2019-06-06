@@ -13,10 +13,7 @@ import ReleaseTypeStep from './ReleaseTypeStep'
 import VentilationAvailabilityStep from './VentilationAvailabilityStep'
 
 import { withStyles } from '@material-ui/core/styles'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepButton from '@material-ui/core/StepButton'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import { Stepper, Step, StepButton, LinearProgress } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Dialog from '@material-ui/core/Dialog'
@@ -29,40 +26,43 @@ import ReactGA from 'react-ga'
 
 import * as _ from 'lodash/lodash.min'
 
+const steps = [
+    'Element',
+    'Primary state',
+    'Environment',
+    'Release rate',
+    'Parameters',
+    'Ventilation availability',
+    'Release grade',
+    'Release type',
+    'Calculate'
+]
+
+const stepRenderers = [
+    ElementStep,
+    GasOrLiquidStep,
+    IndoorOutdoorStep,
+    ReleaseRateStep,
+    ParameterStep,
+    VentilationAvailabilityStep,
+    ReleaseGradeStep,
+    ReleaseTypeStep,
+    CalculateStep
+]
+
 class ReleaseRatePage extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            steps: [
-                'Element',
-                'Primary state',
-                'Environment',
-                'Release rate',
-                'Parameters',
-                'Ventilation availability',
-                'Release grade',
-                'Release type',
-                'Calculate'
-            ],
             activeStep: 0,
             completed: [],
-            stepRenderers: [
-                ElementStep,
-                GasOrLiquidStep,
-                IndoorOutdoorStep,
-                ReleaseRateStep,
-                ParameterStep,
-                VentilationAvailabilityStep,
-                ReleaseGradeStep,
-                ReleaseTypeStep,
-                CalculateStep
-            ],
             showReportDialog: false
         }
     }
 
     componentDidMount() {
+        this.props.fetchAtexProjectData(this.props.projectId)
         this.props.loadElements()
         this.props.resetReportLink()
     }
@@ -71,8 +71,8 @@ class ReleaseRatePage extends React.Component {
         return event => {
             // const floatValue = parseFloat(event.target.value) // Don't know why I did this. It only makes sense for float values, but this is used for everything
             const floatValue = event.target.value
-            console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue} (${event.target.value})`)
-            this.props.valueUpdated(field, floatValue)
+            // console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue} (${event.target.value})`)
+            this.props.valueUpdated(field, floatValue, this.props.projectId)
         }
     }
 
@@ -93,7 +93,7 @@ class ReleaseRatePage extends React.Component {
     }
 
     handleNext = () => {
-        if (this.state.activeStep === this.state.steps.length - 1) {
+        if (this.state.activeStep === steps.length - 1) {
             // Add author:
             const atexMetadata = { authorName: this.props.author.displayName }
             const data = _.assign({}, this.props.fields, { atexMetadata })
@@ -110,13 +110,13 @@ class ReleaseRatePage extends React.Component {
                 category: 'atex',
                 action: 'done with step',
                 value: this.state.activeStep,
-                label: this.state.steps[this.state.activeStep]
+                label: steps[this.state.activeStep]
             })
         }
     }
 
     getStep = (index) => {
-        return this.state.stepRenderers[index]
+        return stepRenderers[index]
     }
 
     displayReportDialog = (show) => () => {
@@ -125,10 +125,13 @@ class ReleaseRatePage extends React.Component {
 
     render() {
         const { classes } = this.props
+        const projectData = this.props.atexProject
+
+        if (!projectData) return <div>Loading project data</div>
 
         const navigatorBar = (
             <div className="stepper-details">
-                {this.state.activeStep === this.state.steps.length ? (
+                {this.state.activeStep === steps.length ? (
                     <div>
                         <Typography className={classes.instructions}>
                             All steps completed
@@ -144,8 +147,8 @@ class ReleaseRatePage extends React.Component {
                                     className={classes.backButton}>
                                     Back
                                 </Button>
-                                <Button raised={true} color="primary" onClick={this.handleNext}>
-                                    {this.state.activeStep === this.state.steps.length - 1 ? 'Finish' : 'Next'}
+                                <Button raised color="primary" onClick={this.handleNext}>
+                                    {this.state.activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                 </Button>
                             </div>
                         </div>
@@ -198,7 +201,7 @@ class ReleaseRatePage extends React.Component {
                         nonLinear
                         activeStep={this.state.activeStep}
                         alternativeLabel>
-                        {this.state.steps.map((label, index) => {
+                        {steps.map((label, index) => {
                             return (
                                 <Step key={label}>
                                     <StepButton
@@ -214,7 +217,7 @@ class ReleaseRatePage extends React.Component {
 
                 {navigatorBar}
 
-                {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props)}
+                {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props, projectData.fields)}
 
                 {navigatorBar}
 
@@ -227,20 +230,21 @@ class ReleaseRatePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        fields: state.releaseRate.fields,
+        atexProject: state.releaseRate.atexProjects[ownProps.match.params.projectId],
         gasList: state.releaseRate.gasList,
         reportUrl: state.releaseRate.report.url,
-        author: state.users.user
+        author: state.users.user,
+        projectId: ownProps.match.params.projectId,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        valueUpdated: (fieldName, value) => {
-            dispatch(actions.fieldValueUpdated(fieldName, value))
+        valueUpdated: (fieldName, value, projectId) => {
+            dispatch(actions.fieldValueUpdated(fieldName, value, projectId))
         },
-        elementUpdated: e => {
-            dispatch(actions.elementUpdated(e.target.value))
+        elementUpdated: projectId => e => {
+            dispatch(actions.elementUpdated(e.target.value, projectId))
         },
         submitRequest: fields => {
             dispatch(actions.submitReleaseRateCalculationRequest(fields))
@@ -250,6 +254,9 @@ const mapDispatchToProps = dispatch => {
         },
         loadElements: () => {
             dispatch(actions.loadElements())
+        },
+        fetchAtexProjectData: projectId => {
+            dispatch(actions.fetchAtexProjectData(projectId))
         }
     }
 }
@@ -259,7 +266,7 @@ const styles = theme => ({
         display: 'flex',
     },
     formControl: {
-        margin: theme.spacing.unit * 3,
+        margin: theme.spacing(3),
     },
     group: {
         margin: `${theme.spacing.unit}px 0`,

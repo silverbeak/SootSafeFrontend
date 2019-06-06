@@ -3,14 +3,14 @@ import React from 'react'
 import * as _ from '../../../../node_modules/lodash/lodash.min'
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 
-const calculateStep = (handleChange, props) => {
+const calculateStep = (handleChange, props, fields) => {
 
     const displayVerification = field => [
         <div className="Rtable-cell title" key={`${field[0]}-label`}>
             {ccToDisplayString(field[0])} ({field[1]()})
         </div>,
         <div className="Rtable-cell value" key={`${field[0]}-value`}>
-            {_.get(props.fields, field[0])} &nbsp; {field[2]()}
+            {_.get(fields, field[0])} &nbsp; {field[2]()}
         </div>
     ]
 
@@ -31,7 +31,7 @@ const calculateStep = (handleChange, props) => {
 
     return (
         <div>
-            {listFieldsForVerification(props.fields)}
+            {listFieldsForVerification(fields)}
 
             <div>
                 <i>Please verify all values. Push the finish button to generate your report.</i>

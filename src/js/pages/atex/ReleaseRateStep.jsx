@@ -5,9 +5,9 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-const evaporationFromPoolQuery = (handleChange, props) => {
+const evaporationFromPoolQuery = (handleChange, props, fields) => {
     const { classes } = props
-    if (props.fields.calculateReleaseRate === 'yes' && props.fields.liquidOrGas === 'liquid') {
+    if (fields.calculateReleaseRate === 'yes' && fields.liquidOrGas === 'liquid') {
         return (
             <div>
                 <hr />
@@ -17,7 +17,7 @@ const evaporationFromPoolQuery = (handleChange, props) => {
                         aria-label="poolLeakage"
                         name="poolLeakage"
                         className={classes.group}
-                        value={props.fields.poolLeakage}
+                        value={fields.poolLeakage}
                         onChange={handleChange('poolLeakage')}
                     >
                         <FormControlLabel value="yes" control={<Radio />} label="Yes" />
@@ -31,7 +31,7 @@ const evaporationFromPoolQuery = (handleChange, props) => {
     }
 }
 
-const releaseRateStep = (handleChange, props) => {
+const releaseRateStep = (handleChange, props, fields) => {
     const { classes } = props
     return (
         <div>
@@ -41,7 +41,7 @@ const releaseRateStep = (handleChange, props) => {
                     aria-label="calculateReleaseRate"
                     name="calculateReleaseRate"
                     className={classes.group}
-                    value={props.fields.calculateReleaseRate}
+                    value={fields.calculateReleaseRate}
                     onChange={handleChange('calculateReleaseRate')}
                 >
                     <FormControlLabel value="yes" control={<Radio />} label="Yes, I need to calculate the release rate" />
@@ -50,7 +50,7 @@ const releaseRateStep = (handleChange, props) => {
 
             </FormControl>
             
-            {evaporationFromPoolQuery(handleChange, props)}
+            {evaporationFromPoolQuery(handleChange, props, fields)}
         </div>
     )
 }

@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import * as _ from 'lodash'
+import { Select, MenuItem, InputLabel } from '@material-ui/core';
 
 const newProjectTemplate = {
     metadata: {
@@ -18,11 +19,21 @@ const newProjectTemplate = {
     }
 }
 
+const availableProjectTypes = [
+    ['atex', 'ATEX (Beräkning av explosiv atmosfär)'],
+    ['fid', 'Fläkt i Drift'],
+]
+
 class NewProjectDialog extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = _.merge(newProjectTemplate)
+        this.state = Object.assign(
+            {},
+            _.merge({}, newProjectTemplate),
+            { projectType: availableProjectTypes[0][0] },
+        )
     }
 
     submitNew() {
@@ -45,6 +56,20 @@ class NewProjectDialog extends React.Component {
             >
                 <DialogTitle>New project</DialogTitle>
                 <DialogContent>
+                <InputLabel htmlFor="projecttype">Projekttyp</InputLabel>
+                    <Select
+                        id="projecttype"
+                        value={this.state.projectType}
+                    >
+                        {
+                            _.map(availableProjectTypes, projectType => {
+                                return (
+                                    <MenuItem key={projectType[0]} value={projectType[0]}>{projectType[1]}</MenuItem>
+                                )
+                            })
+                        }
+                    </Select>
+
                     <TextField
                         autoFocus
                         margin='dense'

@@ -1,13 +1,7 @@
 import * as _ from '../../../node_modules/lodash/lodash.min'
 import { extendFieldsByName } from '../reducers/component-field-index'
 import * as actions from './action-types'
-
-export const saveProjectToDb = projectData => {
-    return {
-        type: actions.SAVE_PROJECT,
-        projectData
-    }
-}
+import { flattenNodeFields, flattenFields } from './marshaller/marshaller'
 
 export const createNewFidProject = project => {
     return (dispatch, getState) => {
@@ -265,31 +259,5 @@ const model = {
         linkKeyProperty: "key",
         linkFromPortIdProperty: "fid",
         linkToPortIdProperty: "tid",
-    }
-}
-
-const flattenSingleField = (agg, field, name) => {
-    switch (field.type) {
-        case Object:
-            agg[name] = {
-                type: field.type.name,
-                children: flattenFields(field.children),
-                name
-            }
-            break
-        default:
-            agg[name] = _.assign({}, field, { type: field.type.name, value: new String(field.value).toString() })
-    }
-    return agg
-}
-
-function flattenFields(fields) {
-    return _.reduce(fields, flattenSingleField, {})
-}
-
-function flattenNodeFields(node) {
-    if (node.fields) {
-        const flattenedFields = flattenFields(node.fields)
-        node.fields = flattenedFields
     }
 }

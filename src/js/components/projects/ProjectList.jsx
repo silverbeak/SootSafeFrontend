@@ -15,6 +15,7 @@ import NewProjectDialog from '../../components/dialogs/NewProjectDialog'
 import NewSketchDialog from '../../components/dialogs/NewSketchDialog'
 import { createNewSketch } from '../../actions/firebase-fid-actions'
 import { createNewFidProject } from '../../actions/firebase-fid-actions'
+import { createNewAtexProject } from '../../actions/explosion/releaserate-actions'
 import * as _ from 'lodash'
 
 class ProjectList extends React.Component {
@@ -151,7 +152,11 @@ const mapDispatchToPros = (dispatch, ownState) => {
             dispatch(createNewSketch(sketchData, projectId))
         },
         submitNewProject: projectData => {
-            dispatch(createNewFidProject(projectData))
+            if (projectData.projectType === 'atex') {
+                dispatch(createNewAtexProject(projectData))
+            } else {
+                dispatch(createNewFidProject(projectData))
+            }
         }
     }
 }

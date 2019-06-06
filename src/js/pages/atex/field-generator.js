@@ -37,8 +37,8 @@ const makeErrorMessage = msg => {
     }
 }
 
-export const generateNumberField = (handleChange, props) => (fieldName) => {
-    const myValue = _.get(props.fields, fieldName[0])
+export const generateNumberField = (handleChange, fields) => (fieldName) => {
+    const myValue = _.get(fields, fieldName[0])
     const errorMessage = validateFieldValue(fieldName, myValue)
 
     const unitAdornment = <InputAdornment position="end" className="unit-adornment">{fieldName[2]()}</InputAdornment>

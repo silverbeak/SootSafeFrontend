@@ -33,7 +33,7 @@ class UserDashboard extends Component {
                 </Paper>
 
                 <Paper className={classes.dashboardItem}>
-                    <NewsPage {...this.props} />
+                    <NewsPage />
                 </Paper>
             </div>
         );
