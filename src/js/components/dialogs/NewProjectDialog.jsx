@@ -60,6 +60,7 @@ class NewProjectDialog extends React.Component {
                     <Select
                         id="projecttype"
                         value={this.state.projectType}
+                        onChange={event => this.setState({ projectType: event.target.value })}
                     >
                         {
                             _.map(availableProjectTypes, projectType => {
