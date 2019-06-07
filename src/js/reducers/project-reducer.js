@@ -74,7 +74,9 @@ const projects = (state = initialState, action) => {
                     action.incrementalUpdateJson.nodeDataArray[droppedNodeIndex] = _.assign({}, action.droppedNodeData, droppedNode)
                 }
 
-                incrementalUpdateState.sketches[action.sketchId].model = action.incrementalUpdateJson
+                const model = incrementalUpdateState.sketches[action.sketchId].model
+                model.linkDataArray = action.incrementalUpdateJson.linkDataArray
+                model.nodeDataArray = action.incrementalUpdateJson.nodeDataArray
                 return incrementalUpdateState
             } else {
                 return state
