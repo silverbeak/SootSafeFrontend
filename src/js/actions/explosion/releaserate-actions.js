@@ -6,11 +6,11 @@ import { newAtexTemplate } from './atex-template';
 
 
 export const fieldValueUpdated = (fieldName, value, projectId) => dispatch => {
-    // TODO: Save value to backend
     dispatch({
         type: actions.ATEX_FIELD_VALUE_UPDATED,
         fieldName, value, projectId
     })
+    dispatch(firebaseActions.updateAtexProjectDataField(projectId))
 }
 
 export const elementUpdated = (value, projectId) => {

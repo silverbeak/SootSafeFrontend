@@ -58,9 +58,6 @@ class UserSettings extends Component {
 
         if (!user || !userDetails) return <div>Loading user data...</div>
 
-        console.log('company', companies);
-
-
         const photoUrl = this.findProviderDataField(user, 'photoURL')
         const displayName = this.findProviderDataField(user, 'displayName')
         const email = this.findProviderDataField(user, 'email')

@@ -24,6 +24,24 @@ export const saveNewProjectToDb = (projectData, navigateWhenDone = true) => (dis
         })
 }
 
+export const updateAtexProjectDataField = projectId => (dispatch, getState) => {
+    const fields = getState().releaseRate.atexProjects[projectId].fields
+    
+    getState().firebase.db
+        .collection('atex')
+        .doc(projectId)
+        .update({ fields: fields })
+        .then(() => {
+            dispatch({
+                type: actions.ATEX_PROJECT_DATA_SAVED,
+                projectId, fields
+            })
+        })
+        .catch(error => {
+            console.log('ERROR: Could not update ATEX data for project', projectId, 'Result:', error)
+        })
+}
+
 export const fetchAtexProjectData = projectId => (dispatch, getState) => {
     const db = getState().firebase.db
 
@@ -178,7 +196,6 @@ export const loadUserDetails = user => {
 export const loadCompaniesForUser = user => {
     return (dispatch, getState) => {
         const db = getState().firebase.db
-        console.log('User fc', user.uid)
         db
             .collection('customers')
             .where(`users`, "array-contains", user.uid)
