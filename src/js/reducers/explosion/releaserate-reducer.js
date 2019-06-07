@@ -4,7 +4,8 @@ import * as actions from '../../actions/action-types'
 const initialReleaseRateState = {
     gasList: [],
     report: {},
-    atexProjects: {}
+    atexProjects: {},
+    atexProjectIndices: []
 }
 
 const setReportLink = (originalState, url) => {
@@ -58,6 +59,10 @@ const releaseRate = (state = initialReleaseRateState, action) => {
 
         case actions.ELEMENTS_FETCHED: 
             return _.merge({}, state, { gasList: _.values(action.data) })
+
+        case actions.ATEX_PROJECT_INDICES_LOADED:
+            return _.merge({}, state, { atexProjectIndices: action.projectIndices })
+
         default:
             return state
     }

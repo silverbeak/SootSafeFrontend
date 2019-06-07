@@ -33,9 +33,21 @@ export const loadProjectIndices = () => {
             .doc(user.uid)
             .collection('projects')
 
+        const atexProjects = db.collection('atex')
+            .where('metadata.users', 'array-contains', user.uid)
+            // .doc(user.uid)
+            // .collection('projects')
+
         const projectIndicesLoaded = projectIndices => {
             return {
                 type: actions.PROJECT_INDICES_LOADED,
+                projectIndices
+            }
+        }
+
+        const atexProjectIndicesLoaded = projectIndices => {
+            return {
+                type: actions.ATEX_PROJECT_INDICES_LOADED,
                 projectIndices
             }
         }
@@ -78,6 +90,20 @@ export const loadProjectIndices = () => {
                 })
                 dispatch(projectIndicesLoaded(documentIdList))
                 loadSketchListForProjects(documentIdList)
+            })
+        
+        atexProjects
+            .get()
+            .then(querySnapShot => {
+                const projects = _.map(querySnapShot.docs, d => {
+                    return {
+                        id: d.id,
+                        name: d.data().metadata.name.value
+                    }
+                })
+                console.log('ATEX', projects);
+                
+                dispatch(atexProjectIndicesLoaded(projects))
             })
     }
 }

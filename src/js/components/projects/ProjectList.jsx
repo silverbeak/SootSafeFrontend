@@ -2,13 +2,9 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { CreateNewFolder } from '@material-ui/icons'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import { List, ListSubheader, ListItem, ListItemText, ListItemIcon } from '@material-ui/core'
 import { push } from 'connected-react-router'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
+import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
 import NewProjectDialog from '../../components/dialogs/NewProjectDialog'
@@ -17,6 +13,17 @@ import { createNewSketch } from '../../actions/firebase-fid-actions'
 import { createNewFidProject } from '../../actions/firebase-fid-actions'
 import { createNewAtexProject } from '../../actions/explosion/releaserate-actions'
 import * as _ from 'lodash'
+import { DuctFan, Explosion } from '../misc/SootIcons'
+import { withStyles } from '@material-ui/styles'
+
+const styles = {
+    projectIcon: {
+        minWidth: 'unset',
+    },
+    projectText: {
+        paddingLeft: '1em',
+    },
+}
 
 class ProjectList extends React.Component {
 
@@ -68,7 +75,8 @@ class ProjectList extends React.Component {
         )
     }
 
-    singleProject(project) {
+    singleFidProject(project) {
+        const { classes } = this.props
         const sketches = _.map(project.sketches, this.generateSketchMenuItem(project.id))
 
         return (
@@ -77,7 +85,36 @@ class ProjectList extends React.Component {
                 key={project.id}
                 onClick={this.toggleProject.bind(this, project.id)}
             >
-                <ListItemText inset primary={project.name} />
+                <ListItemIcon className={classes.projectIcon}>
+                    <DuctFan />
+                </ListItemIcon>
+                <ListItemText className={classes.projectText} inset primary={project.name} />
+                {this.state.projectsExpanded[project.id] ? <ExpandLess /> : <ExpandMore />}
+                <Collapse in={this.state.projectsExpanded[project.id]} unmountOnExit>
+                    <List disablePadding>
+                        {this.createNewSketchItem(project.id)}
+                        <Divider />
+                        {sketches}
+                    </List>
+                </Collapse>
+            </ListItem>
+        )
+    }
+
+    singleAtexProject(project) {
+        const { classes } = this.props
+        const sketches = _.map(project.sketches, this.generateSketchMenuItem(project.id))
+
+        return (
+            <ListItem
+                button
+                key={project.id}
+                onClick={this.toggleProject.bind(this, project.id)}
+            >
+                <ListItemIcon className={classes.projectIcon}>
+                    <Explosion />
+                </ListItemIcon>
+                <ListItemText className={classes.projectText} inset primary={project.name} />
                 {this.state.projectsExpanded[project.id] ? <ExpandLess /> : <ExpandMore />}
                 <Collapse in={this.state.projectsExpanded[project.id]} unmountOnExit>
                     <List disablePadding>
@@ -96,7 +133,8 @@ class ProjectList extends React.Component {
 
     render() {
         const { classes } = this.props
-        const items = _.map(this.props.projects, this.singleProject.bind(this))
+        const fidProjects = _.map(this.props.fidProjects, this.singleFidProject.bind(this))
+        const atexProjects = _.map(this.props.atexProjects, this.singleAtexProject.bind(this))
 
         return (
             <span>
@@ -105,7 +143,8 @@ class ProjectList extends React.Component {
                     subheader={<ListSubheader>My Projects</ListSubheader>}
                     open={this.state.projectDrawerOpen}
                 >
-                    {items}
+                    {fidProjects}
+                    {atexProjects}
                 </List>
 
                 <Button
@@ -139,7 +178,8 @@ class ProjectList extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        projects: state.projects.projectIndices
+        fidProjects: state.projects.projectIndices,
+        atexProjects: state.releaseRate.atexProjectIndices
     }
 }
 
@@ -161,6 +201,6 @@ const mapDispatchToPros = (dispatch, ownState) => {
     }
 }
 
-export const StatedProjectList = connect(mapStateToProps, mapDispatchToPros)(ProjectList)
+export const StatedProjectList = connect(mapStateToProps, mapDispatchToPros)(withStyles(styles)(ProjectList))
 
 export default (ProjectList)
