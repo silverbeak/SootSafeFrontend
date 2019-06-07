@@ -27,87 +27,71 @@ export const createNewFidProject = project => (dispatch, getState) => {
         })
 }
 
-export const loadProjectIndices = () => {
-    return (dispatch, getState) => {
-        const db = getState().firebase.db
-        const user = getState().users.user
+export const loadProjectIndices = () => (dispatch, getState) => {
+    const db = getState().firebase.db
+    const user = getState().users.user
 
-        const fidProjects = db.collection('fid')
-            .where('metadata.users', 'array-contains', user.uid)
-        // .doc(user.uid)
-        // .collection('projects')
-
-        const atexProjects = db.collection('atex')
-            .where('metadata.users', 'array-contains', user.uid)
-
-        const projectIndicesLoaded = projectIndices => {
-            return {
-                type: actions.PROJECT_INDICES_LOADED,
-                projectIndices
-            }
+    const projectIndicesLoaded = (projectIndices, actionType) => {
+        return {
+            type: actionType,
+            projectIndices
         }
-
-        const atexProjectIndicesLoaded = projectIndices => {
-            return {
-                type: actions.ATEX_PROJECT_INDICES_LOADED,
-                projectIndices
-            }
-        }
-
-        const sketchMetadataLoaded = sketchMetadata => {
-            return {
-                type: actions.SKETCH_METADATA_LOADED,
-                sketchMetadata
-            }
-        }
-
-        const loadSketchListForProjects = idList => {
-
-            _.each(idList, i => {
-                db
-                    .collection('fid')
-                    .doc(i.id)
-                    .collection('sketches')
-                    .get()
-                    .then(querySnapshot => {
-                        const sketchMetadataList = _.map(querySnapshot.docs, d => {
-                            return {
-                                projectId: i.id,
-                                sketchId: d.id,
-                                sketchMetadata: d.data().metadata
-                            }
-                        })
-                        dispatch(sketchMetadataLoaded(sketchMetadataList))
-                    })
-            })
-        }
-
-        fidProjects
-            .get()
-            .then(querySnapshot => {
-                const documentIdList = _.map(querySnapshot.docs, d => {
-                    return {
-                        id: d.id,
-                        name: d.data().metadata.name.value
-                    }
-                })
-                dispatch(projectIndicesLoaded(documentIdList))
-                loadSketchListForProjects(documentIdList)
-            })
-
-        atexProjects
-            .get()
-            .then(querySnapShot => {
-                const projects = _.map(querySnapShot.docs, d => {
-                    return {
-                        id: d.id,
-                        name: d.data().metadata.name.value
-                    }
-                })
-
-                dispatch(atexProjectIndicesLoaded(projects))
-            })
     }
+
+    const sketchMetadataLoaded = sketchMetadata => {
+        return {
+            type: actions.SKETCH_METADATA_LOADED,
+            sketchMetadata
+        }
+    }
+
+    const loadSketchListForProjects = idList => {
+
+        _.each(idList, i => {
+            db
+                .collection('fid')
+                .doc(i.id)
+                .collection('sketches')
+                .get()
+                .then(querySnapshot => {
+                    const sketchMetadataList = _.map(querySnapshot.docs, d => {
+                        return {
+                            projectId: i.id,
+                            sketchId: d.id,
+                            sketchMetadata: d.data().metadata
+                        }
+                    })
+                    dispatch(sketchMetadataLoaded(sketchMetadataList))
+                })
+        })
+    }
+
+    db.collection('fid')
+        .where('metadata.users', 'array-contains', user.uid)
+        .get()
+        .then(querySnapshot => {
+            const documentIdList = _.map(querySnapshot.docs, d => {
+                return {
+                    id: d.id,
+                    name: d.data().metadata.name.value
+                }
+            })
+            dispatch(projectIndicesLoaded(documentIdList, actions.PROJECT_INDICES_LOADED))
+            loadSketchListForProjects(documentIdList)
+        })
+
+    db.collection('atex')
+        .where('metadata.users', 'array-contains', user.uid)
+        .get()
+        .then(querySnapShot => {
+            const projects = _.map(querySnapShot.docs, d => {
+                return {
+                    id: d.id,
+                    name: d.data().metadata.name.value
+                }
+            })
+            dispatch(projectIndicesLoaded(projects, actions.ATEX_PROJECT_INDICES_LOADED))
+        })
 }
 
 export const loadFromBackend = (projectId, sketchId) => {
@@ -150,26 +134,6 @@ export const loadFromBackend = (projectId, sketchId) => {
                 console.log('Could not locate document', getState().users, projectId, sketchId, reason)
             })
     }
-}
-
-const getUserDbPromise = (getState, retries = 3, count = 0, timeout = 500) => {
-    return new Promise((resolve, reject) => {
-        const user = getState().users.user
-        if (user) {
-            resolve(getState().users.user)
-        }
-        else if (!user && retries > count) {
-
-            setTimeout(() => {
-                getUserDbPromise(getState, retries, count + 1, timeout + 100)
-                    .then(result => resolve(result))
-                    .catch(reason => reject(reason))
-            }, timeout)
-        }
-        else {
-            reject('Could not resolve user or user database')
-        }
-    })
 }
 
 export const saveToBackend = (payload, projectId, sketchId) => {
