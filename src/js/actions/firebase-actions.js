@@ -7,7 +7,7 @@ export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
 export const USER_DETAILS_FETCHED = 'USER_DETAILS_FETCHED'
 export const COMPANY_DETAILS_FETCHED = 'COMPANY_DETAILS_FETCHED'
 
-const addUserToProjectData = (projectData, user) => {
+export const addUserToProjectData = (projectData, user) => {
     const newProjectData = _.merge({}, projectData)
     newProjectData.metadata.users = [user.uid]
     return newProjectData
