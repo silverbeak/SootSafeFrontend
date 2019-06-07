@@ -1,13 +1,22 @@
 import * as actions from './action-types'
 import * as _ from 'lodash'
 import { push } from 'connected-react-router'
+import { loadProjectIndices } from './firebase-fid-actions';
 
 export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
 export const USER_DETAILS_FETCHED = 'USER_DETAILS_FETCHED'
 export const COMPANY_DETAILS_FETCHED = 'COMPANY_DETAILS_FETCHED'
 
+const addUserToProjectData = (projectData, user) => {
+    const newProjectData = _.merge({}, projectData)
+    newProjectData.metadata.users = [user.uid]
+    return newProjectData
+}
+
 export const saveNewProjectToDb = (projectData, navigateWhenDone = true) => (dispatch, getState) => {
     const db = getState().firebase.db
+
+    projectData = addUserToProjectData(projectData, getState().users.user)
 
     db.collection(projectData.projectType)
         .add(projectData)
@@ -18,7 +27,7 @@ export const saveNewProjectToDb = (projectData, navigateWhenDone = true) => (dis
                 projectData: projectData,
                 projectId: docRef.id
             })
-
+            dispatch(loadProjectIndices())
 
             if (navigateWhenDone) dispatch(push(`/${projectData.projectType}/${docRef.id}`))
         })
