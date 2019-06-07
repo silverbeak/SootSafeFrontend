@@ -1,6 +1,5 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
-import { connect } from 'react-redux'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import Menu from '@material-ui/icons/Menu'

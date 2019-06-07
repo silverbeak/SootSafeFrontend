@@ -69,7 +69,7 @@ class UserSettings extends Component {
                 <div className={classes.leftBar}>
                     {
                         photoUrl ?
-                            <img src={photoUrl} style={{ height: '10em' }} className={classes.profilePhoto} />
+                            <img src={photoUrl} style={{ height: '10em' }} alt={`${user.displayName}`} className={classes.profilePhoto} />
                             :
                             <div>No photo to display</div>
                     }
@@ -94,12 +94,14 @@ class UserSettings extends Component {
                         <List>
                             {
                                 _.map(companies, (cd, index) => {
+                                    console.log(cd);
+                                    
                                     return (
                                         <ListItem key={index} className={classes.listEntry}>
                                             <ListItemIcon>
                                                 {
                                                     cd.public.logo ?
-                                                        <img src={cd.public.logo} />
+                                                        <img src={cd.public.logo} alt={`${cd.public.name} logotype`} />
                                                         :
                                                         <></>
 
