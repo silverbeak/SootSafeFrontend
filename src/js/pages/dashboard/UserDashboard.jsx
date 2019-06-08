@@ -25,7 +25,7 @@ class UserDashboard extends Component {
         return (
             <div className={classes.dashboard}>
                 <Paper className={classes.dashboardItem}>
-                    <StatedProjectList {...this.props} />
+                    <StatedProjectList />
                 </Paper>
 
                 <Paper className={classes.dashboardItem}>

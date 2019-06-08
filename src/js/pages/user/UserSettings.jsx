@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles'
 import { List, ListItem, ListItemIcon } from '@material-ui/core'
-import * as _ from 'lodash'
+import _ from 'lodash';
 
 function mapStateToProps(state) {
     return {

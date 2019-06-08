@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { StatedProjectList } from '../components/projects/ProjectList';
 
 class Projects extends Component {
     render() {
         return (
             <div>
-                Projects coming soon
+                <StatedProjectList />
             </div>
         );
     }
