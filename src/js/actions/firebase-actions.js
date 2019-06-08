@@ -35,7 +35,7 @@ export const saveNewProjectToDb = (projectData, navigateWhenDone = true) => (dis
 
 export const updateAtexProjectDataField = projectId => (dispatch, getState) => {
     const fields = getState().releaseRate.atexProjects[projectId].fields
-    
+
     getState().firebase.db
         .collection('atex')
         .doc(projectId)
@@ -61,7 +61,7 @@ export const fetchAtexProjectData = projectId => (dispatch, getState) => {
             if (doc.exists) {
                 dispatch({
                     type: actions.ATEX_PROJECT_DATA_FETCHED,
-                    projectData: doc.data(),
+                    projectData: _.merge({}, doc.data(), { projectId }),
                     projectId: projectId,
                 })
             } else {
@@ -73,52 +73,43 @@ export const fetchAtexProjectData = projectId => (dispatch, getState) => {
         })
 }
 
-export const submitReleaseRateCalculation = calculationValues => {
-    return (dispatch, getState) => {
-        const db = getState().firebase.db
+export const submitReleaseRateCalculation = atexProject => (dispatch, getState) => {
+    const db = getState().firebase.db
+    const { projectId } = atexProject
+    const userId = getState().users.user.uid
+    const timeStamp = new Date().getTime() // May have to update this since firebase has introduced the Timestamp interface
 
-        db.collection('atex')
-            .add(calculationValues)
-            .then(docRef => {
-
-                console.log('CREATED', docRef.id)
-
-                // Attach a listener to this document. When the calculation is done, the pdf will be uploaded there
-                const unsubscribe = db
-                    .collection('atex')
-                    .doc(docRef.id)
-                    .collection('report')
-                    .doc('pdf')
-                    .onSnapshot(doc => {
-                        if (doc.exists) {
-                            // dispatch(downloadStorageObject(doc.data().reportPath))
-                            dispatch({
-                                type: actions.ATEX_REPORT_LINK_RECEIVED,
-                                url: doc.data().reportPath
-                            })
-                            unsubscribe()
-                        }
+    const createResultListener = resultId => {
+        // Attach a listener to this document. When the calculation is done, the pdf will be uploaded there
+        const unsubscribe = db
+            .collection('results')
+            .doc(resultId)
+            .collection('report')
+            .doc('pdf')
+            .onSnapshot(doc => {
+                if (doc.exists) {
+                    dispatch({
+                        type: actions.ATEX_REPORT_LINK_RECEIVED,
+                        url: doc.data().reportPath
                     })
-
-                dispatch({
-                    type: actions.ATEX_CALCULATION_RESULT_RECEIVED,
-                    id: docRef.id
-                })
-
-                return docRef
-            }).then(docRef => {
-                console.log(`Listener created for document ${docRef.id}. Now sending request to atexRequests collection`)
-                const userId = getState().users.user.uid
-                const timeStamp = new Date().getTime() // May have to update this since firebase has introduced the Timestamp interface
-                db.collection('atexRequests')
-                    .add({
-                        id: docRef.id,
-                        timeStamp, userId
-                    })
-            }).catch(error => {
-                console.error("Error adding document: ", error)
+                    unsubscribe()
+                }
             })
     }
+
+    // This is what we do:
+    // 1. Upload the id to /atexRequests/{id}/...
+    // 2. Create a listener to /results/{id}/reports/pdf
+    // The server will listen for changes in /atexRequests/ and write the results back to /results/...
+    db.collection('atexRequests')
+        .add({
+            id: projectId,
+            timeStamp, userId
+        })
+        .then(ref => createResultListener(ref.id))
+        .catch(error => {
+            console.error("Error adding document: ", error)
+        })
 }
 
 export const storeUserFeedback = (feedback, user) => {
@@ -150,41 +141,6 @@ export const loadElements = () => {
         })
     }
 }
-
-// const saveData = (blob, fileName) => {
-//     const a = document.createElement('a')
-//     document.body.appendChild(a)
-//     a.style = 'display: none'
-
-//     const url = window.URL.createObjectURL(blob)
-//     a.href = url
-//     a.download = fileName
-//     a.click()
-//     window.URL.revokeObjectURL(url)
-// }
-
-// TODO: Probably remove. Don't think we want to do it this way
-// export const downloadStorageObject = path => {
-//     return (dispatch, getState) => {
-//         const storage = getState().firebase.storage
-
-//         const storageRef = storage.refFromURL(path)
-
-//         storageRef.getDownloadURL().then(url => {
-//             var xhr = new XMLHttpRequest()
-//             xhr.responseType = 'blob'
-//             xhr.onload = event => {
-//                 const blob = xhr.response
-//                 saveData(blob, 'ReleaseRate.pdf')
-//                 dispatch({ type: 'XXX' })
-//             }
-//             xhr.open('GET', url)
-//             xhr.send()
-//         }).catch(function (error) {
-//             // Handle any errors
-//         })
-//     }
-// }
 
 export const loadUserDetails = user => {
     return (dispatch, getState) => {
