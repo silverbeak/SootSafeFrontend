@@ -13,6 +13,12 @@ const parameterGroup = {
     marginBottom: '1em'
 }
 
+const handleNumberChange = originalHandler => field => event => {
+    const floatValue = parseFloat(event.target.value)
+    const newEvent = { target: { value: floatValue }}
+    originalHandler(field)(newEvent)
+}
+
 const parameterStep = (handleChange, props, fields) => {
 
     // const needReleaseRateUnit = !props.fields.calculateReleaseRate
@@ -28,7 +34,7 @@ const parameterStep = (handleChange, props, fields) => {
         return (
             <div style={parameterGroup} key={name}>
                 <h3>{ccToDisplayString(name)}</h3>
-                {_.values(group).map((generateNumberField(handleChange, fields)))}
+                {_.values(group).map((generateNumberField(handleNumberChange(handleChange), fields)))}
             </div>
         )
     }

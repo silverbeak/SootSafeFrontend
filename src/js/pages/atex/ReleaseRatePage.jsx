@@ -67,13 +67,11 @@ class ReleaseRatePage extends React.Component {
         this.props.resetReportLink()
     }
 
-    handleChange(field) {
-        return event => {
-            // const floatValue = parseFloat(event.target.value) // Don't know why I did this. It only makes sense for float values, but this is used for everything
-            const floatValue = event.target.value
-            // console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue} (${event.target.value})`)
-            this.props.valueUpdated(field, floatValue, this.props.projectId)
-        }
+    handleChange = field => event => {
+        // const floatValue = parseFloat(event.target.value) // Don't know why I did this. It only makes sense for float values, but this is used for everything
+        const floatValue = event.target.value
+        // console.log(`Field ${field} updated, ${floatValue}, of type ${typeof floatValue} (${event.target.value})`)
+        this.props.valueUpdated(field, floatValue, this.props.projectId)
     }
 
     handleStep(index) {
@@ -94,11 +92,8 @@ class ReleaseRatePage extends React.Component {
 
     handleNext = () => {
         if (this.state.activeStep === steps.length - 1) {
-            // Add author:
-            const atexMetadata = { authorName: this.props.author.displayName }
-            const data = _.assign({}, this.props.fields, { atexMetadata })
             // We are finished. Send to backend...
-            this.props.submitRequest(data)
+            this.props.submitRequest(this.props.atexProject)
             this.setState({ showReportDialog: true })
             ReactGA.event({
                 category: 'atex',
@@ -233,7 +228,6 @@ const mapStateToProps = (state, ownProps) => {
         atexProject: state.releaseRate.atexProjects[ownProps.match.params.projectId],
         gasList: state.releaseRate.gasList,
         reportUrl: state.releaseRate.report.url,
-        author: state.users.user,
         projectId: ownProps.match.params.projectId,
     }
 }
@@ -246,8 +240,8 @@ const mapDispatchToProps = dispatch => {
         elementUpdated: projectId => e => {
             dispatch(actions.elementUpdated(e.target.value, projectId))
         },
-        submitRequest: fields => {
-            dispatch(actions.submitReleaseRateCalculationRequest(fields))
+        submitRequest: atexProject => {
+            dispatch(actions.submitReleaseRateCalculationRequest(atexProject))
         },
         resetReportLink: () => {
             dispatch(actions.resetReportLink())
