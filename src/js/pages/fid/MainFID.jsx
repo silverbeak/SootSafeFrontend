@@ -6,6 +6,7 @@ import DrawingBoardComponent from './DrawingBoardComponent'
 import ProjectSettings from '../ProjectSettings';
 import * as backendActions from '../../actions/firebase-fid-actions'
 import { sketchDataUpdated } from '../../actions/project-actions';
+import FidActionBar from './FidActionBar'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -22,7 +23,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         sketchDataUpdated: (projectId, sketchId, fieldPath, value) => {
             dispatch(sketchDataUpdated(projectId, sketchId, fieldPath, value))
-        }
+        },
+        projectSaved: (projectData, projectId, sketchId) => {
+            // dispatch(databaseActions.saveProjectToDb(projectData))
+            dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
+            dispatch(backendActions.calculatePressureLoss(projectData, projectId, sketchId))
+        },
     }
 }
 
@@ -57,6 +63,7 @@ class MainFID extends Component {
         const { displayTab } = this.state
         return (
             <div style={fullWidthFullHeight}>
+                <FidActionBar {...this.props} />
                 <Tabs value={displayTab} onChange={this.displayTabChanged}>
                     <Tab label="sketch" />
                     <Tab label="values" />

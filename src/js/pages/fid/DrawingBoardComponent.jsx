@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import DrawingBoard from './DrawingBoard'
 import * as actions from '../../actions/drawing-board-actions'
 import * as projectActions from '../../actions/project-actions'
-import * as backendActions from '../../actions/firebase-fid-actions'
 
 import * as _ from 'lodash/lodash.min'
 
@@ -61,11 +60,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     dispatch(projectActions.modelUpdated(updateEvent.model, ownProps.sketchId))
                     break
             }
-        },
-        projectSaved: (projectData, projectId, sketchId) => {
-            // dispatch(databaseActions.saveProjectToDb(projectData))
-            dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
-            dispatch(backendActions.calculatePressureLoss(projectData, projectId, sketchId))
         },
     }
 }

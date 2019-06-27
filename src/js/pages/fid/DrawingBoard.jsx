@@ -1,7 +1,6 @@
 import React from 'react'
 import go from 'gojs'
 import Card from '@material-ui/core/Card'
-import Button from '@material-ui/core/Button'
 import { initDrawingBoard } from '../../gojs/board-tool'
 import { initPalette } from '../../gojs/palette-tool'
 import ResultBox from '../../components/ResultBox'
@@ -9,13 +8,6 @@ import { StatedErrorMessageBox } from '../../components/error-message-box'
 import { createNodeTemplate } from '../../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
 import { TextField } from '@material-ui/core';
-
-const columnStyle = {
-    display: "flex",
-    flex: 1,
-    flexDirection: "column",
-    alignContent: 'stretch'
-}
 
 const boardContainerStyle = {
     display: "flex",
@@ -94,12 +86,6 @@ class DrawingBoard extends React.Component {
         if (!this.myPalette) this.myPalette = initPalette(this.treeDef, paletteNodeTemplate, this.props.palette)
     }
 
-    save() {
-        const { nodeDataArray, linkDataArray, metadata } = this.props.sketch.model
-        const saveObject = Object.assign({}, { nodeDataArray, linkDataArray, metadata })
-        this.props.projectSaved(saveObject, this.props.projectId, this.props.sketchId)
-    }
-
     renderValuesTabContent() {
         return (
             <TextField
@@ -113,7 +99,6 @@ class DrawingBoard extends React.Component {
 
     render() {
         return (
-            <div style={columnStyle}>
                 <div id="board-container" style={boardContainerStyle}>
                     <Card id="myPaletteDiv" style={paletteStyle}></Card>
                     <div id="board-and-infobox" style={boardAndInfoStyle}>
@@ -142,8 +127,6 @@ class DrawingBoard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Button onClick={this.save.bind(this)}>Save</Button>
-            </div>
         )
     }
 }
