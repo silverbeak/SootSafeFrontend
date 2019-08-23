@@ -7,6 +7,7 @@ import ProjectSettings from '../ProjectSettings';
 import * as backendActions from '../../actions/firebase-fid-actions'
 import { sketchDataUpdated } from '../../actions/project-actions';
 import FidActionBar from './FidActionBar'
+import ResultTable from '../../components/fid/ResultTable'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -65,14 +66,14 @@ class MainFID extends Component {
             <div style={fullWidthFullHeight}>
                 <FidActionBar {...this.props} />
                 <Tabs value={displayTab} onChange={this.displayTabChanged}>
-                    <Tab label="sketch" />
-                    <Tab label="values" />
-                    <Tab label="result Table" />
+                    <Tab label="Sketch" />
+                    <Tab label="Values" />
+                    <Tab label="Result Table" />
 
                 </Tabs>
                     {displayTab === 0 && <DrawingBoardComponent {...this.props} />}
                     {displayTab === 1 && <ProjectSettings {...this.props} />}
-                    {displayTab === 2 && <p>Result table here</p>}
+                    {displayTab === 2 && <ResultTable {...this.props} />}
             </div>
         )
     }
