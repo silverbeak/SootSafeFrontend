@@ -29,6 +29,12 @@ const pressureCalculationError = (state, action) => {
 
 const pressureCalculationResult = (state, action) => {
     const stateCopy = Object.assign({}, state)
+    stateCopy.sketches[action.sketchId].calculationResult = action.data
+    return stateCopy
+}
+
+const pressureCalculationEntryResult = (state, action) => {
+    const stateCopy = Object.assign({}, state)
     const nodeDataCopy = stateCopy.sketches[action.sketchId].model.nodeDataArray
     const currentNode = _.find(nodeDataCopy, n => n.key === action.entry.key)
     _.set(currentNode, 'calculationResult', action.entry)
@@ -56,9 +62,11 @@ const projects = (state = initialState, action) => {
             _.set(currentNode, `${action.infoKey}.value`, action.value)
             return piCopy
 
-        case actions.PRESSURE_CALCULATION_ENTRY_RESULT: return pressureCalculationResult(state, action)
+        case actions.PRESSURE_CALCULATION_ENTRY_RESULT: return pressureCalculationEntryResult(state, action)
 
         case actions.PRESSURE_CALCULATION_ERROR_RECEIVED: return pressureCalculationError(state, action)
+
+        case actions.FID_CALCULATION_RESULTS_RECEIVED: return pressureCalculationResult(state, action)
         
         case actions.MODEL_UPDATED:
             if (state.sketches[action.sketchId]) {

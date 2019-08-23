@@ -3,6 +3,7 @@ import { extendFieldsByName } from '../reducers/component-field-index'
 import * as actions from './action-types'
 import { flattenNodeFields, flattenFields } from './marshaller/marshaller'
 import { addUserToProjectData } from './firebase-actions'
+import { showNotification } from './notification-actions'
 
 export const createNewFidProject = project => (dispatch, getState) => {
 
@@ -207,11 +208,50 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
         user = user.toJSON()
         delete user.providerData
         delete user.stsTokenManager
-        getState().firebase.db
+
+        const handleCalculationResult = (dispatch, data) => {
+            if (data) {
+                dispatch({ type: actions.PRESSURE_RESULT_RECEIVED, projectId, sketchId })
+                if (data.errorMessage) {
+                    dispatch(showNotification('Calculation could not be performed'))
+                    dispatch({
+                        type: actions.SHOW_GENERIC_ERROR_MESSAGE,
+                        title: 'Calculation unsuccessful',
+                        message: data.errorMessage
+                    })
+                } else {
+                    dispatch(showNotification('Calculation performed successfully'))
+                    
+                    dispatch({
+                        type: actions.FID_CALCULATION_RESULTS_RECEIVED,
+                        projectId, sketchId, data
+                    })
+    
+                    _.forEach(data.entries, entry => {
+                        dispatch({
+                            type: actions.PRESSURE_CALCULATION_ENTRY_RESULT,
+                            entry, projectId, sketchId
+                        })
+                    })
+                }
+            }
+        }
+
+        const db = getState().firebase.db
+
+        db
             .collection('fidRequests')
             .add(_.assign({}, payloadCopy, { targetFirePressure: 1000, user, projectId, sketchId }))
             .then(result => {
                 console.log('FID response', result);
+        
+                db
+                    .doc(`fid/${projectId}/sketches/${sketchId}/results/${result.id}`)
+                    .onSnapshot(snapshotData => {
+                        const data = snapshotData.data()
+                        console.log('Received calculation result', data)
+                        handleCalculationResult(dispatch, data)
+                    })
             })
     }
 }
