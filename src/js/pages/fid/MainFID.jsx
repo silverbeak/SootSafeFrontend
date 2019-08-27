@@ -6,8 +6,8 @@ import DrawingBoardComponent from './DrawingBoardComponent'
 import ProjectSettings from '../ProjectSettings';
 import * as backendActions from '../../actions/firebase-fid-actions'
 import { sketchDataUpdated } from '../../actions/project-actions';
-import FidActionBar from './FidActionBar'
 import ResultTable from '../../components/fid/ResultTable'
+import CalculateSpeedDial from '../../components/menus/CalculateSpeedDial'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -28,8 +28,14 @@ const mapDispatchToProps = (dispatch) => {
         projectSaved: (projectData, projectId, sketchId) => {
             // dispatch(databaseActions.saveProjectToDb(projectData))
             dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
+        },
+        calculate: (projectData, projectId, sketchId) => {
+            dispatch(backendActions.saveToBackend(projectData, projectId, sketchId))
             dispatch(backendActions.calculatePressureLoss(projectData, projectId, sketchId))
         },
+        generateReport: () => {
+            console.warn('Generating report is not yet implemented')
+        }
     }
 }
 
@@ -60,16 +66,30 @@ class MainFID extends Component {
         this.setState({ displayTab })
     }
 
+    handleActionByName = actionName => {
+        switch (actionName) {
+            case 'save': 
+                this.props.projectSaved(this.props.sketch.model, this.props.projectId, this.props.sketchId)
+                break
+            case 'calculate':
+                this.props.calculate(this.props.sketch.model, this.props.projectId, this.props.sketchId)
+                break
+            case 'generate_report':
+                this.props.generateReport(this.props.sketch.model, this.props.projectId, this.props.sketchId)
+                break
+            default:
+        }
+    }
+
     render() {
         const { displayTab } = this.state
         return (
             <div style={fullWidthFullHeight}>
-                <FidActionBar {...this.props} />
                 <Tabs value={displayTab} onChange={this.displayTabChanged}>
                     <Tab label="Sketch" />
                     <Tab label="Values" />
                     <Tab label="Result Table" />
-
+                    <CalculateSpeedDial handleActionByName={this.handleActionByName.bind(this)} />
                 </Tabs>
                     {displayTab === 0 && <DrawingBoardComponent {...this.props} />}
                     {displayTab === 1 && <ProjectSettings {...this.props} />}
