@@ -1,7 +1,8 @@
 import * as _ from '../../../node_modules/lodash/lodash.min.js'
 
 const initialNotificationState = {
-    notifications: []
+    notifications: [],
+    displayGenericProgress: false,
 }
 
 const notifications = (state = initialNotificationState, action) => {
@@ -26,6 +27,12 @@ const notifications = (state = initialNotificationState, action) => {
             thisNotification.acknowledged = true
 
             return Object.assign({}, state, { notifications: ackCopy })
+
+        case 'SHOW_GENERIC_PROGRESS':
+            return Object.assign({}, state, { displayGenericProgress: true })
+
+        case 'DISMISS_GENERIC_PROGRESS':
+            return Object.assign({}, state, { displayGenericProgress: false })
 
         default:
     }

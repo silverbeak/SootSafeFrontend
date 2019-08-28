@@ -3,7 +3,7 @@ import { extendFieldsByName } from '../reducers/component-field-index'
 import * as actions from './action-types'
 import { flattenNodeFields, flattenFields } from './marshaller/marshaller'
 import { addUserToProjectData } from './firebase-actions'
-import { showNotification } from './notification-actions'
+import { showNotification, displayGenericProgress, dismissGenericProgress } from './notification-actions'
 
 export const createNewFidProject = project => (dispatch, getState) => {
 
@@ -97,6 +97,7 @@ export const loadProjectIndices = () => (dispatch, getState) => {
 
 export const loadFromBackend = (projectId, sketchId) => {
     return (dispatch, getState) => {
+        dispatch(displayGenericProgress())
         const db = getState().firebase.db
 
         const sketchRef = db
@@ -131,6 +132,7 @@ export const loadFromBackend = (projectId, sketchId) => {
                     projectId
                 })
 
+                dispatch(dismissGenericProgress())
             }).catch(reason => {
                 console.log('Could not locate document', getState().users, projectId, sketchId, reason)
             })
@@ -139,8 +141,8 @@ export const loadFromBackend = (projectId, sketchId) => {
 
 export const saveToBackend = (payload, projectId, sketchId) => {
     return (dispatch, getState) => {
+        dispatch(displayGenericProgress())
 
-        // getDocRef(getState, projectId, sketchId).then(sketchRef => {
         const db = getState().firebase.db
         const sketchRef = db
             .collection('fid')
@@ -167,12 +169,14 @@ export const saveToBackend = (payload, projectId, sketchId) => {
         const flattenedSketchData = payload.metadata
         sketchRef
             .update({ "metadata": flattenedSketchData })
-            .then(() => console.log(`Saved ${projectId}/${sketchId} to backend`))
+            .then(() => {
+                console.log(`Saved ${projectId}/${sketchId} to backend`)
+                dispatch(loadProjectIndices())
+                dispatch(dismissGenericProgress())
+            })
             .catch((reason) => {
                 console.log('Could not locate document', getState().users, projectId, sketchId, reason)
             })
-
-        dispatch(loadProjectIndices())
     }
 }
 
@@ -201,8 +205,9 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
     const payloadCopy = _.merge({}, payload)
     _.forEach(payloadCopy.nodeDataArray, flattenNodeFields)
     payloadCopy.sketchData = _.map(payloadCopy.sketchData, flattenFields)
-
+    
     return (dispatch, getState) => {
+        dispatch(displayGenericProgress())
         let user = getState().users.user
         if (!user) return
         user = user.toJSON()
@@ -251,6 +256,7 @@ export const calculatePressureLoss = (payload, projectId, sketchId) => {
                         const data = snapshotData.data()
                         console.log('Received calculation result', data)
                         handleCalculationResult(dispatch, data)
+                        dispatch(dismissGenericProgress())
                     })
             })
     }

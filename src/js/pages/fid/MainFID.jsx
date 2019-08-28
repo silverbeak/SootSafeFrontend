@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import { Tabs, Tab } from '@material-ui/core'
 import DrawingBoardComponent from './DrawingBoardComponent'
-import ProjectSettings from '../ProjectSettings';
+import ProjectSettings from '../ProjectSettings'
 import * as backendActions from '../../actions/firebase-fid-actions'
-import { sketchDataUpdated } from '../../actions/project-actions';
+import { sketchDataUpdated } from '../../actions/project-actions'
 import ResultTable from '../../components/fid/ResultTable'
 import CalculateSpeedDial from '../../components/menus/CalculateSpeedDial'
+import CalculationProgress from '../../components/misc/CalculationProgress'
 
 const mapStateToProps = (state, ownProps) => {
     return {
         sketchId: ownProps.match.params.sketchId,
         projectId: ownProps.match.params.projectId,
-        sketch: state.projects.sketches[ownProps.match.params.sketchId]
+        sketch: state.projects.sketches[ownProps.match.params.sketchId],
+        displayGenericProgress: state.notifications.displayGenericProgress
     }
 }
 
@@ -68,7 +69,7 @@ class MainFID extends Component {
 
     handleActionByName = actionName => {
         switch (actionName) {
-            case 'save': 
+            case 'save':
                 this.props.projectSaved(this.props.sketch.model, this.props.projectId, this.props.sketchId)
                 break
             case 'calculate':
@@ -90,10 +91,13 @@ class MainFID extends Component {
                     <Tab label="Values" />
                     <Tab label="Result Table" />
                     <CalculateSpeedDial handleActionByName={this.handleActionByName.bind(this)} />
+                    {
+                        this.props.displayGenericProgress ? <CalculationProgress /> : <></>
+                    }
                 </Tabs>
-                    {displayTab === 0 && <DrawingBoardComponent {...this.props} />}
-                    {displayTab === 1 && <ProjectSettings {...this.props} />}
-                    {displayTab === 2 && <ResultTable {...this.props} />}
+                {displayTab === 0 && <DrawingBoardComponent {...this.props} />}
+                {displayTab === 1 && <ProjectSettings {...this.props} />}
+                {displayTab === 2 && <ResultTable {...this.props} />}
             </div>
         )
     }
