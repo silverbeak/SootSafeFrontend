@@ -87,7 +87,7 @@ const targetCell = {
 export const mergeSingle = component => {
     switch(component.ssPartName) {
         case 'outlet':
-        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss) })
+        return _.merge({}, component, { type: AVAILABLE_TYPES.outlet }, { fields: _.merge({}, base, pressureLoss, capacity) })
         case 'fireCell':
         return _.merge({}, component, { type: AVAILABLE_TYPES.fireCell }, { fields: _.merge({}, base, pressureLoss, capacity, targetCell) })
         case 'pipe':
@@ -108,31 +108,31 @@ export const changeTypeByName = component => {
     switch(component.type.name) {
         case 'outlet': 
         newComponent.type = AVAILABLE_TYPES.outlet
-        newComponent.fields = _.merge({}, base)
+        newComponent.fields = _.merge({}, base, capacity)
         break
         case 'fireCell':
         newComponent.type = AVAILABLE_TYPES.fireCell
-        newComponent.fields = _.merge({}, base, pressureLoss, capacity, targetCell)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, targetCell)
         break
         case 'pipe':
         newComponent.type = AVAILABLE_TYPES.pipe
-        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, dimension)
         break
         case 'bend':
         newComponent.type = AVAILABLE_TYPES.bend
-        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, dimension)
         break
         case 'tpipe':
         newComponent.type = AVAILABLE_TYPES.tpipe
-        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, dimension)
         break
         case 'areaIncrement':
         newComponent.type = AVAILABLE_TYPES.areaIncrement
-        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, dimension)
         break
         case 'box':
         newComponent.type = AVAILABLE_TYPES.box
-        newComponent.fields = _.merge({}, base, dimension, capacity, pressureLoss)
+        newComponent.fields = _.merge({}, base, capacity, pressureLoss, dimension)
         break
         default:
         throw new Error("Bad component: " + component.type.name)
