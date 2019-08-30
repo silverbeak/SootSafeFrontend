@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import Send from '@material-ui/icons/Send'
+import { AppBar, Toolbar } from '@material-ui/core';
 
 class Header extends React.Component {
 
@@ -78,49 +79,51 @@ class Header extends React.Component {
         const showMenu = !!this.props.user && process.env.REACT_APP_DISPLAY_PROJECT_MENU === 'true'
 
         return (
-            <div className="App-header">
+            <AppBar position="fixed" >
+                <Toolbar disableGutters={true} style={{ alignItems: "stretch" }} className="App-header">
 
-                <div className="left-hand-menu-cluster">
-                    {
-                        showMenu ?
-                            <div className="project-menu-launcher"><ProjectMenu {...this.props} /></div> :
-                            <span></span>
-                    }
-                    <a href="/">
-                        <img src={logo} className="header-logo" alt="Header logo" />
-                    </a>
-                </div>
+                    <div className="left-hand-menu-cluster">
+                        {
+                            showMenu ?
+                                <div className="project-menu-launcher"><ProjectMenu {...this.props} /></div> :
+                                <span></span>
+                        }
+                        <a href="/">
+                            <img src={logo} className="header-logo" alt="Header logo" />
+                        </a>
+                    </div>
 
 
 
-                <span className="right-user-menu">
-                    {
-                        this.props.user ?
-                        (<Button
-                            color="secondary"
-                            variant="contained"
-                            onClick={openFeedbackDialog}
-                            style={{color: "white", marginRight: "1em"}}>
-                            Feedback
+                    <span className="right-user-menu">
+                        {
+                            this.props.user ?
+                                (<Button
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={openFeedbackDialog}
+                                    style={{ color: "white", marginRight: "1em" }}>
+                                    Feedback
                             <Send className={classes.rightIcon}>send</Send>
-                        </Button>) :
-                        <span></span>
-                    }
+                                </Button>) :
+                                <span></span>
+                        }
 
-                    <Button
-                        onClick={openUserMenu}>
+                        <Button
+                            onClick={openUserMenu}>
                             {
                                 this.props.user && this.props.user.photoURL ?
-                                <Avatar src={this.props.user.photoURL} /> :
-                                <Avatar> <PermIdentity /> </Avatar>
+                                    <Avatar src={this.props.user.photoURL} /> :
+                                    <Avatar> <PermIdentity /> </Avatar>
                             }
-                    </Button>
-                    <span>
-                        {displayName}
+                        </Button>
+                        <span>
+                            {displayName}
+                        </span>
+                        {menuItems()}
                     </span>
-                    {menuItems()}
-                </span>
-            </div>
+                </Toolbar>
+            </AppBar>
         )
     }
 }
