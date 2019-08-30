@@ -7,7 +7,8 @@ import ResultBox from '../../components/ResultBox'
 import { StatedErrorMessageBox } from '../../components/error-message-box'
 import { createNodeTemplate } from '../../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
-import { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core'
+import FidActionBox from '../../components/fid/FidActionBox';
 
 const boardContainerStyle = {
     display: "flex",
@@ -122,7 +123,8 @@ class DrawingBoard extends React.Component {
                                 <ResultBox partData={this.props.selectedPart} sketchId={this.props.sketchId} />
                             </Card>
                             <Card style={errorBoxStyle}>
-                                <StatedErrorMessageBox />
+                                {/* <StatedErrorMessageBox /> */}
+                                <FidActionBox {...this.props} />
                             </Card>
                         </div>
                     </div>

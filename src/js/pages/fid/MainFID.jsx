@@ -6,7 +6,6 @@ import ProjectSettings from '../ProjectSettings'
 import * as backendActions from '../../actions/firebase-fid-actions'
 import { sketchDataUpdated } from '../../actions/project-actions'
 import ResultTable from '../../components/fid/ResultTable'
-import CalculateSpeedDial from '../../components/menus/CalculateSpeedDial'
 import CalculationProgress from '../../components/misc/CalculationProgress'
 
 const mapStateToProps = (state, ownProps) => {
@@ -90,7 +89,6 @@ class MainFID extends Component {
                     <Tab label="Sketch" />
                     <Tab label="Values" />
                     <Tab label="Result Table" />
-                    <CalculateSpeedDial handleActionByName={this.handleActionByName.bind(this)} />
                     {
                         this.props.displayGenericProgress ? <CalculationProgress /> : <></>
                     }

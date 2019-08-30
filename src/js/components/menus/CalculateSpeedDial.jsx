@@ -7,13 +7,10 @@ import { Save, Launch, InsertChart } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     speedDialWrapper: {
-        position: 'relative',
-        height: 75,
+        display: 'flex',
     },
     speedDial: {
-        position: 'absolute',
-        top: theme.spacing(1),
-        left: theme.spacing(3),
+        marginLeft: 'auto',
     },
 }));
 
@@ -57,7 +54,7 @@ export default function CalculateSpeedDial({ handleActionByName }) {
                 onMouseEnter={handleOpen}
                 onMouseLeave={handleClose}
                 open={open}
-                direction='right'
+                direction='left'
             >
                 {actions.map(action => (
                     <SpeedDialAction
