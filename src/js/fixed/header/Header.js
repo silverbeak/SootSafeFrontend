@@ -8,7 +8,27 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import Send from '@material-ui/icons/Send'
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
+
+const drawerWidth = 240
+
+const styles = theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    toolbar: theme.mixins.toolbar,
+})
 
 class Header extends React.Component {
 
@@ -79,7 +99,7 @@ class Header extends React.Component {
         const showMenu = !!this.props.user && process.env.REACT_APP_DISPLAY_PROJECT_MENU === 'true'
 
         return (
-            <AppBar position="fixed" >
+            <AppBar position="fixed" className={classes.appBar} >
                 <Toolbar disableGutters={true} style={{ alignItems: "stretch" }} className="App-header">
 
                     <div className="left-hand-menu-cluster">
@@ -129,4 +149,4 @@ class Header extends React.Component {
 }
 
 
-export default Header
+export default withStyles(styles)(Header)

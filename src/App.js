@@ -22,45 +22,50 @@ import StatedLoginProxy from './js/pages/LoginProxy';
 import UserDashboard from './js/pages/dashboard/UserDashboard';
 import UserSettings from './js/pages/user/UserSettings';
 import Projects from './js/pages/Projects';
+import { makeStyles, createStyles } from '@material-ui/core';
 
-class App extends Component {
+const styles = makeStyles(theme => createStyles({
+    content: {
+        display: 'flex',
+        padding: theme.spacing(1),
+        flex: 1,
+        height: '92vh',
+        paddingTop: '4rem',
+    },
+}))
 
-    constructor(props) {
-        super(props)
-        ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
-        ReactGA.pageview(window.location.pathname + window.location.search);
-    }
+const App = function (props) {
 
-    render() {
-        return (
-            <Provider store={Store}>
-                <ThemeProvider theme={PaperbaseTheme} >
-                    <div className="App Site">
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
-                        <ConnectedRouter history={history}>
-                            <Header {...this.props} />
-                            <div className="Site-content">
-                                <Route exact path="/" component={() => <StatedLoginProxy {...this.props} />} />
-                                <Route exact path="/dashboard" component={() => <UserDashboard />} />
-                                <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
-                                <Route exact path="/atex/start" component={AtexStartPage} />
-                                {/* <Route exact path="/atex/new" component={ReleaseRatePage} /> */}
-                                <Route path="/atex/:projectId" component={ReleaseRatePage} />
-                                <Route path="/settings" component={UserSettings} />
-                                <Route path="/projects" component={Projects} />
-                                <Route path="/about" component={About} />
-                            </div>
-                        </ConnectedRouter>
+    const classes = styles()
 
-                        <Footer />
-                        <UserComponent path={history.location.pathname} />
-                        <StatedNotifier />
-                        <FeedbackDialog />
+    return (
+        <Provider store={Store}>
+            <ThemeProvider theme={PaperbaseTheme} >
+                <ConnectedRouter history={history}>
+                    <Header {...props} />
+                    <div className={classes.content}>
+                        <Route exact path="/" component={() => <StatedLoginProxy {...props} />} />
+                        <Route exact path="/dashboard" component={() => <UserDashboard />} />
+                        <Route path="/project/:projectId/sketch/:sketchId/board" component={MainFID} />
+                        <Route exact path="/atex/start" component={AtexStartPage} />
+                        {/* <Route exact path="/atex/new" component={ReleaseRatePage} /> */}
+                        <Route path="/atex/:projectId" component={ReleaseRatePage} />
+                        <Route path="/settings" component={UserSettings} />
+                        <Route path="/projects" component={Projects} />
+                        <Route path="/about" component={About} />
                     </div>
-                </ThemeProvider>
-            </Provider>
-        );
-    }
+                </ConnectedRouter>
+
+                <Footer />
+                <UserComponent path={history.location.pathname} />
+                <StatedNotifier />
+                <FeedbackDialog />
+            </ThemeProvider>
+        </Provider>
+    );
 
 }
 

@@ -19,7 +19,7 @@ const boardContainerStyle = {
 
 const paletteStyle = {
     flex: 1,
-    margin: ".4em"
+    marginTop: ".4em",
 }
 
 const boardAndInfoStyle = {
@@ -49,7 +49,6 @@ const rightHandCards = {
     flexDirection: "column",
     alignItems: "stretch",
     flex: "1 1",
-    marginLeft: ".4em",
     paddingLeft: ".4em",
     marginRight: ".4em",
     paddingRight: ".4em"
