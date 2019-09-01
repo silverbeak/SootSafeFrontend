@@ -6,14 +6,12 @@ import ProjectSettings from '../ProjectSettings'
 import * as backendActions from '../../actions/firebase-fid-actions'
 import { sketchDataUpdated } from '../../actions/project-actions'
 import ResultTable from '../../components/fid/ResultTable'
-import CalculationProgress from '../../components/misc/CalculationProgress'
 
 const mapStateToProps = (state, ownProps) => {
     return {
         sketchId: ownProps.match.params.sketchId,
         projectId: ownProps.match.params.projectId,
         sketch: state.projects.sketches[ownProps.match.params.sketchId],
-        displayGenericProgress: state.notifications.displayGenericProgress
     }
 }
 
@@ -89,9 +87,6 @@ class MainFID extends Component {
                     <Tab label="Sketch" />
                     <Tab label="Values" />
                     <Tab label="Result Table" />
-                    {
-                        this.props.displayGenericProgress ? <CalculationProgress /> : <></>
-                    }
                 </Tabs>
                 {displayTab === 0 && <DrawingBoardComponent {...this.props} handleActionByName={this.handleActionByName} />}
                 {displayTab === 1 && <ProjectSettings {...this.props} />}

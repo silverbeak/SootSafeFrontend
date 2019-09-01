@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CalculateSpeedDial from '../menus/CalculateSpeedDial';
+import CalculationProgress from '../../components/misc/CalculationProgress'
 import { makeStyles } from '@material-ui/core'
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     fidActionBox: {
@@ -13,17 +15,38 @@ const useStyles = makeStyles(theme => ({
     speedDialBox: {
         marginRight: '.4rem',
         marginBottom: '.4rem',
-    }
+    },
+    progressDisplay: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 }));
 
-export default function FidActionBox(props) {
+const actionBox = function FidActionBox(props) {
     const classes = useStyles();
 
     return (
         <div className={classes.fidActionBox} >
-            <div className={classes.speedDialBox}>
-                <CalculateSpeedDial {...props} />
-            </div>
+            {
+                props.displayGenericProgress ? 
+                    <div className={classes.progressDisplay} >
+                        <CalculationProgress />
+                    </div>
+                    :
+                    <div className={classes.speedDialBox}>
+                        <CalculateSpeedDial {...props} />
+                    </div>
+            }
         </div>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        displayGenericProgress: state.notifications.displayGenericProgress,
+    }
+}
+
+export default connect(mapStateToProps)(actionBox)
