@@ -9,12 +9,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        height: '100%',
-    },
-    speedDialBox: {
-        marginRight: '.4rem',
-        marginBottom: '.4rem',
+        margin: theme.spacing(2)
     },
     progressDisplay: {
         display: 'flex',

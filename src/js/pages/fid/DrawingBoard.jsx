@@ -41,7 +41,7 @@ const infoBoxStyle = {
 
 const errorBoxStyle = {
     marginTop: ".4em",
-    flex: 1
+    minHeight: '5em',
 }
 
 const rightHandCards = {
