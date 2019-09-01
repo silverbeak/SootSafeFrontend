@@ -1,6 +1,6 @@
 {
   "name": "sootsafe-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.0.2",
@@ -37,7 +37,7 @@
     "dummy": "echo The correct way to release/version update should be 'npm version', see man page or https://docs.npmjs.com/cli/version",
     "preversion": "echo npm test",
     "version": "REACT_APP_ENV=${REACT_APP_ENV} npm run build && git add -u",
-    "postversion": "echo git push && git push --tags && rm -rf build/temp"
+    "postversion": "git push && git push --tags"
   },
   "browserslist": [
     ">0.2%",
