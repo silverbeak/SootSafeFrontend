@@ -9,6 +9,7 @@ import { GojsDiagram } from 'react-gojs'
 import { TextField } from '@material-ui/core'
 import FidActionBox from '../../components/fid/FidActionBox';
 import { withStyles } from '@material-ui/styles';
+import CalculationProgress from '../../components/misc/CalculationProgress'
 
 const styles = theme => ({
     boardContainerStyle: {
@@ -46,7 +47,14 @@ const styles = theme => ({
         flex: "1 1",
         paddingLeft: ".4em",
         paddingRight: ".4em"
-    }
+    },
+    progressDisplay: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 
@@ -112,7 +120,10 @@ class DrawingBoard extends React.Component {
                                         linkFromPortIdProperty="fid"
                                         linkToPortIdProperty="tid"
                                     /> :
-                                    <span>Loading sketch...</span>
+                                    <div className={classes.progressDisplay}>
+                                        <div>Loading sketch...</div>
+                                        <div><CalculationProgress /></div>
+                                    </div>
                             }
                         </Card>
                         <div className={classes.rightHandCards}>
