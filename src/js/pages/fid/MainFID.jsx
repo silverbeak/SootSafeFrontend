@@ -93,7 +93,7 @@ class MainFID extends Component {
                         this.props.displayGenericProgress ? <CalculationProgress /> : <></>
                     }
                 </Tabs>
-                {displayTab === 0 && <DrawingBoardComponent {...this.props} />}
+                {displayTab === 0 && <DrawingBoardComponent {...this.props} handleActionByName={this.handleActionByName} />}
                 {displayTab === 1 && <ProjectSettings {...this.props} />}
                 {displayTab === 2 && <ResultTable {...this.props} />}
             </div>
