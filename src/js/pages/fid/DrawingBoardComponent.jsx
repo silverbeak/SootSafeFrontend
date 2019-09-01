@@ -5,8 +5,6 @@ import * as projectActions from '../../actions/project-actions'
 
 import * as _ from 'lodash/lodash.min'
 
-class DrawingBoardComp extends DrawingBoard {}
-
 const mapStateToProps = state => {
     return {
         selectedPart: state.parts.selectedPart,
@@ -64,6 +62,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-const StatedDrawingBoard = connect(mapStateToProps, mapDispatchToProps)(DrawingBoardComp)
+const StatedDrawingBoard = connect(mapStateToProps, mapDispatchToProps)(DrawingBoard)
 
 export default StatedDrawingBoard

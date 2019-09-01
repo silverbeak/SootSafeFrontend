@@ -4,55 +4,51 @@ import Card from '@material-ui/core/Card'
 import { initDrawingBoard } from '../../gojs/board-tool'
 import { initPalette } from '../../gojs/palette-tool'
 import ResultBox from '../../components/ResultBox'
-import { StatedErrorMessageBox } from '../../components/error-message-box'
 import { createNodeTemplate } from '../../gojs/node-template'
 import { GojsDiagram } from 'react-gojs'
 import { TextField } from '@material-ui/core'
 import FidActionBox from '../../components/fid/FidActionBox';
+import { withStyles } from '@material-ui/styles';
 
-const boardContainerStyle = {
-    display: "flex",
-    flex: 1,
-    flexDirection: "row",
-    alignContent: 'stretch'
-}
+const styles = theme => ({
+    boardContainerStyle: {
+        display: "flex",
+        flex: 1,
+        flexDirection: "row",
+        alignContent: 'stretch'
+    },    
+    paletteStyle: {
+        flex: 1,
+        marginTop: ".4em",
+    },    
+    boardAndInfoStyle: {
+        flex: 5,
+        display: "flex",
+        flexDirection: "row",
+        paddingLeft: ".4em",
+        paddingTop: ".4em"
+    },    
+    boardStyle: {
+        display: "flex",
+        flex: "3 0 0"
+    },    
+    infoBoxStyle: {
+        flex: 2
+    },    
+    errorBoxStyle: {
+        marginTop: ".4em",
+        minHeight: '5em',
+    },    
+    rightHandCards: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        flex: "1 1",
+        paddingLeft: ".4em",
+        paddingRight: ".4em"
+    }
+})
 
-const paletteStyle = {
-    flex: 1,
-    marginTop: ".4em",
-}
-
-const boardAndInfoStyle = {
-    flex: 5,
-    display: "flex",
-    flexDirection: "row",
-    paddingLeft: ".4em",
-    paddingTop: ".4em"
-}
-
-const boardStyle = {
-    display: "flex",
-    flex: "3 0 0"
-}
-
-const infoBoxStyle = {
-    flex: 2
-}
-
-const errorBoxStyle = {
-    marginTop: ".4em",
-    minHeight: '5em',
-}
-
-const rightHandCards = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-    flex: "1 1",
-    paddingLeft: ".4em",
-    marginRight: ".4em",
-    paddingRight: ".4em"
-}
 
 class DrawingBoard extends React.Component {
 
@@ -98,11 +94,13 @@ class DrawingBoard extends React.Component {
     }
 
     render() {
+        const { classes } = this.props
+
         return (
-                <div id="board-container" style={boardContainerStyle}>
-                    <Card id="myPaletteDiv" style={paletteStyle}></Card>
-                    <div id="board-and-infobox" style={boardAndInfoStyle}>
-                        <Card style={boardStyle}>
+                <div id="board-container" className={classes.boardContainerStyle}>
+                    <Card id="myPaletteDiv" className={classes.paletteStyle}></Card>
+                    <div id="board-and-infobox" className={classes.boardAndInfoStyle}>
+                        <Card className={classes.boardStyle}>
                             {
                                 this.props.sketch ?
                                     <GojsDiagram
@@ -117,12 +115,11 @@ class DrawingBoard extends React.Component {
                                     <span>Loading sketch...</span>
                             }
                         </Card>
-                        <div style={rightHandCards}>
-                            <Card id="info-board" style={infoBoxStyle}>
+                        <div className={classes.rightHandCards}>
+                            <Card id="info-board" className={classes.infoBoxStyle}>
                                 <ResultBox partData={this.props.selectedPart} sketchId={this.props.sketchId} />
                             </Card>
-                            <Card style={errorBoxStyle}>
-                                {/* <StatedErrorMessageBox /> */}
+                            <Card className={classes.errorBoxStyle}>
                                 <FidActionBox {...this.props} />
                             </Card>
                         </div>
@@ -132,4 +129,4 @@ class DrawingBoard extends React.Component {
     }
 }
 
-export default DrawingBoard
+export default withStyles(styles)(DrawingBoard)

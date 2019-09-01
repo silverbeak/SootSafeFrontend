@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core'
+import { Table, TableHead, TableBody, TableRow, TableCell, Card } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 function mapStateToProps(state, ownProps) {
     console.log('SketchID', state, ownProps.sketchId)
@@ -18,9 +19,21 @@ const OptionalNumberCell = ({ children }) => {
         <TableCell> {children.toFixed(2)} </TableCell>
 }
 
-class ResultTable extends Component {
+const useStyles = makeStyles(theme => ({
+    boardContainerStyle: {
+        display: "flex",
+        flex: 1,
+        flexDirection: "row",
+        alignContent: 'stretch',
+        padding: '0 2em',
+    },
+}))
 
-    allIsNaN({ regularPressureDifference, firePressureDifference, aggregatedRegularFlow, aggregatedFireFlow }) {
+const ResultTable = function (props) {
+
+    const classes = useStyles();
+
+    const allIsNaN = ({ regularPressureDifference, firePressureDifference, aggregatedRegularFlow, aggregatedFireFlow }) => {
         return _.every([
             regularPressureDifference,
             firePressureDifference,
@@ -29,7 +42,7 @@ class ResultTable extends Component {
         ], isNaN)
     }
 
-    createRowPair(entry) {
+    const createRowPair = (entry) => {
 
         const row1 = <TableRow key={`${1}`}>
             <TableCell>{entry.key}</TableCell>
@@ -44,7 +57,7 @@ class ResultTable extends Component {
         </TableRow>
 
         // Only display the second row if it contains any values (i.e exclude if all values are NaN)
-        const row2 = this.allIsNaN(entry) ? undefined
+        const row2 = allIsNaN(entry) ? undefined
             :
             <TableRow key={`${2}`}>
                 <TableCell>{entry.key}</TableCell>
@@ -61,12 +74,12 @@ class ResultTable extends Component {
         return [row1, row2]
     }
 
-    render() {
-        if (!this.props.result || !this.props.result.calculationResult) {
-            return <div>No data available</div>
-        }
+    if (!props.result || !props.result.calculationResult) {
+        return <div>No data available</div>
+    }
 
-        return (
+    return (
+        <Card className={classes.boardContainerStyle}>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -91,12 +104,12 @@ class ResultTable extends Component {
                 </TableHead>
                 <TableBody>
                     {
-                        this.props.result.calculationResult.entries.map(this.createRowPair.bind(this))
+                        props.result.calculationResult.entries.map(createRowPair.bind(this))
                     }
                 </TableBody>
             </Table>
-        );
-    }
+        </Card>
+    );
 }
 
 export default connect(
