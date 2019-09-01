@@ -33,7 +33,11 @@
     "build:staging": "REACT_APP_ENV=staging npm run build",
     "build:production": "REACT_APP_ENV=production npm run build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dummy": "echo The correct way to release/version update should be 'npm version', see man page or https://docs.npmjs.com/cli/version",
+    "preversion": "echo npm test",
+    "version": "REACT_APP_ENV=${REACT_APP_ENV} npm run build && git add -u",
+    "postversion": "echo git push && git push --tags && rm -rf build/temp"
   },
   "browserslist": [
     ">0.2%",
