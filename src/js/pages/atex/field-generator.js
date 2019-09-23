@@ -17,8 +17,10 @@ const styles = theme => ({
 })
 
 const valueCardStyle = {
-    marginLeft: "2em",
-    marginRight: "2em"
+    margin: "1em 2em",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 }
 
 const validateFieldValue = (field, value) => {

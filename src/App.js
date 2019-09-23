@@ -59,7 +59,7 @@ const App = function (props) {
                     </div>
                 </ConnectedRouter>
 
-                <Footer />
+                {/* <Footer /> */}
                 <UserComponent path={history.location.pathname} />
                 <StatedNotifier />
                 <FeedbackDialog />

@@ -75,8 +75,10 @@ footer {
 }
 
 .stepper-page {
-  margin-top: 1em;
+  margin: 1em 1em;
   display: flex;
+  flex: 1;
+  align-items: center;
   flex-direction: column;
   width: 80%;
 }
@@ -84,6 +86,9 @@ footer {
 .stepper-details {
   background: lightgray;
   padding: 1em;
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
 
 .field-and-unit {

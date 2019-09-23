@@ -8,7 +8,7 @@ const greaterThanZero = (value) => {
     return value > 0 ? '' : 'Value must be greater than 0'
 }
 
-const adornmentClassNames = "MuiTypography-root-102 MuiTypography-body1-111 MuiTypography-colorTextSecondary-124"
+const adornmentClassNames = "MuiTypography-root-102 MuiTypography-body1-111 MuiTypography-colorTextSecondary"
 
 export const fieldDefinitions = [
     [

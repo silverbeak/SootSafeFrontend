@@ -5,17 +5,29 @@ import { generateNumberField } from './field-generator'
 
 import { fieldDefinitions, filterFields, ccToDisplayString } from './field-definitions'
 
-const parameterGroup = {
-    background: 'ghostwhite',
-    paddingTop: '.7em',
-    paddingBottom: '.7em',
-    marginTop: '1em',
-    marginBottom: '1em'
+const styles = {
+    parameterGroup: {
+        background: 'ghostwhite',
+        paddingTop: '.7em',
+        paddingBottom: '.7em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+    },
+    parameterList: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column'
+    }
 }
+
+
 
 const handleNumberChange = originalHandler => field => event => {
     const floatValue = parseFloat(event.target.value)
-    const newEvent = { target: { value: floatValue }}
+    const newEvent = { target: { value: floatValue } }
     originalHandler(field)(newEvent)
 }
 
@@ -29,10 +41,10 @@ const parameterStep = (handleChange, props, fields) => {
 
     const groupedFields = filterFields(fieldDefinitions, fields)
 
-    
+
     const singleGroup = (group, name) => {
         return (
-            <div style={parameterGroup} key={name}>
+            <div style={styles.parameterGroup} key={name}>
                 <h3>{ccToDisplayString(name)}</h3>
                 {_.values(group).map((generateNumberField(handleNumberChange(handleChange), fields)))}
             </div>
@@ -40,10 +52,10 @@ const parameterStep = (handleChange, props, fields) => {
     }
 
     return (
-        <div>
-        {
-            _.map(groupedFields, singleGroup)
-        }
+        <div id="paramter-list" style={styles.parameterList}>
+            {
+                _.map(groupedFields, singleGroup)
+            }
         </div>
     )
 }

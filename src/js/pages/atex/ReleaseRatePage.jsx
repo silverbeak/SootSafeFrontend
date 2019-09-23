@@ -208,15 +208,17 @@ class ReleaseRatePage extends React.Component {
                             );
                         })}
                     </Stepper>
+
+                    {navigatorBar}
+
+                    <div className={classes.stepperContent}>
+                        {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props, projectData.fields)}
+                    </div>
+
+                    {navigatorBar}
+
+                    {reportDialog}
                 </div>
-
-                {navigatorBar}
-
-                {this.getStep(this.state.activeStep)(this.handleChange.bind(this), this.props, projectData.fields)}
-
-                {navigatorBar}
-
-                {reportDialog}
             </div>
         )
     }
@@ -265,6 +267,10 @@ const styles = theme => ({
     group: {
         margin: `${theme.spacing.unit}px 0`,
     },
+    stepperContent: {
+        display: 'flex',
+        justifyContent: 'center',
+    }
 })
 
 const StatedReleaseRatePage = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ReleaseRatePage))
